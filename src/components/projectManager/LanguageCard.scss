@@ -1,0 +1,49 @@
+.card.language-card {
+    display: flex;
+    flex-direction: column;
+    margin: 1em;
+    width: 290px;
+
+    .card-content {
+        flex-grow: 1;
+
+        &.is-clickable {
+            cursor: pointer;
+        }
+    }
+
+    .card-footer {
+        flex-direction: column;
+
+        .card-footer-item {
+            .start-new-project-button {
+                text-align: right;
+            }
+
+            &:not(:last-child) {
+                border-bottom: 1px solid #dee2e5;
+            }
+
+            .new-project-footer {
+                width: 100%;
+                
+                .new-project-actions {
+                    display: flex;
+                    justify-content: space-between;
+
+                    > div {
+                        min-width: 0;
+                    }
+                }
+            }
+        }
+    }
+
+    .titles {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-height: 6rem;
+        text-align: center;
+    }
+}

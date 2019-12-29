@@ -1,0 +1,20 @@
+.panetab {
+    &.closable a {
+        padding-right: 0;
+    }
+
+    &:hover .close-tab {
+        opacity: 0.5;
+    }
+
+    .close-tab {
+        display: inline-block;
+        margin-left: 0.5rem;
+        opacity: 0.2;
+        padding-top: 3px;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+}

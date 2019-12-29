@@ -1,0 +1,5 @@
+.editor-container {
+    // There's one pixel somewhere that causes vertical scrollbars to appear
+    // on the container, removing one pixel from the height "fixes" that
+    height: calc(100% - 1px);
+}

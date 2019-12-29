@@ -1,0 +1,8 @@
+// remove rounded corners
+nav.navbar {
+    border-radius: 0;
+
+    svg {
+        margin-right: 0.3rem;
+    }
+}

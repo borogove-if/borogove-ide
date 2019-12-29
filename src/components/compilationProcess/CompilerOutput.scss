@@ -1,0 +1,11 @@
+#compiler-output {
+    #compiler-output-toggle {
+        text-align: right;
+    }
+    
+    > pre {
+        display: flex;
+        flex-direction: column-reverse;
+        white-space: pre-wrap;
+    }
+}

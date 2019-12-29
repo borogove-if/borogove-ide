@@ -1,0 +1,17 @@
+Constant Story "My Story";
+Constant Headline "^An Interactive Fiction^";
+
+Include "Parser";
+Include "VerbLib";
+
+Object ExampleRoom "Example Room"
+    with description
+        "This is the starting location.",
+has light;
+
+[ Initialise;
+    location = ExampleRoom;
+    "^^^Welcome to Inform 6!^";
+];
+
+Include "Grammar";

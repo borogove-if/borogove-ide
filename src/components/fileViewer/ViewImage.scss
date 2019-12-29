@@ -1,0 +1,20 @@
+
+$dark-square-color: #ddd;
+$light-square-color: transparent;
+
+img {
+    max-height: 100%;
+    max-width: 100%;
+
+    // checkered background, adapted from https://stackoverflow.com/a/47061022
+    background: linear-gradient(45deg, $dark-square-color 25%, $light-square-color 25%, $light-square-color 75%, $dark-square-color 75%, $dark-square-color 0),
+                linear-gradient(45deg, $dark-square-color 25%, $light-square-color 25%, $light-square-color 75%, $dark-square-color 75%, $dark-square-color 0), 
+                white;
+    background-clip: border-box, border-box;
+    background-origin: padding-box, padding-box;
+    background-position: 0px 0, 5px 5px;
+    background-repeat: repeat, repeat;
+    background-size: 10px 10px, 10px 10px;
+    transform: scaleX(1) scaleY(1) scaleZ(1);
+    transform-origin: 0 0 0;
+}

@@ -1,0 +1,13 @@
+.empty-pane-bg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+
+    div:before {
+        content: "B";
+        font-family: 'Permanent Marker', cursive;
+        font-size: 40vh;
+        opacity: 0.1;
+    }
+}

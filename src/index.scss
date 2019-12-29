@@ -1,0 +1,50 @@
+body, html, #root {
+  height: 100%;
+  margin: 0;
+  overflow-y: initial !important;
+  padding: 0;  
+
+  p {
+    margin-bottom: 0.5em;
+  }
+
+  .container {
+    padding: 1rem;
+  }
+
+  .field {
+    margin-top: 1rem;
+    margin-bottom: 0;
+  }
+
+  .label {
+    margin-bottom: 0;
+  }
+
+  p + .title,
+  ul + .title,
+  section + .title,
+  p + section > .title,
+  ul + section > .title,
+  section + section > .title {
+    margin-top: 1em;
+  }
+}
+
+// iframes are display: inline by default, but we always need them to be block elements
+iframe {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+
+// A normal bulleted list. Undoes theme formatting of lists.
+ul.bulleted-list {
+  padding-left: 2rem;
+
+  li {
+    list-style-type: disc;
+    margin-bottom: 0.5rem;
+  }
+}

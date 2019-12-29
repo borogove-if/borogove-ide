@@ -1,0 +1,16 @@
+.filelisting {
+    overflow-y: auto;
+     
+    ul {
+        // add progressively larger padding to files in nested folders
+        @for $i from 1 through 4 {
+            $sel: if($i == 1, "ul", selector-nest($sel, "ul")) !global;
+
+            #{$sel} {
+                li {
+                    padding-left: 1em * $i;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,55 @@
+#ide,
+#ide > div,
+#split,
+#split > div {
+    height: 100%;
+}
+
+#ide {
+    display: flex;
+    flex-direction: column;
+    overflow-y: hidden !important;
+    width: 100%;
+}
+
+#workspace {
+    display: flex;
+    overflow-y: hidden !important;
+}
+
+#split {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    max-width: 100%;
+}
+
+div.pane {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+
+    .tab-content {
+        flex: 1;
+        overflow: auto;
+        padding: 0;
+
+        &.inactive {
+            display: none;
+        }
+    }
+
+    // Moves the left pane's tabs one pixel to the left so that they cover
+    // the file manager's border --> makes it look like the file manager
+    // toggle button is part of the file manager pane
+    &:first-of-type .tabs {
+        position: relative;
+        left: -1px;
+    }
+}
+
+.gutter.gutter-horizontal {
+    cursor: ew-resize;
+    background-color: #ecf0f1;
+}

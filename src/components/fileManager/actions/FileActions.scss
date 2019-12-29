@@ -1,0 +1,26 @@
+.file-item {
+    .file-actions {
+        z-index: 100;
+        
+        // an overlay that captures clicks and closes the dropdown
+        .file-actions-overlay {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            top: 0;
+        }
+
+        .dropdown-trigger {
+            opacity: 0;
+        }
+
+        .dropdown-item:hover {
+            background-color: #ecf0f1;
+        }
+    }
+
+    &:hover .file-actions .dropdown-trigger {
+        opacity: 0.5;
+    }
+}

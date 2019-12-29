@@ -1,0 +1,13 @@
+#index-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    > div.tabs {
+        margin-bottom: 0;
+    }
+
+    > iframe {
+        flex-grow: 1;
+    }
+}

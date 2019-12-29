@@ -1,0 +1,7 @@
+.steps-segment {
+    &:not(.is-active) {
+        .steps-content {
+            opacity: 0.5;
+        }
+    }
+}

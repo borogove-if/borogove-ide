@@ -1,0 +1,28 @@
+#filemanager .file-item {
+    &.is-binary {
+        .material-file-name {
+            font-style: italic;
+        }
+    }
+
+    &.is-entry-file,
+    &.is-include-path {
+        .material-file-name {
+            font-weight: bold;
+        }
+    }
+ 
+    a {
+        display: flex;
+
+        > .material-file-name { // should be called .file-name but that's already used elsewhere
+            flex-grow: 1;
+            max-width: calc(100% - 15px);   // make sure the action button is always visible
+            overflow-wrap: break-word;  
+        }
+
+        .file-actions {
+            flex: 0;
+        }
+    }
+}

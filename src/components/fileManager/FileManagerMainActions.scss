@@ -1,0 +1,23 @@
+#file-manager-main-actions {
+    display: flex;
+    justify-content: center;
+
+    .dropdown {
+        width: 100%;
+    }
+
+    .dropdown-trigger {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: 1rem;
+        border-bottom: 1px solid #ecf0f1;
+        cursor: pointer;
+
+        h2 {
+            
+            margin:0;
+        }
+    }
+}

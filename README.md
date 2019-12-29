@@ -1,0 +1,1 @@
+This is the client-side code for the [Borogove](https://borogove.app) IDE.

@@ -1,0 +1,12 @@
+#logging-notification {
+    bottom: 1rem;
+    max-width: 450px;
+    position: fixed;
+    right: 1rem;
+    z-index: 1000;
+
+    #notification-footer {
+        margin-top: 0.8rem;
+        text-align: right;
+    }
+}
