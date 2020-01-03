@@ -1,5 +1,7 @@
 import { InterpreterIdentifier } from "services/interpreters/interpreterService";
 
+import materialsStore from "stores/materialsStore";
+
 import minimalI6VorpleProject from "./templates/vorple/minimalI6VorpleProject";
 import smallI6VorpleProject from "./templates/vorple/smallI6VorpleProject";
 
@@ -27,6 +29,11 @@ class Inform6VorpleProjectService extends Inform6ProjectService {
     public name = "Inform 6";
     public subtitle = "with Vorple";
     public templates = [ minimalI6VorpleProject, smallI6VorpleProject ];
+
+    public filterReleaseFiles = ( files: MaterialsFile[] ): MaterialsFile[] => files.filter( ( file: MaterialsFile ) => {
+        // include everything that's in the Materials folder
+        return materialsStore.getPath( file ).indexOf( "/Materials/" ) === 0;
+    });
 }
 
 export default new Inform6VorpleProjectService();

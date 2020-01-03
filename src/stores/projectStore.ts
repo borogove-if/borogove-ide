@@ -2,19 +2,19 @@ import { observable, action } from "mobx";
 import Axios from "axios";
 import uuid from "uuid/v4";
 import { saveAs } from "file-saver";
+import { basename } from "path";
+import JSZip from "jszip";
 
-import { getInterpreterUrl } from "services/interpreters/interpreterService";
+import { downloadFile, readFile } from "services/filesystem/localFilesystemService";
+import { startPersisting } from "services/filesystem/persistentFilesystemService";
+import { getInterpreterUrl, getStandaloneInterpreterMeta } from "services/interpreters/interpreterService";
 import { openTab } from "services/ide/tabService";
 import ProjectService from "services/projects/ProjectService.class";
-import { startPersisting } from "services/filesystem/persistentFilesystemService";
 
 import compilationResultStore from "./compilationResultStore";
+import materialsStore from "./materialsStore";
 
-import { TabContentType } from "types/enum";
-import { basename } from "path";
-import { downloadFile, readFile } from "services/filesystem/localFilesystemService";
-import JSZip from "jszip";
-import { getStandaloneInterpreterMeta } from "../services/interpreters/interpreterService";
+import { TabContentType, MaterialsFileType } from "types/enum";
 
 export enum ProjectStoreState {
     waiting,
@@ -138,6 +138,13 @@ class ProjectStore {
         // add the storyfile to the zip
         const zip = await JSZip.loadAsync( new Blob( [ websiteTemplateRequest.data ] ) );
         zip.file( storyfileName, storyfileData );
+
+        // add materials files
+        this.manager.filterReleaseFiles( materialsStore.files.filter( file => file.type !== MaterialsFileType.folder ) )
+            .forEach( file => zip.file(
+                materialsStore.getPath( file ),
+                new Blob( [ readFile( materialsStore.getFilesystemPath( file ), file.isBinary ) ] )
+            ) );
 
         // send the zip to the user
         const blob = await zip.generateAsync({ type: "blob" });

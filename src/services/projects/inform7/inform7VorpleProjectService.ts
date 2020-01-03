@@ -14,6 +14,21 @@ class Inform7VorpleProjectService extends Inform7ProjectService {
     public name = "Inform 7";
     public subtitle = "with Vorple";
     public templates = [ minimalI7VorpleProject, smallI7VorpleProject ];
+
+    public filterReleaseFiles = ( files: MaterialsFile[] ): MaterialsFile[] => files.filter( ( file: MaterialsFile ) => {
+        // don't include the source text
+        if( file.name === "story.ni" && file.parent === null ) {
+            return false;
+        }
+
+        // don't include the UUID file
+        if( file.name === "uuid.txt" && file.parent === null ) {
+            return false;
+        }
+
+        // include everything else
+        return true;
+    });
 }
 
 export default new Inform7VorpleProjectService();

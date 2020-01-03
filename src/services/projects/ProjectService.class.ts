@@ -88,6 +88,15 @@ export default abstract class ProjectService {
         });
     }
 
+    /**
+     * Determines which files should be included in the web release package,
+     * in addition to the interpreter files and the story file.
+     * The list of all materials files (excluding folders) is passed to this
+     * function and it returns the list of files that should be included.
+     * By default no files are included.
+     */
+    public filterReleaseFiles = ( _files: MaterialsFile[] ): MaterialsFile[] => [];
+
     protected async init( template?: ProjectTemplate ): Promise<boolean> {
         projectStore.setState( ProjectStoreState.loading );
         projectStore.setManager( this );
