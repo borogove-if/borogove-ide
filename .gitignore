@@ -14,5 +14,9 @@
 # misc
 yarn-error.log
 node_modules
+
+# Firebase API keys
 .firebase
 
+# Sentry API keys
+.sentryclirc
