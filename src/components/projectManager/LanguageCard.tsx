@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { observer } from "mobx-react";
 import { Card, CardContent, Content, Title, Subtitle, CardFooter, CardFooterItem, Select, Label } from "bloomer";
+import { join } from "path";
+import { TiMediaPlay } from "react-icons/ti";
 
 import ProjectService from "services/projects/ProjectService.class";
 import ProjectTemplate from "services/projects/ProjectTemplate.class";
+import { getFS } from "services/filesystem/localFilesystemService";
+import { PERSISTENT_FILESYSTEM_DIR, BOROGOVE_SETTINGS_FILE } from "services/filesystem/filesystemConstants";
+
+import materialsStore from "stores/materialsStore";
 
 import "./LanguageCard.scss";
-import materialsStore from "stores/materialsStore";
-import { getFS } from "services/filesystem/localFilesystemService";
-import { join } from "path";
-import { PERSISTENT_FILESYSTEM_DIR, BOROGOVE_SETTINGS_FILE } from "../../services/filesystem/filesystemConstants";
-import { TiMediaPlay } from "react-icons/ti";
 
 interface LanguageCardElementProps {
     name: string;
@@ -27,7 +28,15 @@ export const LanguageCardElement: React.FC<LanguageCardElementProps> = observer(
         setSelectedTemplate( templates[ Number( ( e.target as HTMLSelectElement ).value ) ] );
     };
 
-    const startNewProject = ( e: React.MouseEvent ): void => onClickCreate( e, selectedTemplate );
+    const startNewProject = ( e: React.MouseEvent ): false => {
+        if( projectExists && !confirm( `Start a new project? The new project will overwrite the existing ${name}${subtitle ? " " + subtitle : ""} project.` ) ) {
+            return false;
+        }
+
+        onClickCreate( e, selectedTemplate );
+
+        return false;
+    };
 
     return <Card className="language-card">
         <CardContent className="is-clickable" onClick={projectExists ? onClickContinue : startNewProject}>
