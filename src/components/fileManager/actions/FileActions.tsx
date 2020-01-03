@@ -121,8 +121,8 @@ const FileActions: React.FC<FileActionsProps> = observer( ({ file, isEntryFile, 
     const onClickRename = doAction( () => ideStateStore.openModal( "renameFile", { file }) );
     const onClickToggleIncludePath = doAction( () => materialsStore.toggleIncludePath( file ) );
     const onToggleOpen = ( open = true ): void => setOpen( open && !isOpen );
-    const showEntryFileActions = projectStore.manager.showFilesystemCompilerOptions && file.type !== MaterialsFileType.folder;
-    const showIncludePathActions = Boolean( projectStore.manager.showFilesystemCompilerOptions && file.type === MaterialsFileType.folder );
+    const showEntryFileActions = projectStore.manager && projectStore.manager.showFilesystemCompilerOptions && file.type !== MaterialsFileType.folder;
+    const showIncludePathActions = Boolean( projectStore.manager && projectStore.manager.showFilesystemCompilerOptions && file.type === MaterialsFileType.folder );
 
     return <FileActionsElement isEntryFile={isEntryFile}
                                isIncludePath={file.isIncludePath || false}
