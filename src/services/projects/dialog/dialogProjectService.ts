@@ -1,7 +1,8 @@
 import { InterpreterIdentifier } from "services/interpreters/interpreterService";
 import { compileDialog } from "services/compilers/dialogCompilerService";
 
-import emptyDialogProject from "./templates/emptyDialogProject";
+// empty project disabled temporarily because the Å-machine interpreter doesn't run it correctly
+// import emptyDialogProject from "./templates/emptyDialogProject";
 import standardDialogProject from "./templates/standardDialogProject";
 
 import ProjectService from "../ProjectService.class";
@@ -20,7 +21,7 @@ class DialogProjectService extends ProjectService {
     public interpreter: InterpreterIdentifier = "aamachine";
     public language = "dialog";
     public name = "Dialog";
-    public templates = [ standardDialogProject, emptyDialogProject ];
+    public templates = [ standardDialogProject /* , emptyDialogProject */ ];
 }
 
 export default new DialogProjectService();

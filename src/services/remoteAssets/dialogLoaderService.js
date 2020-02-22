@@ -6,13 +6,12 @@
  * 
  * The line
  *   Module["FS"] = FS;
- * has ben added to expose the filesystem object for later use, and the line
+ * has been added to expose the filesystem object for later use, and the line
  *   var wasmBinaryFile = "dialogc.wasm";
  * has been changed to
  *   var wasmBinaryFile = "compiler.wasm";
  * to match the filename in the remote assets.
  */
-
 var Module = (function() {
     var _scriptDir =
         typeof document !== "undefined" && document.currentScript
