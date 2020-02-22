@@ -1,7 +1,7 @@
 const BrowserFS = require( "browserfs" );   // must be a require() call
 import * as path from "path";
 
-import emscriptenLoader from "../remoteAssets/emscriptenLoaderService";
+import emscriptenLoader from "../remoteAssets/dialogLoaderService";
 
 import compilationResultStore, { CompilationStage } from "stores/compilationResultStore";
 import projectStore from "stores/projectStore";
@@ -12,7 +12,7 @@ import { INPUT_TMP_PATH, OUTPUT_TMP_PATH, PROJECT_ROOT_DIR } from "services/file
 function findStoryfile(): string | null {
     const FS = BrowserFS.BFSRequire( "fs" );
     const outputFiles = FS.readdirSync( OUTPUT_TMP_PATH );
-    const storyfileExtensions = [ ".hex" ];
+    const storyfileExtensions = [ ".aastory" ];
 
     for( const file of outputFiles ) {
         if( storyfileExtensions.indexOf( path.extname( file ) ) > -1 ) {
@@ -23,7 +23,7 @@ function findStoryfile(): string | null {
     return null;
 }
 
-export function compileHugo( variant: CompilationVariant ): Promise<boolean> {
+export function compileDialog( variant: CompilationVariant ): Promise<boolean> {
     compilationResultStore.reset();
     compilationResultStore.isCompiling = true;
     compilationResultStore.setStage( CompilationStage.firstPass );
@@ -31,47 +31,46 @@ export function compileHugo( variant: CompilationVariant ): Promise<boolean> {
 
     return new Promise( ( resolve ) => {
         const compilerOptions = projectStore.manager.compilerOptions ? projectStore.manager.compilerOptions[ variant ] || [] : [];
-        const entryFile = materialsStore.getPath( projectStore.entryFile );
-        const includePaths = materialsStore.getIncludePaths( "@lib=" + INPUT_TMP_PATH );
+        const includePaths = materialsStore.files.filter( file => file.name.indexOf( ".dg" ) === file.name.length - 3 ).map( file => "/input" + materialsStore.getPath( file ) );
         const compilerArguments = [
             ...compilerOptions,
-            ...includePaths,
-            path.join( INPUT_TMP_PATH, entryFile ),
-            "story.hex"
+            ...includePaths
         ];
 
-        compilationResultStore.addToCompilerOutput( "hc " + compilerArguments.join( " " ) + "\n\n" );
+        compilationResultStore.addToCompilerOutput( "dialogc " + compilerArguments.join( " " ) + "\n\n" );
 
         emscriptenLoader({
             // EXTRACTED FROM EMSCRIPTEN GENERATED JS FILE
-            DYNAMIC_BASE: 5276064,
-            DYNAMICTOP_PTR: 33152,
-            wasmTableInitial: 16,
-            wasmTableMaximum: 16,
-            tmCurrent: 33008,
-            tmTimezone: 33056,
+            DYNAMIC_BASE: 5361792,
+            DYNAMICTOP_PTR: 118720,
+            wasmTableInitial: 46,
+            wasmTableMaximum: 46,
+            tmCurrent: 118752,
+            tmTimezone: 118800,
             functionAlias: {
-                environConstructor: "z",
-                errnoLocation: "A",
-                getDaylight: "B",
-                getTimezone: "C",
-                getTzname: "D",
-                fflush: "E",
-                free: "F",
-                main: "G",
-                malloc: "H",
+                environConstructor: "y",
+                errnoLocation: "z",
+                getDaylight: "A",
+                getTimezone: "B",
+                getTzname: "C",
+                fflush: "D",
+                free: null,
+                main: "E",
+                malloc: "F",
                 stackAlloc: "I",
+                stackRestore: "J",
+                stackSave: "K",
                 dynCallVi: null
             },
             /////////
 
             // used by the loader to choose correct internal addresses
-            systemId: "hugo",
+            systemId: "dialog",
 
             arguments: compilerArguments,
 
             locateFile: ( path: string ) => {
-                return `${process.env.REACT_APP_REMOTE_ASSETS_URL}/compilers/hugo/${process.env.REACT_APP_HUGO_COMPILER_VERSION}/${path}`;
+                return `${process.env.REACT_APP_REMOTE_ASSETS_URL}/compilers/dialog/${process.env.REACT_APP_DIALOG_COMPILER_VERSION}/${path}`;
             },
             onAbort: () => {
                 // TODO: compiler crashed, must reload page!
@@ -83,6 +82,7 @@ export function compileHugo( variant: CompilationVariant ): Promise<boolean> {
             },
             printErr: ( text: string ) => {
                 console.log( "* STDERR:", text );
+                compilationResultStore.addToCompilerOutput( text + "\n" );
             },
             quit: ( errcode: number ) => {
                 if ( didQuit ) {

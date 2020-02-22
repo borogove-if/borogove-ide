@@ -46,6 +46,7 @@ class EditorStateStore {
 
         const knownExtensions: { [key: string]: string[] } = {
             css: [ "css" ],
+            dialog: [ "dg" ],
             html: [ "html", "htm" ],
             hugo: [ "hug", "h", "g" ],
             inform6: [ "inf", "h" ],

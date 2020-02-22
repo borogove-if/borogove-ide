@@ -1,9 +1,18 @@
-export type InterpreterIdentifier = "hugojs" | "parchment" | "quixe" | "vorple";
+export type InterpreterIdentifier = "aamachine" | "hugojs" | "parchment" | "quixe" | "vorple";
 
+/**
+ * Builds an URL to the interpreter with optionally the story file address included.
+ */
 export function getInterpreterUrl( interpreter: InterpreterIdentifier, storyfileUrl?: string | null ): string {
     const interpreterServiceUrl = process.env.REACT_APP_REMOTE_ASSETS_URL + "/interpreters";
 
     switch( interpreter ) {
+        case "aamachine":
+        {
+            const storyParameter = storyfileUrl ? `?story=${storyfileUrl}` : "";
+            return `${interpreterServiceUrl}/aamachine/0.4.1/play.html${storyParameter}`;
+        }
+
         case "hugojs":
         {
             const storyParameter = storyfileUrl ? `?story=${storyfileUrl}` : "";
@@ -33,10 +42,23 @@ export function getInterpreterUrl( interpreter: InterpreterIdentifier, storyfile
     }
 }
 
+/**
+ * Builds information about the interpreter for creating a downloadable release package.
+ * storyfileName is the name of the compiled story file included in the package,
+ * and templateZipUrl is the location of the interpreter as a zip file.
+ */
 export function getStandaloneInterpreterMeta( interpreter: InterpreterIdentifier ): { storyfileName: string; templateZipUrl: string } {
     const interpreterServiceUrl = process.env.REACT_APP_REMOTE_ASSETS_URL + "/interpreters";
 
     switch( interpreter ) {
+        case "aamachine":
+        {
+            return {
+                storyfileName: "story.aastory",
+                templateZipUrl: `${interpreterServiceUrl}/aamachine/0.3.1/release.zip`
+            };
+        }
+
         case "hugojs":
         {
             return {

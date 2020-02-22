@@ -1,5 +1,6 @@
 import ProjectService from "./ProjectService.class";
 
+import dialogProjectService from "./dialog/dialogProjectService";
 import hugoProjectService from "./hugo/hugoProjectService";
 import inform6VanillaProjectService from "./inform6/inform6VanillaProjectService";
 import inform6VorpleProjectService from "./inform6/Inform6VorpleProjectService";
@@ -18,7 +19,8 @@ const projectServiceList: ReadonlyArray<ProjectService> = [
     inform7VorpleProjectService,
     inform6VanillaProjectService,
     inform6VorpleProjectService,
-    hugoProjectService
+    hugoProjectService,
+    dialogProjectService
 ];
 
 export default projectServiceList;

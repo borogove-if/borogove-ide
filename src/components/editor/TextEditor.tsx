@@ -2,12 +2,12 @@ import React from "react";
 import { observer } from "mobx-react";
 import MonacoEditor, { EditorDidMount } from "react-monaco-editor";
 import { editor } from "monaco-editor";
-
-import editorStateStore from "stores/editorStateStore";
 import { registerAll } from "monarch";
 
-import "./TextEditor.scss";
+import editorStateStore from "stores/editorStateStore";
 import settingsStore from "stores/settingsStore";
+
+import "./TextEditor.scss";
 
 interface TextEditorElementProps {
     language?: string;

@@ -8,7 +8,7 @@ The main technologies used:
 * [TypeScript](https://www.typescriptlang.org) programming language
 * [React](https://reactjs.org) user interface library
 * [MobX](https://mobx.js.org) state management
-* [SASS](https://sass-lang.com/) for writing CSS
+* [SASS](https://sass-lang.com) for writing CSS
 
 Adding new features requires knowing or learning more or less all of the above, but for making modifications you might get by with general programming skills, depending on the task.
 
