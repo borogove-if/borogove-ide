@@ -10,7 +10,7 @@ export function getInterpreterUrl( interpreter: InterpreterIdentifier, storyfile
         case "aamachine":
         {
             const storyParameter = storyfileUrl ? `?story=${storyfileUrl}` : "";
-            return `${interpreterServiceUrl}/aamachine/${process.env.REACT_APP_AAMACHINE_VERSION}/play.html${storyParameter}`;
+            return `${interpreterServiceUrl}/aamachine/${process.env.REACT_APP_AAMACHINE_VERSION}/index.html${storyParameter}`;
         }
 
         case "hugojs":

@@ -137,7 +137,14 @@ class ProjectStore {
 
         // add the storyfile to the zip
         const zip = await JSZip.loadAsync( new Blob( [ websiteTemplateRequest.data ] ) );
-        zip.file( storyfileName, storyfileData );
+
+        if( this.manager.processReleaseFile ) {
+            const releaseFileMeta = await this.manager.processReleaseFile( storyfileName, storyfileData );
+            zip.file( releaseFileMeta.name, releaseFileMeta.content );
+        }
+        else {
+            zip.file( storyfileName, storyfileData );
+        }
 
         // add materials files
         this.manager.filterReleaseFiles( materialsStore.files.filter( file => file.type !== MaterialsFileType.folder ) )
