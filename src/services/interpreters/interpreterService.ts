@@ -10,25 +10,25 @@ export function getInterpreterUrl( interpreter: InterpreterIdentifier, storyfile
         case "aamachine":
         {
             const storyParameter = storyfileUrl ? `?story=${storyfileUrl}` : "";
-            return `${interpreterServiceUrl}/aamachine/0.4.1/play.html${storyParameter}`;
+            return `${interpreterServiceUrl}/aamachine/${process.env.REACT_APP_AAMACHINE_VERSION}/play.html${storyParameter}`;
         }
 
         case "hugojs":
         {
             const storyParameter = storyfileUrl ? `?story=${storyfileUrl}` : "";
-            return `${interpreterServiceUrl}/hugojs/1.0.0/index.html${storyParameter}`;
+            return `${interpreterServiceUrl}/hugojs/${process.env.REACT_APP_HUGOJS_VERSION}/index.html${storyParameter}`;
         }
 
         case "parchment":
         {
             const storyParameter = storyfileUrl ? `&story=${storyfileUrl}` : "";
-            return `${interpreterServiceUrl}/parchment/190916/index.html?vm=zvm${storyParameter}`;
+            return `${interpreterServiceUrl}/parchment/${process.env.REACT_APP_PARCHMENT_VERSION}/index.html?vm=zvm${storyParameter}`;
         }
 
         case "quixe":
         {
             const storyParameter = storyfileUrl ? `?story=${storyfileUrl}` : "";
-            return `${interpreterServiceUrl}/quixe/2.1.6/play.html${storyParameter}`;
+            return `${interpreterServiceUrl}/quixe/${process.env.REACT_APP_QUIXE_VERSION}/play.html${storyParameter}`;
         }
 
         case "vorple":
@@ -55,7 +55,7 @@ export function getStandaloneInterpreterMeta( interpreter: InterpreterIdentifier
         {
             return {
                 storyfileName: "story.aastory",
-                templateZipUrl: `${interpreterServiceUrl}/aamachine/0.3.1/release.zip`
+                templateZipUrl: `${interpreterServiceUrl}/aamachine/${process.env.REACT_APP_AAMACHINE_VERSION}/release.zip`
             };
         }
 
@@ -63,7 +63,7 @@ export function getStandaloneInterpreterMeta( interpreter: InterpreterIdentifier
         {
             return {
                 storyfileName: "story.hex",
-                templateZipUrl: `${interpreterServiceUrl}/hugojs/1.0.0/release.zip`
+                templateZipUrl: `${interpreterServiceUrl}/hugojs/${process.env.REACT_APP_HUGOJS_VERSION}/release.zip`
             };
         }
 
@@ -71,7 +71,7 @@ export function getStandaloneInterpreterMeta( interpreter: InterpreterIdentifier
         {
             return {
                 storyfileName: "story.z8",
-                templateZipUrl: `${interpreterServiceUrl}/parchment/190916/release.zip`
+                templateZipUrl: `${interpreterServiceUrl}/parchment/${process.env.REACT_APP_PARCHMENT_VERSION}/release.zip`
             };
         }
 
@@ -79,7 +79,7 @@ export function getStandaloneInterpreterMeta( interpreter: InterpreterIdentifier
         {
             return {
                 storyfileName: "story.ulx",
-                templateZipUrl: `${interpreterServiceUrl}/quixe/2.1.6/release.zip`
+                templateZipUrl: `${interpreterServiceUrl}/quixe/${process.env.REACT_APP_QUIXE_VERSION}/release.zip`
             };
         }
 
