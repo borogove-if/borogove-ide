@@ -14,7 +14,7 @@ interface MoveFileModalElementProps {
 }
 
 export const MoveFileModalElement: React.FC<MoveFileModalElementProps> = observer( ({ isFolder, name, onConfirm, targets }) => {
-    const [ selectedPath, setSelectedPath ] = useState();
+    const [ selectedPath, setSelectedPath ] = useState( "" );
 
     const buttons: ModalButton[] = [
         cancelButton,

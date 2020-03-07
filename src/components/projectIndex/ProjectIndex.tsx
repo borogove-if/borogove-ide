@@ -18,7 +18,7 @@ const ProjectIndex: React.FC = observer( () => {
         return <Container>
             <Message isColor="info">
                 <MessageBody>
-                   Index will be available after the project has been compiled successfully.
+                    Index will be available after the project has been compiled successfully.
                 </MessageBody>
             </Message>
         </Container>;

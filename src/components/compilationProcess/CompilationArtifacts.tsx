@@ -21,7 +21,7 @@ export const CompilationArtifactsElement: React.FC<CompilationArtifactsElementPr
         <Container>
             <hr />
             <Title>
-            Generated files
+                Generated files
             </Title>
 
             <ul>

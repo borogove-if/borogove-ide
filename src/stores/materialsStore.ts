@@ -2,7 +2,7 @@ import { observable, action, toJS } from "mobx";
 import { dirname, basename, join, extname } from "path";
 import { FileWithPath } from "file-selector";
 import { isBinarySync } from "istextorbinary";
-import uuid from "uuid/v4";
+import { v4 as uuid } from "uuid";
 
 import { MaterialsFileType, TabContentType } from "types/enum";
 

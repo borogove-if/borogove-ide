@@ -1,6 +1,6 @@
 import { observable, action } from "mobx";
 import Axios from "axios";
-import uuid from "uuid/v4";
+import { v4 as uuid } from "uuid";
 import { saveAs } from "file-saver";
 import { basename } from "path";
 import JSZip from "jszip";

@@ -1,7 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { Button } from "bloomer";
-import uuid from "uuid/v4";
+import { v4 as uuid } from "uuid";
 
 import { MaterialsFileType } from "types/enum";
 

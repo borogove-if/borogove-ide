@@ -1,5 +1,5 @@
 import { observable, action } from "mobx";
-import uuid from "uuid/v4";
+import { v4 as uuid } from "uuid";
 
 import { TabStore } from "./tabStore";
 
