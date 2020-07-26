@@ -20,7 +20,7 @@ import ReleasePane from "../../components/release/ReleasePane";
 interface TabOptions {
     closable?: boolean;
     label?: string;
-    props?: object;
+    props?: Record<string, unknown>;
 }
 
 

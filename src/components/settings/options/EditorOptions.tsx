@@ -73,8 +73,8 @@ const EditorOptions: React.FC = observer( () => {
 
         <CheckboxControl label="Word completion"
                          description="Suggest words while typing"
-                         checked={getValue( "wordBasedSuggestions" ) as boolean}
-                         onChange={onChange( "wordBasedSuggestions" )} />
+                         checked={getValue( "quickSuggestions" ) as boolean}
+                         onChange={onChange( "quickSuggestions" )} />
 
         <CheckboxControl label="Minimap"
                          description="Show overview of contents in a sidebar"

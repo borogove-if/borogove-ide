@@ -103,7 +103,7 @@ const LanguageCard: React.FC<LanguageCardProps> = observer( ({ projectService })
         const fs: any  = getFS();   // eslint-disable-line
 
         try {
-            fs.stat( join( PERSISTENT_FILESYSTEM_DIR, projectService.id, BOROGOVE_SETTINGS_FILE ), ( err: object ) => {
+            fs.stat( join( PERSISTENT_FILESYSTEM_DIR, projectService.id, BOROGOVE_SETTINGS_FILE ), ( err: Error ) => {
                 if( !err ) {
                     setProjectExists( true );
                 }

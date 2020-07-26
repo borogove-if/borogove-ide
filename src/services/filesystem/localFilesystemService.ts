@@ -7,7 +7,7 @@ import { PERSISTENT_FILESYSTEM_DIR } from "./filesystemConstants";
 
 let fs: any = null; // eslint-disable-line
 
-export function getFS(): object {
+export function getFS(): unknown {
     return fs;
 }
 

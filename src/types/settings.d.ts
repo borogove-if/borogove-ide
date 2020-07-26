@@ -20,7 +20,7 @@ export declare global {
         fontSize: number;
         lineNumbers: boolean;
         minimap: boolean;
-        wordBasedSuggestions: boolean;
+        quickSuggestions: boolean;
         wordWrap: boolean;
         wrappingIndent: boolean;
     }

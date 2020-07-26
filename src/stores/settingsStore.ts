@@ -29,7 +29,7 @@ class SettingsStore {
                 fontSize: 14,
                 lineNumbers: true,
                 minimap: true,
-                wordBasedSuggestions: true,
+                quickSuggestions: true,
                 showSettingsInfo: true,
                 wordWrap: true,
                 wrappingIndent: true,

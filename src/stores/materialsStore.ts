@@ -1,7 +1,7 @@
 import { observable, action, toJS } from "mobx";
 import { dirname, basename, join, extname } from "path";
 import { FileWithPath } from "file-selector";
-import { isBinarySync } from "istextorbinary";
+import { isBinary } from "istextorbinary";
 import { v4 as uuid } from "uuid";
 
 import { MaterialsFileType, TabContentType } from "types/enum";
@@ -393,17 +393,17 @@ class MaterialsStore {
             const path = file.path ? file.path.substr( 0, file.path.length - file.name.length - 1 ) : null;
             const nameWithPath = path ? join( path, file.name ) : file.name;
             const parent: MaterialsFile | null = path ? this.addFolder( path ) : null;
-            const isBinary = isBinarySync( null, binaryStr );
-            const type = this.detectFiletype( file.name, isBinary ? MaterialsFileType.data : MaterialsFileType.code );
+            const binary = isBinary( null, binaryStr as Buffer );
+            const type = this.detectFiletype( file.name, binary ? MaterialsFileType.data : MaterialsFileType.code );
             const existingFile = path === null ? null : this.findByFullPath( nameWithPath );
             const askBeforeOverwrite = settingsStore.getSetting( "filesystem", "askBeforeOverwrite" );
 
             if( existingFile ) {
                 const overwrite = (): void => {
                     existingFile.type = type;
-                    existingFile.isBinary = isBinary;
+                    existingFile.isBinary = binary ?? undefined;
 
-                    saveFile( this.getFilesystemPath( existingFile ), binaryStr, isBinary );
+                    saveFile( this.getFilesystemPath( existingFile ), binaryStr, binary ?? undefined );
 
                     if( editorStateStore.file.id === existingFile.id ) {
                         // if the file was open on the editor, re-open it to update the contents
@@ -433,12 +433,12 @@ class MaterialsStore {
             }
             else {
                 this.addMaterialsFile(
-                    isBinary ? Buffer.from( this.binaryStringToUint8Array( binaryStr as string ) ) : binaryStr,
+                    binary ? Buffer.from( this.binaryStringToUint8Array( binaryStr as string ) ) : binaryStr,
                     {
                         name: file.name,
                         parent,
                         type,
-                        isBinary
+                        isBinary: binary ?? undefined
                     }
                 );
                 this.processUploads();

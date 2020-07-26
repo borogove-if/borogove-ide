@@ -4,7 +4,6 @@
  */
 
 declare module "react-split";
-declare module "istextorbinary";
 
 // lets Typescript import text files (together with the raw-loader Webpack loader)
 declare module "*.txt";
