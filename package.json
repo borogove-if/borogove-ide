@@ -1,6 +1,7 @@
 {
   "name": "borogove-ide",
   "version": "1.0.0",
+  "license": "MIT",
   "dependencies": {
     "@babel/core": "7.10.5",
     "@sentry/browser": "5.20.1",
