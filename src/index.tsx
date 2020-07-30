@@ -1,6 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
+// MobX observer batching, see https://github.com/mobxjs/mobx-react-lite/#observer-batching
+import "mobx-react-lite/batchingForReactDom";
+
 import { initLoggers } from "services/loggers";
 
 import App from "./App";

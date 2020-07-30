@@ -1,8 +1,8 @@
-const path = require("path");
+const path = require( "path" );
 module.exports = {
     parser: "@typescript-eslint/parser", // Specifies the ESLint parser
     plugins: [
-        "@typescript-eslint",
+        "@typescript-eslint"
     ],
     env: {
         browser: true,
@@ -13,11 +13,11 @@ module.exports = {
     extends: [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
-        "plugin:react/recommended",
+        "plugin:react/recommended"
     ],
     settings: {
         react: {
-            "version": "detect", // Autodetect React version
+            "version": "detect" // Autodetect React version
         }
     },
     /*
@@ -31,7 +31,7 @@ module.exports = {
     rules: {
         // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
         // e.g. "@typescript-eslint/explicit-function-return-type": "off",
-        
+
         "@typescript-eslint/explicit-function-return-type": 1,
         "@typescript-eslint/interface-name-prefix": 0,
         "@typescript-eslint/no-empty-function": 0,
@@ -46,16 +46,24 @@ module.exports = {
 
         "array-bracket-spacing": [ 1, "always" ],
         "comma-dangle": [ 1, "never" ],
-        "indent": [ 1, 4, { 
-            "ignoredNodes": ["JSXElement *", "JSXElement"],    // ignoredNodes prevents clashing with react/jsx-indent-props
+        "indent": [ 1, 4, {
+            "ignoredNodes": [ "JSXElement *", "JSXElement" ],    // ignoredNodes prevents clashing with react/jsx-indent-props
             "SwitchCase": 1
         } ],
-        "key-spacing": [ 1, { "afterColon": true, "beforeColon": false }],
+        "key-spacing": [ 1, { "afterColon": true, "beforeColon": false } ],
+        "keyword-spacing": [ 1, { "before": true, "after": true, "overrides": {
+            "catch": { "after": false },
+            "for": { "after": false },
+            "if": { "after": false },
+            "switch": { "after": false },
+            "while": { "after": false }
+        } } ],
         "no-debugger": 0,
         "no-trailing-spaces": 1,
         "object-curly-spacing": [ 1, "always" ],
         "quotes": 1,
         "semi": [ 1, "always" ],
-        "space-in-parens": [ 1, "always", { "exceptions": [ "{}" ] }]
-    },
+        "space-before-function-paren": [ 1, "never" ],
+        "space-in-parens": [ 1, "always", { "exceptions": [ "{}" ] } ]
+    }
 };
