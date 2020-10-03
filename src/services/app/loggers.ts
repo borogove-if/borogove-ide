@@ -1,7 +1,7 @@
 import ReactGA from "react-ga";
 import * as Sentry from "@sentry/browser";
 
-import ProjectService from "./projects/ProjectService.class";
+import ProjectService from "../projects/ProjectService.class";
 
 import settingsStore from "stores/settingsStore";
 

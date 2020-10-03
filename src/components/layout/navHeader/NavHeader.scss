@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap');
+
+#nav-header {
+    
+    h1.title {
+        text-align: center;
+
+        &#borogove-main-logo {
+            font-family: 'Permanent Marker', cursive;
+            text-align: left;
+        }
+    }
+
+    // This "skips" layouts that would have 3 cards in a row which doesn't
+    // group the languages as well as 1, 2, and 4 groupings
+    @media (max-width: 1420px) {
+        max-width: 700px;
+    }
+}

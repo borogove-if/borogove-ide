@@ -35,7 +35,7 @@ export default abstract class Inform7ProjectService extends ProjectService {
         );
     }
 
-    public initProject = async ( template?: ProjectTemplate ): Promise<void> => {
+    public initProject = async( template?: ProjectTemplate ): Promise<void> => {
         const initSuccess = await this.init( template );
 
         if( initSuccess ) {

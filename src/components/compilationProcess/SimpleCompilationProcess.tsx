@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 import { Title, Section, Container } from "bloomer";
 
 import compilationResultStore, { CompilationStage } from "stores/compilationResultStore";
-import FullScreenLoader from "components/ui/FullScreenLoader";
+import FullScreenLoader from "components/loader/FullScreenLoader";
 import CompilerOutput from "./CompilerOutput";
 import CompilationArtifacts from "./CompilationArtifacts";
 

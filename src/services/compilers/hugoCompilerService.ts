@@ -85,7 +85,7 @@ export function compileHugo( variant: CompilationVariant ): Promise<boolean> {
                 console.log( "* STDERR:", text );
             },
             quit: ( errcode: number ) => {
-                if ( didQuit ) {
+                if( didQuit ) {
                     return;
                 }
 

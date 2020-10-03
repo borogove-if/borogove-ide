@@ -362,7 +362,7 @@ class MaterialsStore {
         const len = bStr.length;
         const u8Array = new Uint8Array( len );
 
-        for ( let i = 0; i < len; ++i ) {
+        for( let i = 0; i < len; ++i ) {
             u8Array[i] = bStr.charCodeAt( i );
         }
 

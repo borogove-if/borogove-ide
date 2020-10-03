@@ -11,9 +11,10 @@
 .env*
 !.env.example
 
-# misc
+# package manager
 yarn-error.log
 node_modules
+.yarn
 
 # Firebase API keys
 .firebase

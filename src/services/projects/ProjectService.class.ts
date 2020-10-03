@@ -1,6 +1,6 @@
 import { InterpreterIdentifier } from "services/interpreters/interpreterService";
 import { loadRemoteLibraryFiles } from "services/remoteAssets/libraryLoaderService";
-import { setProjectTags, pageView } from "services/loggers";
+import { setProjectTags, pageView } from "services/app/loggers";
 import { restoreFS } from "services/filesystem/persistentFilesystemService";
 
 import editorStateStore from "stores/editorStateStore";
@@ -155,7 +155,7 @@ export default abstract class ProjectService {
     /**
      * The function that initializes the project when the user has chosen it
      */
-    public initProject = async ( template?: ProjectTemplate ): Promise<void> => {
+    public initProject = async( template?: ProjectTemplate ): Promise<void> => {
         const status = await this.init( template );
 
         if( status ) {

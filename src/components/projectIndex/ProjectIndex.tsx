@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { observer } from "mobx-react";
+import { Message, MessageBody, Container } from "bloomer";
 
-import compilationResultStore from "stores/compilationResultStore";
 import ProjectIndexTabs from "./ProjectIndexTabs";
 
+import compilationResultStore from "stores/compilationResultStore";
+
 import "./ProjectIndex.scss";
-import { Message, MessageBody, Container } from "bloomer";
 
 /**
  * Shows the Inform 7 index.

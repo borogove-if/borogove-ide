@@ -25,7 +25,7 @@ To set up the project locally you need [Node.js](https://nodejs.org) and either 
 
 The .env file contains values that vary between development and production environments. If you create a file called `.env.production` its values are used in the production build.
 
-After the initial setup, use `npm start` (or `yarn start`) to start the development server. It runs the app in the browser at localhost:3000.
+After the initial setup, use `npm start` (or `yarn start`) to start the development server. It runs the app in the browser at localhost:3000. The snippets feature can be started with `npm start:snippets`.
 
 
 ## Storybook
@@ -37,7 +37,7 @@ Storybook definitions for UI components are located in files with the same name 
 
 ## Building and publishing
 
-The `npm run build` (or `yarn build`) command creates a complete web site in the `build` directory. This directory can then be copied as is to web hosting of your choice.
+The `npm run build` (or `yarn build` or `npm run build:snippets` to build the snippets feature) command creates a complete web site in the `build` directory. This directory can then be copied as is to web hosting of your choice.
 
 The build process is quite slow, so don't panic if it doesn't seem to do anything for a few minutes.
 

@@ -4,7 +4,7 @@ import compilationResultStore, { CompilationStage } from "stores/compilationResu
 import ideStateStore from "stores/ideStateStore";
 import projectStore from "stores/projectStore";
 import materialsStore from "stores/materialsStore";
-import { logErrorMessage } from "services/loggers";
+import { logErrorMessage } from "services/app/loggers";
 
 const API_URL = process.env.REACT_APP_I7_COMPILER_SERVICE_URL;
 

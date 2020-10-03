@@ -26,7 +26,7 @@ export async function loadRemoteLibraryFiles( sourceUrl: string, manifestFile: s
         throw new Error( "Unknown or missing manifest revision" );
     }
 
-    await Promise.all( files.map( async ( file: string | ManifestFile ) => {
+    await Promise.all( files.map( async( file: string | ManifestFile ) => {
         let filename;
         let sourcePath;
         let isBinary;

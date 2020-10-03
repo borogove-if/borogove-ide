@@ -73,7 +73,7 @@ export function readFileAsBase64( file: string ): string {
 
     let binary = "";
 
-    for ( let i = 0; i < len; ++i ) {
+    for( let i = 0; i < len; ++i ) {
         binary += String.fromCharCode( buffer[ i ] );
     }
 

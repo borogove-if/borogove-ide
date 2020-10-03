@@ -85,7 +85,7 @@ export function compileDialog( variant: CompilationVariant ): Promise<boolean> {
                 compilationResultStore.addToCompilerOutput( text + "\n" );
             },
             quit: ( errcode: number ) => {
-                if ( didQuit ) {
+                if( didQuit ) {
                     return;
                 }
 

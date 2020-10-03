@@ -4,6 +4,7 @@ import { Card, CardContent, Content, Title, Subtitle, CardFooter, CardFooterItem
 import { join } from "path";
 import { TiMediaPlay } from "react-icons/ti";
 
+import { appVariant, isIdeVariant, isSnippetsVariant } from "services/app/env";
 import ProjectService from "services/projects/ProjectService.class";
 import ProjectTemplate from "services/projects/ProjectTemplate.class";
 import { getFS } from "services/filesystem/localFilesystemService";
@@ -20,13 +21,15 @@ interface LanguageCardElementProps {
     projectExists: boolean;
     subtitle?: string;
     templates: ProjectTemplate[];
+    variant: AppVariant;
 }
 
-export const LanguageCardElement: React.FC<LanguageCardElementProps> = observer( ({ name, onClickContinue, onClickCreate, projectExists, subtitle, templates }) => {
+export const LanguageCardElement: React.FC<LanguageCardElementProps> = observer( ({ name, onClickContinue, onClickCreate, projectExists, subtitle, templates, variant }) => {
     const [ selectedTemplate, setSelectedTemplate ] = useState( templates[ 0 ] );
     const chooseTemplate = ( e: React.FormEvent<HTMLSelectElement> ): void => {
         setSelectedTemplate( templates[ Number( ( e.target as HTMLSelectElement ).value ) ] );
     };
+    const isIdeVariant = variant === "ide";
 
     const startNewProject = ( e: React.MouseEvent ): false => {
         if( projectExists && !confirm( `Start a new project? The new project will overwrite the existing ${name}${subtitle ? " " + subtitle : ""} project.` ) ) {
@@ -52,7 +55,7 @@ export const LanguageCardElement: React.FC<LanguageCardElementProps> = observer(
             </Content>
         </CardContent>
         <CardFooter>
-            {projectExists && <CardFooterItem href="#" onClick={onClickContinue}>
+            {isIdeVariant && projectExists && <CardFooterItem href="#" onClick={onClickContinue}>
                 <div>
                     Continue saved project
                 </div>
@@ -60,10 +63,11 @@ export const LanguageCardElement: React.FC<LanguageCardElementProps> = observer(
             <div className="card-footer-item">
                 <div className="new-project-footer">
                     <Label>
-                        New project
+                        {isIdeVariant ? "New project" : "Template"}
                     </Label>
                     <div className="new-project-actions">
                         <div>
+                            {templates.length === 0 && "Empty project"}
                             {templates.length === 1 && templates[0].name}
                             {templates.length > 1 && <Select onChange={chooseTemplate}>
                                 {templates.map( ( template, index ) => <option key={template.name} value={index}>
@@ -100,6 +104,10 @@ const LanguageCard: React.FC<LanguageCardProps> = observer( ({ projectService })
 
     // check for existing projects
     useEffect( () => {
+        if( isSnippetsVariant ) {
+            return;
+        }
+
         const fs: any  = getFS();   // eslint-disable-line
 
         try {
@@ -129,7 +137,8 @@ const LanguageCard: React.FC<LanguageCardProps> = observer( ({ projectService })
                                 onClickCreate={startProject}
                                 projectExists={projectExists}
                                 subtitle={projectService.subtitle}
-                                templates={projectService.templates} />;
+                                templates={projectService.templates}
+                                variant={appVariant} />;
 });
 
 export default LanguageCard;

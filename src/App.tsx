@@ -2,13 +2,13 @@ import React, { ReactElement } from "react";
 import { observer } from "mobx-react";
 
 import projectServiceList from "services/projects/projectServiceList";
-import { pageView } from "services/loggers";
+import { pageView } from "services/app/loggers";
 
 import materialsStore from "stores/materialsStore";
 import projectStore, { ProjectStoreState } from "stores/projectStore";
 import settingsStore from "stores/settingsStore";
 
-import FullScreenLoader from "components/ui/FullScreenLoader";
+import FullScreenLoader from "components/loader/FullScreenLoader";
 import IDE from "components/layout/IDE";
 import ModalManager from "components/layout/modals/ModalManager";
 import NewProject from "components/projectManager/ProjectManager";

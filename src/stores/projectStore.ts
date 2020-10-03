@@ -49,7 +49,7 @@ class ProjectStore {
     /**
      * Starts to compile the project and runs it in an interpreter when finished
      */
-    compile = async ( variant: CompilationVariant, compileOnly = false ): Promise<boolean> => {
+    compile = async( variant: CompilationVariant, compileOnly = false ): Promise<boolean> => {
         openTab( TabContentType.compiler );
         await this.manager.compile( variant );
 
@@ -88,7 +88,7 @@ class ProjectStore {
     /**
      * Create release version and download it
      */
-    release = async ( releaseType: ReleaseType ): Promise<boolean> => {
+    release = async( releaseType: ReleaseType ): Promise<boolean> => {
         const compilationSuccess = await this.compile( "release", true );
         const { storyfileLocalPath, storyfileRemoteUrl } = compilationResultStore;
         let storyfileData;
