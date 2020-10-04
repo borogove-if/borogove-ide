@@ -1,4 +1,4 @@
-import { observable, action, computed, IObservableArray } from "mobx";
+import { observable, action, computed, IObservableArray, makeObservable } from "mobx";
 import { v4 as uuid } from "uuid";
 
 import { TabContentType } from "types/enum";
@@ -11,7 +11,7 @@ type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
  * Tabs that are shown on the left and right panes.
  */
 export class TabStore {
-    @observable activeTabId: string | null = null;
+    activeTabId: string | null = null;
 
     readonly tabsList: IObservableArray<Tab> = observable.array( [] );  // can't use @observable here because it doesn't apply the correct type for Typescript
 
@@ -21,7 +21,7 @@ export class TabStore {
      *
      * Returns the created tab's id.
      */
-    @action addTab = ( properties: Omit<Tab, "id"> & { id?: string }): string => {
+    addTab = ( properties: Omit<Tab, "id"> & { id?: string }): string => {
         const tab = {
             id: uuid(),
             ...properties
@@ -54,7 +54,7 @@ export class TabStore {
     /**
      * Sets the currently open tab by the tab id.
      */
-    @action setActiveTab = ( id: string ): void => {
+    setActiveTab = ( id: string ): void => {
         this.activeTabId = id;
         ideStateStore.setActivePane( this );
     };
@@ -63,7 +63,7 @@ export class TabStore {
     /**
      * Removes a tab completely.
      */
-    @action removeTab = ( id: string ): boolean => {
+    removeTab = ( id: string ): boolean => {
         const tabToRemove = this.tabsList.find( tab => tab.id === id );
 
         if( tabToRemove ) {
@@ -72,13 +72,24 @@ export class TabStore {
         }
 
         return false;
+    };
+
+
+    constructor() {
+        makeObservable( this, {
+            activeTabId: observable,
+            addTab: action,
+            setActiveTab: action,
+            removeTab: action,
+            activeTab: computed
+        });
     }
 
 
     /**
      * Returns the currently open tab.
      */
-    @computed get activeTab(): Tab | null {
+    get activeTab(): Tab | null {
         return this.tabsList.find( tab => tab.id === this.activeTabId ) || null;
     }
 

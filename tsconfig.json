@@ -24,7 +24,8 @@
     "typeRoots": [
       "./node_modules/@types/**/*",
       "./src/types/**/*"
-    ]
+    ],
+    "useDefineForClassFields": true
   },
   "include": [
     "src/**/*"

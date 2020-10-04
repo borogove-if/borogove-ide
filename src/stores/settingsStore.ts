@@ -1,4 +1,4 @@
-import { observable, action } from "mobx";
+import { observable, action, makeObservable } from "mobx";
 
 const SETTINGS_KEY = "borogove.settings";
 
@@ -6,10 +6,16 @@ const SETTINGS_KEY = "borogove.settings";
  * User-defined settings
  */
 class SettingsStore {
-    @observable compilerOptions: string[] = [];
-    @observable settings: AppSettings;
+    compilerOptions: string[] = [];
+    settings: AppSettings;
 
     constructor() {
+        makeObservable( this, {
+            compilerOptions: observable,
+            settings: observable,
+            saveSetting: action
+        });
+
         const storageContents = localStorage.getItem( SETTINGS_KEY );
         let settings: any = {}; // eslint-disable-line
 
@@ -75,10 +81,10 @@ class SettingsStore {
     /**
      * Sets and saves a setting
      */
-    @action public saveSetting = ( scope: keyof AppSettings, setting: string, value: any ): void => {    // eslint-disable-line
+    public saveSetting = ( scope: keyof AppSettings, setting: string, value: any ): void => {    // eslint-disable-line
         this.settings[scope][setting] = value;
         this.persistSettings();
-    }
+    };
 }
 
 export default new SettingsStore();

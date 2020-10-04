@@ -1,4 +1,4 @@
-import { observable, action } from "mobx";
+import { observable, action, makeObservable } from "mobx";
 import { v4 as uuid } from "uuid";
 
 import { TabStore } from "./tabStore";
@@ -10,15 +10,15 @@ import { TabStore } from "./tabStore";
 class IDEStateStore {
     // Currently active pane (left or right), used for determining which pane
     // is shown in the mobile view
-    @observable activePane: TabStore;
+    activePane: TabStore;
 
     // Is the file manager visible?
-    @observable fileManagerOpen = true;
+    fileManagerOpen = true;
 
     // We'll remember if a wider than mobile screen has been triggered,
     // to avoid re-rendering components when window size changes which would
     // e.g. restart the interpreter
-    @observable wideScreenExists = false;
+    wideScreenExists = false;
 
     // The id for the current session, which is used to optimize space
     // on the server (previous compilations can be removed faster if we know
@@ -26,27 +26,41 @@ class IDEStateStore {
     // The id is regenerated every time the page reloads.
     readonly sessionId = uuid().split( "-" ).join( "" );
 
-    @observable currentlyOpenModal: string | null = null;
-    @observable modalProps: any;  // eslint-disable-line
+    currentlyOpenModal: string | null = null;
+    modalProps: any;  // eslint-disable-line
 
-    @action public closeModal = (): void => {
+    public closeModal = (): void => {
         this.currentlyOpenModal = null;
         this.modalProps = {};
-    }
+    };
 
-    @action public openModal = ( name: string, props?: any ): void => {  // eslint-disable-line
+    public openModal = ( name: string, props?: any ): void => {  // eslint-disable-line
         this.modalProps = props;
         this.currentlyOpenModal = name;
-    }
+    };
 
-    @action public setActivePane = ( pane: TabStore ): void => {
+    public setActivePane = ( pane: TabStore ): void => {
         this.activePane = pane;
-    }
+    };
 
-    @action public setWideScreenExists = ( status: boolean ): void => {
+    public setWideScreenExists = ( status: boolean ): void => {
         if( this.wideScreenExists !== status ) {
             this.wideScreenExists = status;
         }
+    };
+
+    constructor() {
+        makeObservable( this, {
+            activePane: observable,
+            fileManagerOpen: observable,
+            wideScreenExists: observable,
+            currentlyOpenModal: observable,
+            modalProps: observable,
+            closeModal: action,
+            openModal: action,
+            setActivePane: action,
+            setWideScreenExists: action
+        });
     }
 }
 

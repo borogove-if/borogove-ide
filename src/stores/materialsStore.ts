@@ -1,4 +1,4 @@
-import { observable, action, toJS } from "mobx";
+import { observable, action, toJS, makeObservable, runInAction } from "mobx";
 import { dirname, basename, join, extname } from "path";
 import { FileWithPath } from "file-selector";
 import { isBinary } from "istextorbinary";
@@ -19,15 +19,32 @@ import { PROJECT_ROOT_DIR } from "services/filesystem/filesystemConstants";
  * The project's filesystem (code and materials)
  */
 class MaterialsStore {
-    @observable files: MaterialsFile[] = [];
+    files: MaterialsFile[] = [];
 
     // Becomes true when the filesystem has been initialized
-    @observable fsReady = false;
+    fsReady = false;
 
     constructor() {
+        makeObservable( this, {
+            files: observable,
+            fsReady: observable,
+            addMaterialsFile: action,
+            addFolder: action,
+            deleteFile: action,
+            moveToFolder: action,
+            openFile: action,
+            processUploads: action,
+            rename: action,
+            restoreFS: action,
+            toggleFolder: action,
+            toggleIncludePath: action,
+            updateFile: action,
+            uploadFiles: action
+        });
+
         initFS().then( () => {
             saveFolder( PROJECT_ROOT_DIR );
-            this.fsReady = true;
+            runInAction( () => { this.fsReady = true; });
         });
     }
 
@@ -65,7 +82,7 @@ class MaterialsStore {
             || type === MaterialsFileType.image;
     }
 
-    @action addMaterialsFile = (
+    addMaterialsFile = (
         contents: FileContents,
         { displayName, name, parent = null, locked = false, type = MaterialsFileType.code, isBinary }:
         MaterialsFile | { displayName?: string; name: string; parent?: MaterialsFile | null; locked?: boolean; type?: MaterialsFileType; isBinary?: boolean }
@@ -109,7 +126,7 @@ class MaterialsStore {
     /**
      * Recursively add a new folder.
      */
-    @action addFolder = ( folderPath: string ): MaterialsFile | null => {
+    addFolder = ( folderPath: string ): MaterialsFile | null => {
         if( !folderPath || folderPath === "/" ) {
             return null;
         }
@@ -158,7 +175,7 @@ class MaterialsStore {
         return newFolder;
     };
 
-    @action deleteFile = ( file: MaterialsFile ): boolean => {
+    deleteFile = ( file: MaterialsFile ): boolean => {
         const fileIndex: number = this.files.findIndex( f => f.id === file.id );
 
         if( fileIndex === -1 ) {
@@ -298,7 +315,7 @@ class MaterialsStore {
     /**
      * Move a file to another folder
      */
-    @action public moveToFolder = ( from: MaterialsFile, dest: string ): void => {
+    public moveToFolder = ( from: MaterialsFile, dest: string ): void => {
         const file: MaterialsFile | null = this.findById( from.id );    // make sure we're moving a copy that's in the store
         let target: MaterialsFile | null;
 
@@ -323,13 +340,13 @@ class MaterialsStore {
         file.parent = target;
 
         // TODO when moving a folder, must refresh the paths!
-    }
+    };
 
 
     /**
      * Open a file in the editor
      */
-    @action public openFile = ( file?: MaterialsFile | null ): void => {
+    public openFile = ( file?: MaterialsFile | null ): void => {
         if( !file ) {
             return;
         }
@@ -372,7 +389,7 @@ class MaterialsStore {
     /**
      * Process the next file in the upload queue
      */
-    @action public processUploads = (): void => {
+    public processUploads = (): void => {
         if( this.uploadQueue.length === 0 ) {
             // nothing to do
             return;
@@ -452,7 +469,7 @@ class MaterialsStore {
     /**
      * Rename a file
      */
-    @action public rename = ( fileToRename: MaterialsFile, newName: string ): void => {
+    public rename = ( fileToRename: MaterialsFile, newName: string ): void => {
         const file: MaterialsFile | null = this.findById( fileToRename.id );    // make sure we're moving a copy that's in the store
         const fromPath = this.getFilesystemPath( file );
 
@@ -473,11 +490,11 @@ class MaterialsStore {
             editorStateStore.file = file;
             openTab( TabContentType.editor, { label: file.displayName || file.name });
         }
-    }
+    };
 
-    @action public restoreFS = ( files: MaterialsFile[] ): void => {
+    public restoreFS = ( files: MaterialsFile[] ): void => {
         this.files = files;
-    }
+    };
 
     public serialize = (): MaterialsFile[] => {
         return this.files.map( file => ({
@@ -491,7 +508,7 @@ class MaterialsStore {
     /**
      * Open or close a folder
      */
-    @action public toggleFolder = ( file?: MaterialsFile | null ): void => {
+    public toggleFolder = ( file?: MaterialsFile | null ): void => {
         if( !file ) {
             return;
         }
@@ -513,7 +530,7 @@ class MaterialsStore {
     /**
      * Toggles whether a folder is included in compilation or not
      */
-    @action public toggleIncludePath = ( file: MaterialsFile ): void => {
+    public toggleIncludePath = ( file: MaterialsFile ): void => {
         const folder = this.getCurrent( file );
 
         if( !folder || folder.type !== MaterialsFileType.folder ) {
@@ -521,18 +538,18 @@ class MaterialsStore {
         }
 
         folder.isIncludePath = !folder.isIncludePath;
-    }
+    };
 
 
     /**
      * Update a file's contents
      */
-    @action public updateFile = ( file: MaterialsFile, contents: FileContents ): void => {
+    public updateFile = ( file: MaterialsFile, contents: FileContents ): void => {
         // save changes to the filesystem
         saveFile( this.getFilesystemPath( file ), contents, false );
     };
 
-    @action public uploadFiles = ( files: FileWithPath[] ): void => {
+    public uploadFiles = ( files: FileWithPath[] ): void => {
         this.uploadQueue = files;
         this.processUploads();
     };

@@ -1,4 +1,4 @@
-import { observable, action } from "mobx";
+import { observable, action, makeObservable } from "mobx";
 import Axios from "axios";
 import { v4 as uuid } from "uuid";
 import { saveAs } from "file-saver";
@@ -32,14 +32,14 @@ export type ReleaseType = "gamefile" | "website";
  */
 class ProjectStore {
     // The project service, which tells us what kind of project is open
-    @observable manager: ProjectService;
+    manager: ProjectService;
 
     // The load state of the project: "waiting" for the user to pick a project,
     // "loading" a chosen project and "ready" when everything's loaded and set up
-    @observable loadState = ProjectStoreState.waiting;
+    loadState = ProjectStoreState.waiting;
 
     // The main file passed to the compiler
-    @observable entryFile: MaterialsFile | null;
+    entryFile: MaterialsFile | null;
 
     // UUID (IFID) for the current project
     public uuid = uuid();
@@ -165,7 +165,7 @@ class ProjectStore {
     /**
      * Sets the entry file
      */
-    @action setEntryFile = ( file: MaterialsFile | null ): void => {
+    setEntryFile = ( file: MaterialsFile | null ): void => {
         this.entryFile = file;
     };
 
@@ -181,7 +181,7 @@ class ProjectStore {
     /**
      * Calling this tells the project store that loading the project has completed
      */
-    @action setReady = (): void => {
+    setReady = (): void => {
         if( this.manager.welcomePage ) {
             openTab( TabContentType.welcome, { closable: true });
         }
@@ -200,7 +200,7 @@ class ProjectStore {
     /**
      * Sets the loading state
      */
-    @action setState = ( state: ProjectStoreState ): void => {
+    setState = ( state: ProjectStoreState ): void => {
         this.loadState = state;
     };
 
@@ -208,8 +208,20 @@ class ProjectStore {
     /**
      * Set a new UUID
      */
-    @action setUUID = ( uuid: string ): void => {
+    setUUID = ( uuid: string ): void => {
         this.uuid = uuid;
+    };
+
+    constructor() {
+        makeObservable( this, {
+            manager: observable,
+            loadState: observable,
+            entryFile: observable,
+            setEntryFile: action,
+            setReady: action,
+            setState: action,
+            setUUID: action
+        });
     }
 }
 
