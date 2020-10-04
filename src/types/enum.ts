@@ -16,10 +16,11 @@ export enum MaterialsFileType {
 export enum TabContentType {
     compiler,
     editor,
-    interpreter,
     fileViewer,
+    interpreter,
     projectIndex,
     release,
     settings,
+    snippetsInfo,
     welcome
 }

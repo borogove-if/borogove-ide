@@ -15,6 +15,7 @@ import compilationResultStore from "./compilationResultStore";
 import materialsStore from "./materialsStore";
 
 import { TabContentType, MaterialsFileType } from "types/enum";
+import { isSnippetsVariant } from "services/app/env";
 
 export enum ProjectStoreState {
     waiting,
@@ -183,6 +184,10 @@ class ProjectStore {
     @action setReady = (): void => {
         if( this.manager.welcomePage ) {
             openTab( TabContentType.welcome, { closable: true });
+        }
+
+        if( isSnippetsVariant ) {
+            openTab( TabContentType.snippetsInfo );
         }
 
         this.setState( ProjectStoreState.ready );

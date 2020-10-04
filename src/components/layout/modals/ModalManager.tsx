@@ -9,6 +9,7 @@ import MoveFileModal from "components/fileManager/actions/MoveFileModal";
 import OverwriteFileModal from "components/fileManager/actions/OverwriteFileModal";
 import PrivacyPolicy from "components/logging/PrivacyPolicy";
 import RenameFileModal from "components/fileManager/actions/RenameFileModal";
+import SnippetsTOS from "components/snippets/SnippetsTOS";
 
 /**
  * Handles opening modals
@@ -36,10 +37,13 @@ const ModalManager: React.FC = observer( () => {
             return <RenameFileModal {...modalProps} />;
 
         /**
-         * Privacy policy
+         * Documentation
          */
         case "privacyPolicy":
             return <PrivacyPolicy {...modalProps} />;
+
+        case "snippetsTOS":
+            return <SnippetsTOS {...modalProps} />;
 
         default:
             return null;

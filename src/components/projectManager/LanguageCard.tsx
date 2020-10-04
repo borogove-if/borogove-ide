@@ -4,7 +4,7 @@ import { Card, CardContent, Content, Title, Subtitle, CardFooter, CardFooterItem
 import { join } from "path";
 import { TiMediaPlay } from "react-icons/ti";
 
-import { appVariant, isIdeVariant, isSnippetsVariant } from "services/app/env";
+import { appVariant, isSnippetsVariant } from "services/app/env";
 import ProjectService from "services/projects/ProjectService.class";
 import ProjectTemplate from "services/projects/ProjectTemplate.class";
 import { getFS } from "services/filesystem/localFilesystemService";
@@ -41,7 +41,7 @@ export const LanguageCardElement: React.FC<LanguageCardElementProps> = observer(
         return false;
     };
 
-    return <Card className="language-card">
+    return <Card className={`language-card ${variant}-variant`}>
         <CardContent className="is-clickable" onClick={projectExists ? onClickContinue : startNewProject}>
             <Content>
                 <div className="titles">

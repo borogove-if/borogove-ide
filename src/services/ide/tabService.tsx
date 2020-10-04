@@ -16,6 +16,7 @@ import { leftTabStore, rightTabStore } from "stores/tabStore";
 
 import { TabContentType } from "types/enum";
 import ReleasePane from "../../components/release/ReleasePane";
+import SnippetsInfo from "../../components/snippets/SnippetsInfo";
 
 interface TabOptions {
     closable?: boolean;
@@ -158,6 +159,16 @@ export function openTab( type: TabContentType, options: TabOptions = {}): void {
                 closable,
                 component: <Settings />,
                 label: "Settings",
+                type
+            });
+            break;
+
+        case TabContentType.snippetsInfo:
+            rightTabStore.addTab({
+                closable,
+                component: <SnippetsInfo />,
+                label: "Snippets",
+                index: 3,
                 type
             });
             break;

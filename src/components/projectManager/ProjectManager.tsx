@@ -5,9 +5,10 @@ import NavHeader from "components/layout/navHeader/NavHeader";
 
 import projectServices from "services/projects/projectServiceList";
 import ProjectService from "services/projects/ProjectService.class";
-import { isIdeVariant } from "services/app/env";
+import { isIdeVariant, isSnippetsVariant } from "services/app/env";
 
 import LanguageCard from "./LanguageCard";
+import SnippetsIntro from "./SnippetsIntro";
 
 import "./ProjectManager.scss";
 
@@ -21,6 +22,7 @@ export const ProjectManagerElement: React.FC<ProjectManagerElementProps> = obser
     return <div>
         <Container id="project-manager">
             <NavHeader title={title} />
+            {isSnippetsVariant && <SnippetsIntro />}
             <div id="language-cards-list">
                 {projectServices.map( project => <LanguageCard key={project.id} projectService={project} /> )}
             </div>

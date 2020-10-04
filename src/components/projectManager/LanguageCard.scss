@@ -4,6 +4,10 @@
     margin: 1em;
     width: 290px;
 
+    &.snippets-variant {
+        background-color: #e8f3f3;
+    }
+
     .card-content {
         flex-grow: 1;
 
