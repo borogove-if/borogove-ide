@@ -1,4 +1,4 @@
-import { observable, action, toJS, makeObservable, runInAction } from "mobx";
+import { observable, action, makeObservable, runInAction } from "mobx";
 import { dirname, basename, join, extname } from "path";
 import { FileWithPath } from "file-selector";
 import { isBinary } from "istextorbinary";
@@ -268,9 +268,9 @@ class MaterialsStore {
      */
     public getFileTree = ( parent?: MaterialsFile ): MaterialsFile[] => {
         const children = ( parent
-            ? toJS( this.files.filter( file => file.parent && ( typeof file.parent === "string" ? file.parent : file.parent.id ) === parent.id ) )
-            : toJS( this.files.filter( file => !file.parent ), { recurseEverything: true }) )
-            .sort( ( file1, file2 ) => {
+            ? JSON.parse( JSON.stringify( this.files.filter( file => file.parent && ( typeof file.parent === "string" ? file.parent : file.parent.id ) === parent.id ) ) )
+            : JSON.parse( JSON.stringify( this.files.filter( file => !file.parent ) ) ) )
+            .sort( ( file1: MaterialsFile, file2: MaterialsFile ) => {
                 // folders first
                 if( file1.type !== file2.type ) {
                     if( file1.type === MaterialsFileType.folder ) {
@@ -288,8 +288,8 @@ class MaterialsStore {
                 return sortName1.localeCompare( sortName2 );
             });
 
-        children.filter( file => file.type === MaterialsFileType.folder )
-            .forEach( file => file.children = this.getFileTree( file ) );
+        children.filter( ( file: MaterialsFile ) => file.type === MaterialsFileType.folder )
+            .forEach( ( file: MaterialsFile ) => file.children = this.getFileTree( file ) );
 
         return children;
     };

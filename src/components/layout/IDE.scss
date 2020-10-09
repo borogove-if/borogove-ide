@@ -1,19 +1,14 @@
-#ide,
-#ide > div,
-#split,
-#split > div {
-    height: 100%;
-}
-
 #ide {
     display: flex;
     flex-direction: column;
+    height: 100%;
     overflow-y: hidden !important;
     width: 100%;
 }
 
 #workspace {
     display: flex;
+    height: 100%;
     overflow-y: hidden !important;
 }
 
