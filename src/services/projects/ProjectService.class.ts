@@ -1,15 +1,16 @@
 import { InterpreterIdentifier } from "services/interpreters/interpreterService";
 import { loadRemoteLibraryFiles } from "services/remoteAssets/libraryLoaderService";
 import { setProjectTags, pageView } from "services/app/loggers";
+import { isSnippetsVariant } from "services/app/env";
 import { restoreFS } from "services/filesystem/persistentFilesystemService";
 
 import editorStateStore from "stores/editorStateStore";
+import ideStateStore from "stores/ideStateStore";
 import materialsStore from "stores/materialsStore";
 import projectStore, { ProjectStoreState } from "stores/projectStore";
 
 import ProjectTemplate from "./ProjectTemplate.class";
 import { MaterialsFileType } from "types/enum";
-import ideStateStore from "stores/ideStateStore";
 
 
 /**
@@ -111,8 +112,9 @@ export default abstract class ProjectService {
         pageView( "/ide/" + this.id );
 
         // hide the file manager if it shouldn't be open at the start
-        if( !this.fileManagerStartsOpen ) {
-            ideStateStore.fileManagerOpen = false;
+        // either because the project setting says so or we're in snippets mode
+        if( !this.fileManagerStartsOpen || isSnippetsVariant ) {
+            ideStateStore.toggleFileManager( false );
         }
 
         if( template ) {

@@ -21,7 +21,7 @@ interface FileItemElementProps extends FileItemProps {
     onClick: ( file: MaterialsFile ) => void;
 }
 
-export const FileItemElement: React.FC<FileItemElementProps> = ({ file, isActive = false, isEntryFile, isIncludePath, onClick }) => {
+export const FileItemElement: React.FC<FileItemElementProps> = ({ file, isActive = false, isEntryFile, isIncludePath, onClick, readonly = false }) => {
     const { displayName, locked, name, type } = file;
     const isFolder = type === MaterialsFileType.folder;
     const classes = [ "file-item", "type-" + MaterialsFileType[type] ];
@@ -44,7 +44,7 @@ export const FileItemElement: React.FC<FileItemElementProps> = ({ file, isActive
                 <FileIcon file={file} />{" "}
                 {isFolder ? <FolderName file={file} /> : ( displayName || name )}
             </div>
-            <FileActions file={file} isLocked={Boolean( locked )} isEntryFile={isEntryFile} />
+            {!readonly && <FileActions file={file} isLocked={Boolean( locked )} isEntryFile={isEntryFile} />}
         </MenuLink>
     </li>;
 };
@@ -52,6 +52,7 @@ export const FileItemElement: React.FC<FileItemElementProps> = ({ file, isActive
 interface FileItemProps {
     file: MaterialsFile;
     isActive?: boolean;
+    readonly?: boolean;
 }
 
 /**

@@ -6,11 +6,16 @@ import Split from "react-split";
 import MainNavigation from "./topNavbar/MainNavigation";
 import Pane from "./panes/Pane";
 
-import "./IDE.scss";
 import ideStateStore from "stores/ideStateStore";
-import FileManager from "components/fileManager/FileManager";
 import { useWindowDimensions } from "services/ide/environmentService";
-import { breakpoints } from "../../services/ide/environmentService";
+import { breakpoints } from "services/ide/environmentService";
+import { isSnippetsVariant } from "services/app/env";
+
+import "./IDE.scss";
+
+const FileManager = isSnippetsVariant
+    ? require( "components/fileManager/ReadOnlyFileManager" ).default
+    : require( "components/fileManager/FileManager" ).default;
 
 /**
  * This is the main component for the entire IDE view.

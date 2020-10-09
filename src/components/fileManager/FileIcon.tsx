@@ -9,7 +9,7 @@ interface FileIconProps {
 }
 
 /**
- *
+ * Icons for file/folder types
  */
 const FileIcon: React.FC<FileIconProps> = observer( ({ file }) => {
     switch( file.type ) {

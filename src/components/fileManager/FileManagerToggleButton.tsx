@@ -19,7 +19,7 @@ export const FileManagerToggleButtonElement: React.FC<FileManagerToggleButtonEle
  */
 const FileManagerToggleButton: React.FC = observer( () => {
     const toggleFilemanager = (): void => {
-        ideStateStore.fileManagerOpen = !ideStateStore.fileManagerOpen;
+        ideStateStore.toggleFileManager();
     };
 
     return <FileManagerToggleButtonElement onClick={toggleFilemanager}/>;

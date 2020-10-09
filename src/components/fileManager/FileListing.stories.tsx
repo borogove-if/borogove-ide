@@ -73,4 +73,5 @@ const files: MaterialsFile[] = [
 
 storiesOf( "FileListing", module )
     .addDecorator( storyFn => <Menu className="filelisting">{storyFn()}</Menu> )
-    .add( "File listing", () => <FileListingElement files={files} selected="file2a1" /> );
+    .add( "File listing", () => <FileListingElement files={files} selected="file2a1" /> )
+    .add( "Read only mode", () => <FileListingElement files={files} selected="file2a1" readonly /> );

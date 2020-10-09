@@ -49,6 +49,15 @@ class IDEStateStore {
         }
     };
 
+    public toggleFileManager = ( isOpen?: boolean ): void => {
+        if( typeof isOpen === "boolean" ) {
+            this.fileManagerOpen = isOpen;
+        }
+        else {
+            this.fileManagerOpen = !this.fileManagerOpen;
+        }
+    };
+
     constructor() {
         makeObservable( this, {
             activePane: observable,
@@ -59,7 +68,8 @@ class IDEStateStore {
             closeModal: action,
             openModal: action,
             setActivePane: action,
-            setWideScreenExists: action
+            setWideScreenExists: action,
+            toggleFileManager: action
         });
     }
 }

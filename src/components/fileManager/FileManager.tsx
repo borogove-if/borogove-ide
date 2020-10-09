@@ -9,8 +9,12 @@ import filesystemStore from "stores/materialsStore";
 
 import "./FileManager.scss";
 
-export const FileManagerElement: React.FC = observer( () => <div id="filemanager">
-    <FileListing />
+interface FileManagerElementProps {
+    readonly?: boolean;
+}
+
+export const FileManagerElement: React.FC<FileManagerElementProps> = observer( ({ readonly = false }) => <div id="filemanager">
+    <FileListing readonly={readonly} />
 </div> );
 
 /**
