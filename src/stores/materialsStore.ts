@@ -30,6 +30,7 @@ class MaterialsStore {
             fsReady: observable,
             addMaterialsFile: action,
             addFolder: action,
+            getContents: action,
             deleteFile: action,
             moveToFolder: action,
             openFile: action,

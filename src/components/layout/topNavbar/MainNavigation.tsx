@@ -8,18 +8,20 @@ import {
     NavbarMenu,
     NavbarStart
 } from "bloomer";
+import { TiHome, TiCog, TiExport } from "react-icons/ti";
 
 import { TabContentType } from "types/enum";
 
 import GoButton from "./GoButton";
 
+import { isSnippetsVariant } from "services/app/env";
 import { openTab } from "services/ide/tabService";
+import { firstSnippetPublish } from "services/snippets/publish";
 
 import ideStateStore from "stores/ideStateStore";
 import { TabStore, leftTabStore, rightTabStore } from "stores/tabStore";
 
 import "./MainNavigation.scss";
-import { TiHome, TiCog, TiExport } from "react-icons/ti";
 
 const MainNavigation: React.FC = () => {
     const [ mobileMenuOpen, setMobileMenuOpen ] = useState( false );
@@ -28,6 +30,11 @@ const MainNavigation: React.FC = () => {
         setMobileMenuOpen( false );
     };
     const openReleasePane = (): void => {
+        // In snippets mode clicking the release link automatically publishes the snippet
+        if( isSnippetsVariant ) {
+            firstSnippetPublish();
+        }
+
         openTab( TabContentType.release, { closable: true });
         setMobileMenuOpen( false );
     };

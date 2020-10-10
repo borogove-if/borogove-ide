@@ -6,6 +6,7 @@ import { openTab } from "services/ide/tabService";
 
 import materialsStore from "./materialsStore";
 import projectStore from "./projectStore";
+import snippetStore from "./snippetStore";
 
 import { TabContentType } from "types/enum";
 
@@ -124,6 +125,7 @@ class EditorStateStore {
 
         materialsStore.updateFile( this.file, code );
         projectStore.persistState();
+        snippetStore.setDirty( true );
     };
 }
 

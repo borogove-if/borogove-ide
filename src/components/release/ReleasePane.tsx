@@ -6,7 +6,7 @@ import ReleaseCard from "./ReleaseCard";
 import SnippetReleaseInfo from "./SnippetReleaseInfo";
 
 import projectStore from "stores/projectStore";
-import { isSnippetsVariant } from "services/app/env";
+import { isIdeVariant, isSnippetsVariant } from "services/app/env";
 
 import "./ReleasePane.scss";
 
@@ -20,9 +20,9 @@ interface ReleasePaneElementProps {
 }
 
 export const ReleasePaneElement: React.FC<ReleasePaneElementProps> = ({ cards }) => <Container>
-    <Title>
-        {isSnippetsVariant ? "Publish a snippet" : "Release project"}
-    </Title>
+    {isIdeVariant && <Title>
+        Release project
+    </Title>}
 
     {isSnippetsVariant && <SnippetReleaseInfo />}
 

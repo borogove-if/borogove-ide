@@ -1,35 +1,86 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
-import { Button, Title } from "bloomer";
-import Axios from "axios";
-import projectStore from "stores/projectStore";
-import materialsStore from "stores/materialsStore";
+import { Button, Column, Columns, Input, Title } from "bloomer";
+import { TiClipboard, TiTick } from "react-icons/ti";
+import copy from "copy-to-clipboard";
+
+import FullScreenLoader from "components/loader/FullScreenLoader";
+
+import snippetStore, { SnippetLoadState } from "stores/snippetStore";
+import { publishSnippet } from "services/snippets/publish";
 
 interface SnippetReleaseInfoElementProps {
+    isDirty?: boolean;
+    isLoading?: boolean;
     onPublish: () => void;
+    snippetId: string | null;
 }
 
-export const SnippetReleaseInfoElement: React.FC<SnippetReleaseInfoElementProps> = ({ onPublish }) => <section>
-    <p>
-        Create a shareable link to the snippet by pressing the button below.
-    </p>
+export const SnippetReleaseInfoElement: React.FC<SnippetReleaseInfoElementProps> = ({ isDirty = false, isLoading = false, onPublish, snippetId }) => {
+    const [ copied, setCopied ] = useState( false );
 
-    <div className="has-text-centered mt-4">
-        <Button isColor="info" isSize="large" onClick={onPublish}>
-            Publish
-        </Button>
-    </div>
+    useEffect( () => {
+        // reset the copied check mark if the snippet URL changes
+        setCopied( false );
+    }, [ snippetId ] );
 
-    <hr />
+    if( isLoading ) {
+        return <div className="my-6">
+            <FullScreenLoader />
+        </div>;
+    }
 
-    <Title size={4}>
-        Download
-    </Title>
+    const url = `${process.env.REACT_APP_SNIPPETS_PLAY_URL}/${snippetId}`;
 
-    <p>
-        Download the snippet instead with these options:
-    </p>
-</section>;
+    const copyToClipboard = (): void => {
+        copy( url, { debug: true });
+        setCopied( true );
+    };
+
+    return <section>
+        <Title>
+            Share a snippet
+        </Title>
+
+        <p>
+            The link to this snippet is:
+        </p>
+
+        <Input value={url}
+               isSize="large"
+               className="mb-2"
+               readOnly />
+        <Columns>
+            <Column>
+                <Button onClick={copyToClipboard}>
+                    <TiClipboard />{" "}Copy to clipboard
+                    {copied && <TiTick color="green" title="Copied!" />}
+                </Button>
+            </Column>
+        </Columns>
+
+        {isDirty && <Columns>
+            <Column>
+                Source code has changed. You can get a new link by publishing the snippet again.
+            </Column>
+            <Column>
+                <Button isColor="info" onClick={onPublish}>
+                    Re-publish
+                </Button>
+            </Column>
+        </Columns>}
+
+        <hr />
+
+        <Title size={4}>
+            Download
+        </Title>
+
+        <p>
+            Download the snippet instead with these options:
+        </p>
+    </section>;
+};
 // --> "normal" release options come right after this
 
 
@@ -37,21 +88,10 @@ export const SnippetReleaseInfoElement: React.FC<SnippetReleaseInfoElementProps>
  * Publishing snippets
  */
 const SnippetReleaseInfo: React.FC = observer( () => {
-    const publish = (): void => {
-        if( projectStore.entryFile ) {
-            Axios({
-                url: process.env.REACT_APP_SNIPPETS_POST_API_URL + "/snippet",
-                method: "POST",
-                data: {
-                    code: materialsStore.getContents( projectStore.entryFile ),
-                    revision: 1,
-                    template: projectStore.manager.template
-                }
-            });
-        }
-    };
-
-    return <SnippetReleaseInfoElement onPublish={publish} />;
+    return <SnippetReleaseInfoElement isDirty={snippetStore.isDirty}
+                                      isLoading={snippetStore.state === SnippetLoadState.saving}
+                                      snippetId={snippetStore.id}
+                                      onPublish={publishSnippet} />;
 });
 
 export default SnippetReleaseInfo;

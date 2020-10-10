@@ -44,6 +44,7 @@ class ProjectStore {
     // UUID (IFID) for the current project
     public uuid = uuid();
 
+    // The function that saves the code to persistent storage
     private persistenceFunction: ( () => void ) | null = null;
 
 
