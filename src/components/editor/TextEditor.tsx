@@ -5,7 +5,9 @@ import { editor } from "monaco-editor";
 import { registerAll } from "monarch";
 
 import editorStateStore from "stores/editorStateStore";
+import projectStore from "stores/projectStore";
 import settingsStore from "stores/settingsStore";
+import { isSnippetsVariant } from "services/app/env";
 
 import "./TextEditor.scss";
 
@@ -83,7 +85,8 @@ const TextEditor: React.FC = observer( () => {
         minimap: { enabled: settingsStore.getSetting( "editor", "minimap" ) },
         quickSuggestions: settingsStore.getSetting( "editor", "quickSuggestions" ),
         wordWrap: settingsStore.getSetting( "editor", "wordWrap" ) ? "on" : "off",
-        wrappingIndent: settingsStore.getSetting( "editor", "wrappingIndent" ) ? "indent" : "none"
+        wrappingIndent: settingsStore.getSetting( "editor", "wrappingIndent" ) ? "indent" : "none",
+        readOnly: isSnippetsVariant && projectStore.entryFile?.id !== editorStateStore.file?.id
     };
 
     return <TextEditorElement language={language}
