@@ -7,6 +7,7 @@ Laboratory is a room.
 `;
 
 class EmptyI7ProjectTemplate extends ProjectTemplate {
+    id = "inform7";
     name = "Empty project";
 
     files = [

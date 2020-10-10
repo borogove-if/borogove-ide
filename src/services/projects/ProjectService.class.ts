@@ -33,6 +33,9 @@ export default abstract class ProjectService {
     // The name of the project. This is shown as the title in the New Project page.
     public abstract name: string;
 
+    // The template id that was used to initialize the project
+    public template: string;
+
     // The type of the compilation report. This is "simple" for everything else
     // other than Inform 7 which uses reporting that tells the status of each
     // stage of the compilation.
@@ -118,6 +121,7 @@ export default abstract class ProjectService {
         }
 
         if( template ) {
+            this.template = template.id;
             return await this.initTemplate( template );
         }
         else {

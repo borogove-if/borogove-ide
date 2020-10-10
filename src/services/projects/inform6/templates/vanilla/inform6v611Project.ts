@@ -8,6 +8,7 @@ import code from "./i6code.txt";
  * non-English language libraries still use 6.11.
  */
 class Inform6v611Project extends ProjectTemplate {
+    id = "inform6v611";
     name = "Library version 6.11";
     files = [
         {

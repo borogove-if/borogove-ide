@@ -66,7 +66,9 @@ Test me with "x serinette / wind serinette / open serinette".
 `.split( "    " ).join( "\t" );
 
 class SmallI7VorpleProjectTemplate extends ProjectTemplate {
+    id = "vorpleSerinetteI7";
     name = "Serinette (small example)";
+    isSnippetTemplate = false;
 
     files = [
         {

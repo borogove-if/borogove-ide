@@ -16,6 +16,7 @@ const code = `(intro)
 `;
 
 class DialogStandardLibraryProjectTemplate extends ProjectTemplate {
+    id = "dialog";
     name = "Standard Dialog library";
 
     files = [

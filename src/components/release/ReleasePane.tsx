@@ -3,9 +3,12 @@ import { observer } from "mobx-react";
 import { Container, Title, Columns, Column } from "bloomer";
 
 import ReleaseCard from "./ReleaseCard";
+import SnippetReleaseInfo from "./SnippetReleaseInfo";
+
+import projectStore from "stores/projectStore";
+import { isSnippetsVariant } from "services/app/env";
 
 import "./ReleasePane.scss";
-import projectStore from "stores/projectStore";
 
 interface ReleasePaneElementProps {
     cards: {
@@ -18,8 +21,10 @@ interface ReleasePaneElementProps {
 
 export const ReleasePaneElement: React.FC<ReleasePaneElementProps> = ({ cards }) => <Container>
     <Title>
-        Release project
+        {isSnippetsVariant ? "Publish a snippet" : "Release project"}
     </Title>
+
+    {isSnippetsVariant && <SnippetReleaseInfo />}
 
     <Columns id="release-options-list">
         {cards.map( card => <Column key={card.id}>

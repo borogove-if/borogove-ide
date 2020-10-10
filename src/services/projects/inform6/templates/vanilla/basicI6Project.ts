@@ -4,6 +4,7 @@ import { MaterialsFileType } from "types/enum";
 import code from "./i6code.txt";
 
 class BasicI6ProjectTemplate extends ProjectTemplate {
+    id = "inform6";
     name = `Library version ${process.env.REACT_APP_INFORM6_LIBRARY_VERSION} (recommended)`;
     files = [
         {

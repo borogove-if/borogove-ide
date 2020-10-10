@@ -7,6 +7,7 @@ const code = `[ Main;
 `;
 
 class EmptyI6ProjectTemplate extends ProjectTemplate {
+    id = "emptyI6";
     name = "No library";
     files = [
         {

@@ -8,6 +8,7 @@ const code = `routine main
 `;
 
 class EmptyHugoProjectTemplate extends ProjectTemplate {
+    id = "emptyHugo";
     name = "No library";
     files = [
         {

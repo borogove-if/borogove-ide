@@ -6,6 +6,7 @@ const code = `(program entry point)
 `;
 
 class EmptyDialogProjectTemplate extends ProjectTemplate {
+    id = "emptyDialog";
     name = "No library";
     files = [
         {

@@ -232,6 +232,7 @@ room STARTLOCATION "Start Location"
 };
 
 class RoodyLibHugoProjectTemplate extends ProjectTemplate {
+    id = "roodylib";
     name = "Roodylib shell";
 
     files = [

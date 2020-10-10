@@ -7,10 +7,12 @@ import ProjectTemplate from "services/projects/ProjectTemplate.class";
 
 const templates: ProjectTemplate[] = [
     {
+        id: "template1",
         files: [],
         name: "Template One"
     },
     {
+        id: "template2",
         files: [],
         name: "Template Two"
     }

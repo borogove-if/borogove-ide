@@ -62,6 +62,7 @@ room lab "Laboratory"
 `;
 
 class HugoStandardLibraryProjectTemplate extends ProjectTemplate {
+    id = "hugo";
     name = "Standard Hugo library";
 
     files = [

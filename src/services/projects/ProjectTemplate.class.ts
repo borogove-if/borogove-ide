@@ -1,6 +1,9 @@
 import { IPosition } from "monaco-editor";
 
 export default abstract class ProjectTemplate {
+    // Unique id for the template
+    abstract id: string;
+
     // Files defined in the template
     abstract files: ( MaterialsFile & { contents?: string })[];
 
@@ -17,4 +20,10 @@ export default abstract class ProjectTemplate {
 
     // The name of the manifest file that lists the assets
     manifestFile? = "manifest.json";
+
+    // If true, the project isn't offered as an option for new projects or snippets
+    deprecated? = false;
+
+    // If false, can't be used as a template for snippets
+    isSnippetTemplate? = true;
 }

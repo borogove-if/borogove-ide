@@ -14,6 +14,7 @@ When play begins:
 `.split( "    " ).join( "\t" );
 
 class MinimalI7VorpleProjectTemplate extends ProjectTemplate {
+    id = "vorpleI7";
     name = "Minimal Vorple project";
 
     files = [

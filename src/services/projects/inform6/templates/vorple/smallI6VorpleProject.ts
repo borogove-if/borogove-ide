@@ -55,7 +55,9 @@ Verb 'wind'
 `;
 
 class SmallI6VorpleProject extends ProjectTemplate {
-    name = "Serinette (small example)";
+	id = "serinetteVorpleI6";
+	name = "Serinette (small example)";
+	isSnippetTemplate = false;
 
     files = [
         {

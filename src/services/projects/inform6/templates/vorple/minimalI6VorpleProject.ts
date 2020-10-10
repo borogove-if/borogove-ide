@@ -29,6 +29,7 @@ has light;
 `;
 
 class MinimalI6VorpleProject extends ProjectTemplate {
+    id = "vorpleI6";
     name = "Minimal Vorple project";
 
     files = [
