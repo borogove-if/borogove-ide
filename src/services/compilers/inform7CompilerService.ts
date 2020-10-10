@@ -37,7 +37,7 @@ function compile( jobId: string, variant: CompilationVariant ): AxiosPromise | n
                     }
                 }
 
-                compilationResultStore.compilerOutput = responseText;
+                compilationResultStore.setCompilerOutput( responseText );
             }
         });
     }
