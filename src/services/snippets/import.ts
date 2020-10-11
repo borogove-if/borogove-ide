@@ -74,8 +74,24 @@ export const prepareSnippetProject = async( id: string, snippetData: any ): Prom
     snippetStore.setId( id );
     snippetStore.setDirty( false );
 
-    // TODO: should be based on the snippet data!
-    await projectServiceList[ 0 ].initProject( projectServiceList[ 0 ].templates[ 0 ] );
+    // Find which template this snippet uses
+    let projectIndex: number | null = null;
+    let templateIndex: number | null = null;
+
+    projectServiceList.forEach( ( projectService, li ) => projectService.templates.forEach( ( template, ti ) => {
+        if( template.id === snippetData.template ) {
+            projectIndex = li;
+            templateIndex = ti;
+        }
+    }) );
+
+    if( projectIndex === null || templateIndex === null ) {
+        // TODO error message
+        console.error( "Unknown template " + snippetData.template );
+        return;
+    }
+
+    await projectServiceList[ projectIndex ].initProject( projectServiceList[ projectIndex ].templates[ templateIndex ] );
 
     editorStateStore.setContents( code, true );
     projectStore.compile( "debug" );
