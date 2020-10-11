@@ -5,7 +5,8 @@
 .pnp.js
 
 # production
-/build
+/build-ide
+/build-snippets
 
 # environment variables
 .env*

@@ -116,7 +116,7 @@
     "build:snippets": "REACT_APP_VARIANT=snippets node scripts/build.js",
     "test": "node scripts/test.js",
     "deploy:dev": "yarn build && firebase use dev && firebase deploy",
-    "deploy:prod": "yarn build && firebase use production && firebase deploy",
+    "deploy:prod": "yarn build && yarn build:snippets && firebase use production && firebase deploy",
     "lint": "eslint -c .eslintrc.js src/**/*.{ts,tsx}",
     "storybook": "start-storybook -p 6006 -c .storybook",
     "build-storybook": "build-storybook"
