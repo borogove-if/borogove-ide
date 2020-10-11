@@ -6,8 +6,7 @@ import materialsStore from "stores/materialsStore";
 import projectStore from "stores/projectStore";
 
 import { readFile } from "services/filesystem/localFilesystemService";
-
-const REMOTE_URL = process.env.REACT_APP_REMOTE_ASSETS_URL;
+import { getInterpreterDomain } from "services/interpreters/interpreterService";
 
 /**
  * Loads and runs an interpreter with the latest compiled story file.
@@ -15,6 +14,7 @@ const REMOTE_URL = process.env.REACT_APP_REMOTE_ASSETS_URL;
  */
 const Interpreter: React.FC = () => {
     const { storyfileLocalPath, storyfileRemoteUrl } = compilationResultStore;
+    const interpreterDomain = getInterpreterDomain();
 
     // send story files and materials to the interpreter
     const sendFiles = function( e: SyntheticEvent<HTMLIFrameElement> ): void {
@@ -25,7 +25,7 @@ const Interpreter: React.FC = () => {
         ( contentWindow as any ).postMessage({  // eslint-disable-line
             action: "start",
             storydata
-        }, REMOTE_URL );
+        }, interpreterDomain );
 
         // send the materials
         materialsStore.files
@@ -42,7 +42,7 @@ const Interpreter: React.FC = () => {
                     action: "fileupload",
                     path,
                     content
-                }, REMOTE_URL );
+                }, interpreterDomain );
             });
     };
 

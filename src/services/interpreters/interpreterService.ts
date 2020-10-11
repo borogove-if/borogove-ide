@@ -1,10 +1,22 @@
+import ideStateStore from "stores/ideStateStore";
+import snippetStore from "stores/snippetStore";
+
 export type InterpreterIdentifier = "aamachine" | "hugojs" | "parchment" | "quixe" | "vorple";
+
+
+/**
+ * Returns the domain where interpreters can be found. An id is added as a security measure.
+ */
+export function getInterpreterDomain(): string {
+    return ( process.env.REACT_APP_INTERPRETER_SERVICE_URL || "" ).replaceAll( "{id}", snippetStore.id || ideStateStore.sessionId );
+}
+
 
 /**
  * Builds an URL to the interpreter with optionally the story file address included.
  */
 export function getInterpreterUrl( interpreter: InterpreterIdentifier, storyfileUrl?: string | null ): string {
-    const interpreterServiceUrl = process.env.REACT_APP_REMOTE_ASSETS_URL + "/interpreters";
+    const interpreterServiceUrl = getInterpreterDomain();
 
     switch( interpreter ) {
         case "aamachine":

@@ -7,30 +7,30 @@ import copy from "copy-to-clipboard";
 import FullScreenLoader from "components/loader/FullScreenLoader";
 
 import snippetStore, { SnippetLoadState } from "stores/snippetStore";
+import projectStore from "stores/projectStore";
+
 import { publishSnippet } from "services/snippets/publish";
 
 interface SnippetReleaseInfoElementProps {
     isDirty?: boolean;
     isLoading?: boolean;
     onPublish: () => void;
-    snippetId: string | null;
+    url: string;
 }
 
-export const SnippetReleaseInfoElement: React.FC<SnippetReleaseInfoElementProps> = ({ isDirty = false, isLoading = false, onPublish, snippetId }) => {
+export const SnippetReleaseInfoElement: React.FC<SnippetReleaseInfoElementProps> = ({ isDirty = false, isLoading = false, onPublish, url }) => {
     const [ copied, setCopied ] = useState( false );
 
     useEffect( () => {
         // reset the copied check mark if the snippet URL changes
         setCopied( false );
-    }, [ snippetId ] );
+    }, [ url ] );
 
     if( isLoading ) {
         return <div className="my-6">
             <FullScreenLoader />
         </div>;
     }
-
-    const url = `${process.env.REACT_APP_SNIPPETS_PLAY_URL}/${snippetId}`;
 
     const copyToClipboard = (): void => {
         copy( url, { debug: true });
@@ -88,10 +88,12 @@ export const SnippetReleaseInfoElement: React.FC<SnippetReleaseInfoElementProps>
  * Publishing snippets
  */
 const SnippetReleaseInfo: React.FC = observer( () => {
+    const url = `${process.env.REACT_APP_SNIPPETS_PLAY_URL}/${projectStore.manager.language}/${snippetStore.id}`;
+
     return <SnippetReleaseInfoElement isDirty={snippetStore.isDirty}
                                       isLoading={snippetStore.state === SnippetLoadState.saving}
-                                      snippetId={snippetStore.id}
-                                      onPublish={publishSnippet} />;
+                                      onPublish={publishSnippet}
+                                      url={url} />;
 });
 
 export default SnippetReleaseInfo;

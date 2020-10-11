@@ -25,7 +25,7 @@ function findStoryfile(): string | null {
 
 export function compileDialog( variant: CompilationVariant ): Promise<boolean> {
     compilationResultStore.reset();
-    compilationResultStore.isCompiling = true;
+    compilationResultStore.setCompilationStatus( true );
     compilationResultStore.setStage( CompilationStage.firstPass );
     let didQuit = false;    // make sure quit() is called only once
 

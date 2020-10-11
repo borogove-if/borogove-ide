@@ -71,6 +71,7 @@ class CompilationResultStore {
             success: observable,
             addToCompilerOutput: action,
             reset: action,
+            setCompilationStatus: action,
             setCompilerOutput: action,
             setLocalResults: action,
             setPercentage: action,
@@ -117,6 +118,14 @@ class CompilationResultStore {
         this.storyfileRemoteUrl = null;
         this.storyfileLocalPath = null;
         this.success = true;
+    };
+
+
+    /**
+     * Toggles the compilation status
+     */
+    setCompilationStatus = ( status: boolean ): void => {
+        this.isCompiling = status;
     };
 
 

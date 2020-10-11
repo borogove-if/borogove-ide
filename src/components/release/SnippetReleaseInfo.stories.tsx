@@ -5,7 +5,12 @@ import { action } from "@storybook/addon-actions";
 
 import { SnippetReleaseInfoElement } from "./SnippetReleaseInfo";
 
+const props = {
+    onPublish: action( "Publish" ),
+    url: "http://example.com/snptt"
+};
+
 storiesOf( "ReleaseSnippet", module )
-    .add( "Loading", () => <SnippetReleaseInfoElement snippetId="snppt" onPublish={action( "Publish" )} isLoading /> )
-    .add( "Snippet published", () => <SnippetReleaseInfoElement snippetId="snppt" onPublish={action( "Publish" )} /> )
-    .add( "Dirty", () => <SnippetReleaseInfoElement snippetId="snppt" onPublish={action( "Publish" )} isDirty /> );
+    .add( "Loading", () => <SnippetReleaseInfoElement {...props} isLoading /> )
+    .add( "Snippet published", () => <SnippetReleaseInfoElement {...props} /> )
+    .add( "Dirty", () => <SnippetReleaseInfoElement {...props} isDirty /> );

@@ -52,7 +52,7 @@ function compile( jobId: string, variant: CompilationVariant ): AxiosPromise | n
  */
 export async function compileI7( variant: CompilationVariant ): Promise<boolean> {
     compilationResultStore.reset();
-    compilationResultStore.isCompiling = true;
+    compilationResultStore.setCompilationStatus( true );
     compilationResultStore.setStage( CompilationStage.uploading );
 
     // UUID/IFID is stored in uuid.txt, read it and check that it's a valid UUID
