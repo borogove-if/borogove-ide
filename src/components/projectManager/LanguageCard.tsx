@@ -95,11 +95,6 @@ interface LanguageCardProps {
  * Shows one language in the new project page.
  */
 const LanguageCard: React.FC<LanguageCardProps> = observer( ({ projectService }) => {
-    if( !materialsStore.fsReady ) {
-        // wait until fileystem has mounted
-        return null;
-    }
-
     const [ projectExists, setProjectExists ] = useState( false );
 
     // check for existing projects
@@ -120,7 +115,26 @@ const LanguageCard: React.FC<LanguageCardProps> = observer( ({ projectService })
         catch( e ) {
             // do nothing – file and therefore project doesn't exist
         }
-    }, [] );
+    }, [ materialsStore.fsReady ] );
+
+    // wait until fileystem has mounted
+    if( !materialsStore.fsReady ) {
+        return null;
+    }
+
+    const templates = projectService.templates.filter( template => {
+        // filter out deprecated templates
+        if( template.deprecated ) {
+            return false;
+        }
+
+        // for snippets, filter out templates that can't be used for snippets
+        if( isSnippetsVariant && !template.isSnippetTemplate ) {
+            return false;
+        }
+
+        return true;
+    });
 
     const continueProject = ( e: React.MouseEvent ): void => {
         e.preventDefault();
@@ -129,7 +143,7 @@ const LanguageCard: React.FC<LanguageCardProps> = observer( ({ projectService })
 
     const startProject = ( e: React.MouseEvent, template?: ProjectTemplate ): void => {
         e.preventDefault();
-        projectService.initProject( template || projectService.templates[0] );
+        projectService.initProject( template || templates[0] );
     };
 
     return <LanguageCardElement name={projectService.name}
@@ -137,7 +151,7 @@ const LanguageCard: React.FC<LanguageCardProps> = observer( ({ projectService })
                                 onClickCreate={startProject}
                                 projectExists={projectExists}
                                 subtitle={projectService.subtitle}
-                                templates={projectService.templates}
+                                templates={templates}
                                 variant={appVariant} />;
 });
 

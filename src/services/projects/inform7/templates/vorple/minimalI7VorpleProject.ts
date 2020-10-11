@@ -1,7 +1,7 @@
 import ProjectTemplate from "services/projects/ProjectTemplate.class";
 import { MaterialsFileType } from "types/enum";
 
-const code = `"Minimal Vorple Example"
+const code = `"A Vorple Story"
 
 Include Vorple Multimedia by Juhana Leinonen.
 Include Vorple Notifications by Juhana Leinonen.
@@ -15,7 +15,7 @@ When play begins:
 
 class MinimalI7VorpleProjectTemplate extends ProjectTemplate {
     id = "vorpleI7";
-    name = "Minimal Vorple project";
+    name = "Default Vorple project";
 
     files = [
         {

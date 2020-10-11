@@ -30,7 +30,7 @@ has light;
 
 class MinimalI6VorpleProject extends ProjectTemplate {
     id = "vorpleI6";
-    name = "Minimal Vorple project";
+    name = "Default Vorple project";
 
     files = [
         {
