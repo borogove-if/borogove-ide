@@ -31,11 +31,15 @@ const App: React.FC = observer( () => {
 
             if( snippetId ) {
                 getSnippet( snippetId ).then( snippetData => {
-                    console.log( snippetData );
-
-                    initSnippetProject( snippetId, snippetData ).then( () => {
+                    if( snippetData ) {
+                        initSnippetProject( snippetId, snippetData ).then( () => {
+                            setIsLoadingSnippet( false );
+                        });
+                    }
+                    else {
+                        // TODO: error handling
                         setIsLoadingSnippet( false );
-                    });
+                    }
                 });
             }
             else {

@@ -8,6 +8,8 @@ import snippetStore from "stores/snippetStore";
 import editorStateStore from "stores/editorStateStore";
 import projectStore from "stores/projectStore";
 
+import { FirebaseSnippetData } from "types/snippets";
+
 const SNIPPET_ID_MIN_LENGTH = 5;
 
 
@@ -34,7 +36,7 @@ export const initFirebase = (): void => {
 /**
  * Retrieves snippet data from Firebase by the snippet id
  */
-export const getSnippet = async( snippetId: string ): Promise<any | null> => {
+export const getSnippet = async( snippetId: string ): Promise<FirebaseSnippetData | null> => {
     try {
         const db = firebase.database();
         const snapshot = await db.ref( "/snippets/" + snippetId ).once( "value" );
@@ -67,7 +69,7 @@ export const parseUrlForSnippetId = (): string | null => {
 /**
  * Starts a project with the snippet data
  */
-export const prepareSnippetProject = async( id: string, snippetData: any ): Promise<void> => {
+export const prepareSnippetProject = async( id: string, snippetData: FirebaseSnippetData ): Promise<void> => {
     const { code } = snippetData;
 
     // Store the data in the snippet store

@@ -61,7 +61,8 @@ export const SnippetReleaseInfoElement: React.FC<SnippetReleaseInfoElementProps>
 
         {isDirty && <Columns>
             <Column>
-                Source code has changed. You can get a new link by publishing the snippet again.
+                Source code has changed. You can get a link to the new code
+                by publishing the snippet again.
             </Column>
             <Column>
                 <Button isColor="info" onClick={onPublish}>
