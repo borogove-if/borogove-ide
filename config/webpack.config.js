@@ -95,7 +95,7 @@ module.exports = function(webpackEnv) {
           // https://github.com/facebook/create-react-app/issues/2677
           postcssOptions: {
             ident: 'postcss',
-            plugins: () => [
+            plugins: [
               require('postcss-flexbugs-fixes'),
               require('postcss-preset-env')({
                 autoprefixer: {
@@ -108,8 +108,7 @@ module.exports = function(webpackEnv) {
               // which in turn let's users customize the target behavior as per their needs.
               postcssNormalize(),
             ],
-          },
-          sourceMap: isEnvProduction && shouldUseSourceMap,
+          }
         },
       },
     ].filter(Boolean);
