@@ -4,6 +4,7 @@ import materialsStore from "stores/materialsStore";
 import projectStore from "stores/projectStore";
 import snippetStore, { SnippetLoadState } from "stores/snippetStore";
 
+const GENERIC_ERROR_MESSAGE = "Cannot connect to snippet service";
 
 /**
  * Publish a snippet
@@ -32,11 +33,16 @@ export const publishSnippet = async(): Promise<void> => {
         });
     }
     catch( e ) {
-        snippetStore.setState( SnippetLoadState.error, e.request?.data?.error );
+        try {
+            snippetStore.setState( SnippetLoadState.error, JSON.parse( e.request.response ).error || GENERIC_ERROR_MESSAGE );
+        }
+        catch( e ) {
+            snippetStore.setState( SnippetLoadState.error, GENERIC_ERROR_MESSAGE );
+        }
         return;
     }
 
-    if( !request?.data?.success ) {
+    if( !request.data?.success ) {
         snippetStore.setState( SnippetLoadState.error, request.data?.error );
         return;
     }

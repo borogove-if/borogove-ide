@@ -13,4 +13,5 @@ const props = {
 storiesOf( "ReleaseSnippet", module )
     .add( "Loading", () => <SnippetReleaseInfoElement {...props} isLoading /> )
     .add( "Snippet published", () => <SnippetReleaseInfoElement {...props} /> )
+    .add( "Save error", () => <SnippetReleaseInfoElement {...props} errorMessage="Unspecified error" /> )
     .add( "Dirty", () => <SnippetReleaseInfoElement {...props} isDirty /> );
