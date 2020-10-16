@@ -53,7 +53,7 @@ export const SnippetReleaseInfoElement: React.FC<SnippetReleaseInfoElementProps>
                         Error saving snippet: <strong>{errorMessage}</strong>
                     </p>
                 </Column>
-                <Column isSize="narrow" >
+                <Column isSize="narrow">
                     <Button isColor="info" onClick={onPublish}>
                         Try again
                     </Button>
@@ -95,7 +95,7 @@ export const SnippetReleaseInfoElement: React.FC<SnippetReleaseInfoElementProps>
                 Source code has changed. You can get a link to the new code
                 by publishing the snippet again.
             </Column>
-            <Column>
+            <Column isSize="narrow">
                 <Button isColor="info" onClick={onPublish}>
                     Re-publish
                 </Button>

@@ -12,7 +12,7 @@ class SnippetStore {
     id: string | null = null;
 
     // "Dirty" means the code has been edited after publishing
-    isDirty = true;
+    isDirty = false;
 
     // Error message from the API
     saveError: string | null = null;

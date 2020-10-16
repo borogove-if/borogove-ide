@@ -125,7 +125,9 @@ class EditorStateStore {
 
         materialsStore.updateFile( this.file, code );
         projectStore.persistState();
-        snippetStore.setDirty( true );
+
+        // only set the dirty flag if the input was from the user
+        snippetStore.setDirty( !updateEditor );
     };
 }
 
