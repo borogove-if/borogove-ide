@@ -74,7 +74,7 @@ export const SnippetReleaseInfoElement: React.FC<SnippetReleaseInfoElementProps>
         </Title>
 
         <p>
-            The link to this snippet is:
+            The link to {isDirty ? "the original" : "this"} snippet is:
         </p>
 
         <Input value={url}

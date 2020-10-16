@@ -52,7 +52,7 @@ const MainNavigation: React.FC = () => {
             <NavbarStart>
                 <NavbarItem href="/">
                     <TiHome />
-                    Project Manager
+                    {isSnippetsVariant ? "New Snippet" : "Project Manager"}
                 </NavbarItem>
                 <NavbarItem href="#" onClick={openSettings}>
                     <TiCog />
