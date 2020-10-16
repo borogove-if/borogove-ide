@@ -145,7 +145,7 @@ export function openTab( type: TabContentType, options: TabOptions = {}): void {
             rightTabStore.addTab({
                 closable,
                 component: <ReleasePane />,
-                label: "Release",
+                label: "Share",
                 type
             });
             break;

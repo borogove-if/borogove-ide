@@ -60,7 +60,7 @@ const MainNavigation: React.FC = () => {
                 </NavbarItem>
                 <NavbarItem href="#" onClick={openReleasePane}>
                     <TiExport />
-                    Release
+                    Share
                 </NavbarItem>
                 {!ideStateStore.wideScreenExists && <>
                     {leftTabStore.tabsList.map( tab => paneTabItem( leftTabStore, tab ) )}
