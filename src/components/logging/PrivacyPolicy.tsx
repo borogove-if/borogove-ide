@@ -8,6 +8,8 @@ import settingsStore from "stores/settingsStore";
 import ModalTemplate, { okButton } from "components/layout/modals/ModalTemplate";
 import OptOutOption from "components/settings/options/DataCollectionOptions";
 
+const LAST_UPDATED = "16th October 2020";
+
 interface PrivacyPolicyElementProps {
     onClose: () => void;
 }
@@ -33,6 +35,10 @@ export const PrivacyPolicyElement: React.FC<PrivacyPolicyElementProps> = ({ onCl
                 used and automatically deleted after a reasonable period of time.
             </li>
             <li>
+                When saving snippets, <a href="https://firebase.google.com" target="_blank" rel="noopener noreferrer"><strong>Google Firebase</strong></a> is
+                used to store snippet data and collect statistics.
+            </li>
+            <li>
                 <a href="https://support.google.com/analytics" target="_blank" rel="noopener noreferrer"><strong>Google Analytics</strong></a> is
                 used to collect anonymous usage statistics, which consists
                 mainly of counting page views and how often different project
@@ -49,6 +55,7 @@ export const PrivacyPolicyElement: React.FC<PrivacyPolicyElementProps> = ({ onCl
             scroll to the bottom of the page.
         </p>
 
+
         <Title isSize={3}>
             Data collection
         </Title>
@@ -61,17 +68,30 @@ export const PrivacyPolicyElement: React.FC<PrivacyPolicyElementProps> = ({ onCl
         </p>
 
         <p>
-            The only exceptions are Inform 7 projects which can't be compiled
-            purely inside the browser but must be passed to our server for
-            compilation. See the next chapter for more information.
+            The exceptions are:
+        </p>
+
+        <ul>
+            <li>
+                Inform 7 projects which can't be compiled purely inside the
+                browser but must be passed to our server for compilation
+            </li>
+            <li>
+                Snippets, which are saved to Google Firebase
+            </li>
+        </ul>
+
+        <p>
+            See the next chapter for more information on these.
         </p>
 
         <p>
-            (If and when we add publishing features and an option to save
+            (If and when we add full publishing features and an option to save
             projects in the cloud, the above information will change and this
             document will be updated to reflect that. Even then projects are
             saved to our servers only if you create an account and log in.)
         </p>
+
 
         <Title isSize={4}>
             Inform 7 compiler service
@@ -123,6 +143,24 @@ export const PrivacyPolicyElement: React.FC<PrivacyPolicyElementProps> = ({ onCl
 
         <p>
             It is not possible to opt-out of storing the above statistics.
+        </p>
+
+
+        <Title isSize={4}>
+            Snippets
+        </Title>
+
+        <p>
+            Snippets are stored on Google Firebase and the data contains the
+            saved code, metadata (programming language, library versions,
+            template) and the time when the snippet was saved. No personal
+            information is saved.
+        </p>
+
+        <p>
+            Google Firebase collects statistical information which uses
+            Google Analytics under the hood (see the next chapter.)
+            Google Analytics data cannot be associated with individual snippets.
         </p>
 
 
@@ -190,6 +228,7 @@ export const PrivacyPolicyElement: React.FC<PrivacyPolicyElementProps> = ({ onCl
             </li>
         </ul>
 
+
         <Title isSize={4}>
             Third parties
         </Title>
@@ -205,7 +244,7 @@ export const PrivacyPolicyElement: React.FC<PrivacyPolicyElementProps> = ({ onCl
             </li>
             <li>
                 as a part of larger statistical information, e.g. when sharing
-                or publishing the amount of users
+                or publishing the total amount of users
             </li>
             <li>
                 with courts and law enforcement agencies when required to do so
@@ -220,6 +259,12 @@ export const PrivacyPolicyElement: React.FC<PrivacyPolicyElementProps> = ({ onCl
 
         <p>
             Data is stored outside the EU.
+        </p>
+
+        <hr />
+
+        <p>
+            This document was last updated on {LAST_UPDATED}.
         </p>
 
         <OptOutOption />

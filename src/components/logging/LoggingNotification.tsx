@@ -2,9 +2,10 @@ import React from "react";
 import { observer } from "mobx-react";
 import { Message, MessageHeader, MessageBody, Button, Delete } from "bloomer";
 
-import "./LoggingNotification.scss";
 import settingsStore from "stores/settingsStore";
 import ideStateStore from "stores/ideStateStore";
+
+import "./LoggingNotification.scss";
 
 export const LoggingNotificationElement: React.FC<LoggingNotificationProps> = ({ onDismiss, openPrivacyPolicy }) => <Message id="logging-notification" isColor="info">
     <MessageHeader>
@@ -16,7 +17,7 @@ export const LoggingNotificationElement: React.FC<LoggingNotificationProps> = ({
             We collect anonymous usage statistics and error logs.
             Read more and adjust your settings on
             the <a href="#" onClick={( e ): void => { e.preventDefault(); openPrivacyPolicy(); }}>privacy policy page</a>.
-            You can access the page later from the help menu in the editor.
+            You can access the page later from the settings menu in the editor.
         </p>
 
         <div id="notification-footer">
