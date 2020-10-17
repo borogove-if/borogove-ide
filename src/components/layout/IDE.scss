@@ -25,13 +25,40 @@ div.pane {
     height: 100%;
     width: 100%;
 
-    .tab-content {
-        flex: 1;
-        overflow: auto;
-        padding: 0;
+    .tab-content-container {
+        height: 100%;
+        position: relative;
 
-        &.inactive {
-            display: none;
+        .tab-content {
+            overflow: auto;
+            padding: 0;
+
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            top: 0;
+
+            &.inactive {
+                // must use visibility: hidden here because display: none causes
+                // various minor issues with iframes and interpreters
+                visibility: hidden;
+                z-index: 1;
+            }
+
+            &.active {
+                visibility: visible;
+                z-index: 2;
+            }
+        }
+
+        // Get rid of the transition animation
+        * {
+            transition: visibility 0ms;
+        }
+
+        .button {
+            transition: all 200ms ease, visibility 0ms;
         }
     }
 

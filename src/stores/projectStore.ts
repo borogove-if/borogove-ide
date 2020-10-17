@@ -188,7 +188,7 @@ class ProjectStore {
         }
 
         if( isSnippetsVariant ) {
-            openTab( TabContentType.snippetsInfo );
+            openTab( TabContentType.snippetsInfo, { closable: true });
         }
 
         this.setState( ProjectStoreState.ready );

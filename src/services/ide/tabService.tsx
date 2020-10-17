@@ -24,6 +24,18 @@ interface TabOptions {
     props?: Record<string, unknown>;
 }
 
+// The order in which tabs are placed
+const tabOrder = [
+    TabContentType.editor,
+    TabContentType.fileViewer,
+    TabContentType.interpreter,
+    TabContentType.projectIndex,
+    TabContentType.compiler,
+    TabContentType.release,
+    TabContentType.settings,
+    TabContentType.welcome,
+    TabContentType.snippetsInfo
+];
 
 /**
  * Close all tabs that are of certain type.
@@ -45,9 +57,6 @@ export function closeTabsByType( type: TabContentType ): void {
 
 /**
  * Opens a tab.
- *
- * @param type Which tab to open
- * @param label Custom text to show in the tab
  */
 export function openTab( type: TabContentType, options: TabOptions = {}): void {
     const oldTab = {
@@ -57,6 +66,12 @@ export function openTab( type: TabContentType, options: TabOptions = {}): void {
 
     const { closable = false, label, props } = options;
 
+    const addTabOptions = {
+        closable,
+        index: tabOrder.indexOf( type ),
+        type
+    };
+
     switch( type ) {
         case TabContentType.editor:
             if( oldTab.left ) {
@@ -65,11 +80,9 @@ export function openTab( type: TabContentType, options: TabOptions = {}): void {
             }
 
             leftTabStore.addTab({
-                closable,
+                ...addTabOptions,
                 component: <TextEditor />,
-                index: 1,
-                label: label || "Source",
-                type
+                label: label || "Source"
             });
             break;
 
@@ -80,11 +93,9 @@ export function openTab( type: TabContentType, options: TabOptions = {}): void {
             }
 
             rightTabStore.addTab({
-                closable,
+                ...addTabOptions,
                 component: projectStore.manager.compilerReportType === "staged" ? <StagedCompilationProcess /> : <SimpleCompilationProcess />,
-                label: "Compiler",
-                index: 2,
-                type
+                label: "Compiler"
             });
             break;
 
@@ -99,12 +110,10 @@ export function openTab( type: TabContentType, options: TabOptions = {}): void {
                 }
 
                 leftTabStore.addTab({
-                    closable,
+                    ...addTabOptions,
                     component: <FileViewer file={file} />,
                     id: file.id,    // we'll reuse file ids to identify which tab contains it
-                    index: 2,
-                    label: label || "File",
-                    type
+                    label: label || "File"
                 });
             }
             break;
@@ -115,11 +124,9 @@ export function openTab( type: TabContentType, options: TabOptions = {}): void {
             }
 
             rightTabStore.addTab({
-                closable,
+                ...addTabOptions,
                 component: <Interpreter />,
-                label: "Story",
-                index: 1,
-                type
+                label: "Story"
             });
             break;
 
@@ -129,11 +136,10 @@ export function openTab( type: TabContentType, options: TabOptions = {}): void {
             }
 
             rightTabStore.addTab({
-                closable,
+                ...addTabOptions,
                 component: <ProjectIndex />,
                 isActive: false,
-                label: "Index",
-                type
+                label: "Index"
             });
             break;
 
@@ -143,10 +149,9 @@ export function openTab( type: TabContentType, options: TabOptions = {}): void {
             }
 
             rightTabStore.addTab({
-                closable,
+                ...addTabOptions,
                 component: <ReleasePane />,
-                label: "Share",
-                type
+                label: "Share"
             });
             break;
 
@@ -156,31 +161,26 @@ export function openTab( type: TabContentType, options: TabOptions = {}): void {
             }
 
             rightTabStore.addTab({
-                closable,
+                ...addTabOptions,
                 component: <Settings />,
-                label: "Settings",
-                type
+                label: "Settings"
             });
             break;
 
         case TabContentType.snippetsInfo:
             rightTabStore.addTab({
-                closable,
+                ...addTabOptions,
                 component: <SnippetsInfo />,
-                label: "Snippets",
-                index: 3,
-                type
+                label: "About"
             });
             break;
 
         case TabContentType.welcome:
             if( projectStore.manager.welcomePage ) {
                 rightTabStore.addTab({
-                    closable,
+                    ...addTabOptions,
                     component: createElement( projectStore.manager.welcomePage ),
-                    label: "Welcome",
-                    index: 3,
-                    type
+                    label: "Welcome"
                 });
             }
             break;

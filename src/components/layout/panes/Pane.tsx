@@ -20,11 +20,13 @@ export const PaneElement: React.FC<PaneElementProps> = ({ activeTab, fileManager
                 onClick={onClick}
                 onClose={onClose}
                 tabs={tabsList} />
-    {tabsList.length > 0
+    <div className="tab-content-container">
+        {tabsList.length > 0
         ? tabsList.map( tab => <div key={tab.id} className={"tab-content " + ( ( activeTab && activeTab.id === tab.id ) ? "active" : "inactive" )}>
             {tab.component}
         </div> )
         : <EmptyPane />}
+    </div>
 </div>;
 
 interface PaneProps {
