@@ -14,7 +14,7 @@ import { TabContentType } from "types/enum";
 
 import GoButton from "./GoButton";
 
-import { isSnippetsVariant } from "services/app/env";
+import { isInFrame, isSnippetsVariant } from "services/app/env";
 import { openTab } from "services/ide/tabService";
 import { firstSnippetPublish } from "services/snippets/publish";
 
@@ -50,7 +50,7 @@ const MainNavigation: React.FC = () => {
         </NavbarBrand>
         <NavbarMenu isActive={mobileMenuOpen}>
             <NavbarStart>
-                <NavbarItem href="/">
+                <NavbarItem href="/" target={( isSnippetsVariant && isInFrame ) ? "_blank" : undefined}>
                     <TiHome />
                     {isSnippetsVariant ? "New Snippet" : "Project Manager"}
                 </NavbarItem>
