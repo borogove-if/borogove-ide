@@ -1,16 +1,22 @@
 import React from "react";
 import { Button, Column, Columns, Container, Title } from "bloomer";
+import { TiFlag } from "react-icons/ti";
 
 import { SNIPPET_MAX_CHARACTERS } from "services/snippets/constants";
+import { isSnippetsVariant } from "services/app/env";
+
 import projectStore from "stores/projectStore";
 import ideStateStore from "stores/ideStateStore";
+import snippetStore from "stores/snippetStore";
 
 interface SnippetsInfoElementProps {
+    flaggingUrl?: string | null;
+    language?: string;
     onOpenPrivacyPolicy: () => void;
     onOpenTOS: () => void;
 }
 
-export const SnippetsInfoElement: React.FC<SnippetsInfoElementProps> = ({ onOpenPrivacyPolicy, onOpenTOS }) => <Container>
+export const SnippetsInfoElement: React.FC<SnippetsInfoElementProps> = ({ flaggingUrl, language, onOpenPrivacyPolicy, onOpenTOS }) => <Container>
     <Title isSize={2}>
         Creating snippets
     </Title>
@@ -21,7 +27,7 @@ export const SnippetsInfoElement: React.FC<SnippetsInfoElementProps> = ({ onOpen
     </p>
     <p>
         The standard library is included automatically
-        {projectStore.manager.language === "inform7"
+        {language === "inform7"
             ? " and all the extensions in the Public Library are available"
             : " (unless you chose a \"no library\" template)"}.
     </p>
@@ -49,6 +55,16 @@ export const SnippetsInfoElement: React.FC<SnippetsInfoElementProps> = ({ onOpen
                 Privacy policy
             </Button>
         </Column>
+        {flaggingUrl && <Column>
+            <Button href={flaggingUrl}
+                    isColor="text"
+                    target="_blank" rel="noreferrer"
+                    className="is-light has-background-white has-text-grey-dark"
+                    isLink>
+                <TiFlag />
+                Report snippet
+            </Button>
+        </Column>}
     </Columns>
 </Container>;
 
@@ -65,7 +81,13 @@ const SnippetsInfo: React.FC = () => {
         ideStateStore.openModal( "snippetsTOS" );
     };
 
-    return <SnippetsInfoElement onOpenPrivacyPolicy={openPrivacyPolicy} onOpenTOS={openTOS} />;
+    const flaggingUrl = isSnippetsVariant && process.env.REACT_APP_FLAGGING_FORM_URL && snippetStore.id
+        ? process.env.REACT_APP_FLAGGING_FORM_URL.split( "{id}" ).join( snippetStore.id ) : null;
+
+    return <SnippetsInfoElement flaggingUrl={flaggingUrl}
+                                language={projectStore.manager.language}
+                                onOpenPrivacyPolicy={openPrivacyPolicy}
+                                onOpenTOS={openTOS} />;
 };
 
 export default SnippetsInfo;

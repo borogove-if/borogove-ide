@@ -95,10 +95,10 @@ export const SnippetsTOSElement: React.FC<SnippetsTOSElementProps> = ({ onClose 
         Requests for removal
     </Title>
 
-    <p>
-        To request the removal of a snippet that violates these conditions,
-        please fill <a href="https://docs.google.com/forms/d/e/1FAIpQLScOAndfbvmKL_YUC1Yh0K3X4yj48tHDD3au-ZM_RNo1SONGzg/viewform?usp=sf_link" rel="noreferrer" target="_blank">this form</a>.
-    </p>
+    {process.env.REACT_APP_FLAGGING_FORM_URL && <p>
+        To request the removal of a snippet that violates these conditions, please fill
+        out <a href={process.env.REACT_APP_FLAGGING_FORM_URL.split( "{id}" ).join( "" )} rel="noreferrer" target="_blank">this form</a>.
+    </p>}
 
     <p>
         As content is published anonymously, in most cases we have no means to verify the original author of content. Therefore published content cannot be removed by request unless it explicitly violates the terms described in this document.
