@@ -3,6 +3,7 @@ import "firebase/analytics";
 import "firebase/database";
 
 import projectServiceList from "services/projects/projectServiceList";
+import { isSnippetsVariant } from "services/app/env";
 
 import snippetStore from "stores/snippetStore";
 import editorStateStore from "stores/editorStateStore";
@@ -10,13 +11,17 @@ import projectStore from "stores/projectStore";
 
 import { FirebaseSnippetData } from "types/snippets";
 
-const SNIPPET_ID_MIN_LENGTH = 5;
+const SNIPPET_ID_MIN_LENGTH = 6;
 
 
 /**
  * Firebase initialization
  */
 export const initFirebase = (): void => {
+    if( !isSnippetsVariant ) {
+        return;
+    }
+
     const firebaseConfig = {
         apiKey: "AIzaSyCNaPF0uWxzrw68MEeIwdjVzRxiIeF_Ewg",
         authDomain: "borogove-ide.firebaseapp.com",
@@ -29,7 +34,12 @@ export const initFirebase = (): void => {
     };
 
     firebase.initializeApp( firebaseConfig );
-    firebase.analytics();
+
+    firebase.analytics.isSupported().then( isSupported => {
+        if( isSupported ) {
+            firebase.analytics();
+        }
+    });
 };
 
 

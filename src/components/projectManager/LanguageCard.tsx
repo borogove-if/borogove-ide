@@ -10,7 +10,7 @@ import ProjectTemplate from "services/projects/ProjectTemplate.class";
 import { getFS } from "services/filesystem/localFilesystemService";
 import { PERSISTENT_FILESYSTEM_DIR, BOROGOVE_SETTINGS_FILE } from "services/filesystem/filesystemConstants";
 
-import materialsStore from "stores/materialsStore";
+import materialsStore, { FSLoadState } from "stores/materialsStore";
 
 import "./LanguageCard.scss";
 
@@ -115,10 +115,10 @@ const LanguageCard: React.FC<LanguageCardProps> = observer( ({ projectService })
         catch( e ) {
             // do nothing – file and therefore project doesn't exist
         }
-    }, [ materialsStore.fsReady ] );
+    }, [ materialsStore.fsState ] );
 
     // wait until fileystem has mounted
-    if( !materialsStore.fsReady ) {
+    if( materialsStore.fsState !== FSLoadState.ready ) {
         return null;
     }
 

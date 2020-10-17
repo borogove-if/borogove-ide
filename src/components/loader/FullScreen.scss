@@ -1,0 +1,21 @@
+.full-screen {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+    width: 100%;
+}
+
+.startup-error {
+    max-width: 800px;
+    text-align: center;
+
+    > * {
+        margin: 0.5rem;
+    }
+
+    .button {
+        margin: 1rem;
+    }
+}

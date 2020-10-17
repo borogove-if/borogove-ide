@@ -16,12 +16,17 @@ class SettingsStore {
             saveSetting: action
         });
 
-        const storageContents = localStorage.getItem( SETTINGS_KEY );
         let settings: any = {}; // eslint-disable-line
 
         try {
+            const storageContents = localStorage?.getItem( SETTINGS_KEY );
+
             if( storageContents ) {
                 settings = JSON.parse( storageContents ) || {};
+            }
+
+            if( typeof settings !== "object" ) {
+                settings = {};
             }
         }
         catch( e ) {
@@ -75,7 +80,7 @@ class SettingsStore {
      * Save settings to localstorage
      */
     private persistSettings = (): void => {
-        localStorage.setItem( SETTINGS_KEY, JSON.stringify( this.settings ) );
+        localStorage?.setItem( SETTINGS_KEY, JSON.stringify( this.settings ) );
     };
 
     /**

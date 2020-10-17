@@ -14,6 +14,11 @@ import { initFS, moveFile, recursiveRm, renameFile, saveFile, saveFolder, downlo
 import { closeTabsByType, openTab } from "services/ide/tabService";
 import { PROJECT_ROOT_DIR } from "services/filesystem/filesystemConstants";
 
+export enum FSLoadState {
+    initializing,
+    unavailable,
+    ready
+}
 
 /**
  * The project's filesystem (code and materials)
@@ -21,13 +26,13 @@ import { PROJECT_ROOT_DIR } from "services/filesystem/filesystemConstants";
 class MaterialsStore {
     files: MaterialsFile[] = [];
 
-    // Becomes true when the filesystem has been initialized
-    fsReady = false;
+    // Filesystem load state
+    fsState = FSLoadState.initializing;
 
     constructor() {
         makeObservable( this, {
             files: observable,
-            fsReady: observable,
+            fsState: observable,
             addMaterialsFile: action,
             addFolder: action,
             getContents: action,
@@ -45,7 +50,13 @@ class MaterialsStore {
 
         initFS().then( () => {
             saveFolder( PROJECT_ROOT_DIR );
-            runInAction( () => { this.fsReady = true; });
+            runInAction( () => {
+                this.fsState = FSLoadState.ready;
+            });
+        }).catch( () => {
+            runInAction( () => {
+                this.fsState = FSLoadState.unavailable;
+            });
         });
     }
 
