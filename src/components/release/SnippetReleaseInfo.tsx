@@ -1,32 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { observer } from "mobx-react";
-import { Button, Column, Columns, Input, Title } from "bloomer";
-import { TiClipboard, TiTick } from "react-icons/ti";
-import copy from "copy-to-clipboard";
+import { Button, Column, Columns, Title } from "bloomer";
 
 import FullScreenLoader from "components/loader/FullScreenLoader";
 
 import snippetStore, { SnippetLoadState } from "stores/snippetStore";
-import projectStore from "stores/projectStore";
 
 import { publishSnippet } from "services/snippets/publish";
+import ShareLink from "./ShareLink";
 
 interface SnippetReleaseInfoElementProps {
     errorMessage?: string | false | null;
     isDirty?: boolean;
     isLoading?: boolean;
     onPublish: () => void;
-    url: string;
 }
 
-export const SnippetReleaseInfoElement: React.FC<SnippetReleaseInfoElementProps> = ({ errorMessage, isDirty = false, isLoading = false, onPublish, url }) => {
-    const [ copied, setCopied ] = useState( false );
-
-    useEffect( () => {
-        // reset the copied check mark if the snippet URL changes
-        setCopied( false );
-    }, [ url ] );
-
+export const SnippetReleaseInfoElement: React.FC<SnippetReleaseInfoElementProps> = ({ errorMessage, isDirty = false, isLoading = false, onPublish }) => {
     const downloadOptions = ( noLimit = false ): JSX.Element => <>
         <hr />
 
@@ -63,32 +53,12 @@ export const SnippetReleaseInfoElement: React.FC<SnippetReleaseInfoElementProps>
         </div>;
     }
 
-    const copyToClipboard = (): void => {
-        copy( url, { debug: true });
-        setCopied( true );
-    };
-
     return <section>
         <Title>
             Share a snippet
         </Title>
 
-        <p>
-            The link to {isDirty ? "the original" : "this"} snippet is:
-        </p>
-
-        <Input value={url}
-               isSize="large"
-               className="mb-2"
-               readOnly />
-        <Columns>
-            <Column>
-                <Button onClick={copyToClipboard}>
-                    <TiClipboard />{" "}Copy to clipboard
-                    {copied && <TiTick color="green" title="Copied!" />}
-                </Button>
-            </Column>
-        </Columns>
+        <ShareLink />
 
         {isDirty && <Columns>
             <Column>
@@ -112,13 +82,10 @@ export const SnippetReleaseInfoElement: React.FC<SnippetReleaseInfoElementProps>
  * Publishing snippets
  */
 const SnippetReleaseInfo: React.FC = observer( () => {
-    const url = `${process.env.REACT_APP_SNIPPETS_PLAY_URL}/${projectStore.manager.language}/${snippetStore.id}`;
-
     return <SnippetReleaseInfoElement isDirty={snippetStore.isDirty}
                                       isLoading={snippetStore.state === SnippetLoadState.saving}
                                       errorMessage={snippetStore.state === SnippetLoadState.error && snippetStore.saveError}
-                                      onPublish={publishSnippet}
-                                      url={url} />;
+                                      onPublish={publishSnippet} />;
 });
 
 export default SnippetReleaseInfo;

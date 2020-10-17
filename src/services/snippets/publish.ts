@@ -23,7 +23,7 @@ export const publishSnippet = async(): Promise<void> => {
 
     try {
         request = await Axios({
-            url: process.env.REACT_APP_SNIPPETS_POST_API_URL + "/snippet",
+            url: process.env.REACT_APP_SNIPPETS_API_URL + "/snippet",
             method: "POST",
             data: {
                 code,
