@@ -8,7 +8,7 @@ export type InterpreterIdentifier = "aamachine" | "hugojs" | "parchment" | "quix
  * Returns the domain where interpreters can be found. An id is added as a security measure.
  */
 export function getInterpreterDomain(): string {
-    return ( process.env.REACT_APP_INTERPRETER_SERVICE_URL || "" ).replaceAll( "{id}", snippetStore.id || ideStateStore.sessionId );
+    return ( process.env.REACT_APP_INTERPRETER_SERVICE_URL || "" ).split( "{id}" ).join( snippetStore.id || ideStateStore.sessionId );
 }
 
 
@@ -39,8 +39,8 @@ export function getInterpreterUrl( interpreter: InterpreterIdentifier, storyfile
 
         case "quixe":
         {
-            const storyParameter = storyfileUrl ? `?story=${storyfileUrl}` : "";
-            return `${interpreterServiceUrl}/quixe/${process.env.REACT_APP_QUIXE_VERSION}/play.html${storyParameter}`;
+            const storyParameter = storyfileUrl ? `&story=${storyfileUrl}` : "";
+            return `${interpreterServiceUrl}/parchment/${process.env.REACT_APP_PARCHMENT_VERSION}/index.html?vm=quixe${storyParameter}`;
         }
 
         case "vorple":
@@ -83,7 +83,7 @@ export function getStandaloneInterpreterMeta( interpreter: InterpreterIdentifier
         {
             return {
                 storyfileName: "story.z8",
-                templateZipUrl: `${interpreterServiceUrl}/parchment/${process.env.REACT_APP_PARCHMENT_VERSION}/release.zip`
+                templateZipUrl: `${interpreterServiceUrl}/parchment/${process.env.REACT_APP_PARCHMENT_VERSION}/release.z8.zip`
             };
         }
 
@@ -91,7 +91,7 @@ export function getStandaloneInterpreterMeta( interpreter: InterpreterIdentifier
         {
             return {
                 storyfileName: "story.ulx",
-                templateZipUrl: `${interpreterServiceUrl}/quixe/${process.env.REACT_APP_QUIXE_VERSION}/release.zip`
+                templateZipUrl: `${interpreterServiceUrl}/parchment/${process.env.REACT_APP_PARCHMENT_VERSION}/release.glulx.zip`
             };
         }
 

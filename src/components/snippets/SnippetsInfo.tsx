@@ -22,8 +22,8 @@ export const SnippetsInfoElement: React.FC<SnippetsInfoElementProps> = ({ flaggi
     </Title>
 
     <p>
-        Write your code with the editor on the left pane and test it by pressing the "Go" button.
-        When you're ready, press the "Release" button in the main menu to publish the snippet and get a shareable link.
+        Write your code with the editor and test it by pressing the "Go" button.
+        When you're ready, press the "Share" button in the main menu to publish the snippet and get a shareable link.
     </p>
     <p>
         The standard library is included automatically

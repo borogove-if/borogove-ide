@@ -37,6 +37,7 @@ module.exports = {
 
         "array-bracket-spacing": [ 1, "always" ],
         "comma-dangle": [ 1, "never" ],
+        "eol-last": 1,
         "indent": [ 1, 4, {
             "ignoredNodes": [ "JSXElement *", "JSXElement" ],    // ignoredNodes prevents clashing with react/jsx-indent-props
             "SwitchCase": 1
