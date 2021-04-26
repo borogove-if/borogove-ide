@@ -39,7 +39,7 @@ export function getInterpreterUrl( interpreter: InterpreterIdentifier, storyfile
 
         case "quixe":
         {
-            const storyParameter = storyfileUrl ? `&story=${storyfileUrl}` : "";
+            const storyParameter = storyfileUrl ? `&story=${storyfileUrl}%3F${Date.now()}` : "";    // timestamp added to disable caching
             return `${interpreterServiceUrl}/parchment/${process.env.REACT_APP_PARCHMENT_VERSION}/index.html?vm=quixe${storyParameter}`;
         }
 
