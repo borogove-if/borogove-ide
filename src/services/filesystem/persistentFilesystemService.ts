@@ -83,7 +83,7 @@ function rmRecursively( fs: any, filepath: string ): Promise<void> {    // eslin
                                 fs.stat( filepath, async ( _err: any, stats: any ) => {  // eslint-disable-line
                                     if( stats.isDirectory() ) {        // normal file - just delete and return
                                         await rmRecursively( fs, fullPath );
-                                        resolve();
+                                        resolve( null );
                                     }
                                     else {
                                         fs.unlink( fullPath, resolve );
@@ -142,7 +142,7 @@ export async function restoreFS( projectId: string ): Promise<void> {
                         projectStore.setEntryFile( materialsStore.findById( settings.entryFile ) );
                     }
 
-                    resolve();
+                    resolve( null );
                 }
                 catch( e ) {
                     console.error( e );

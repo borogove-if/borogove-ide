@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 import CompilationProgressSegment from "./CompilationProgressSegment";
 import compilationResultStore, { CompilationStage } from "stores/compilationResultStore";
 
-import "bulma-o-steps/bulma-steps.scss";
+import "bulma-o-steps/bulma-steps.sass";
 import { Content } from "bloomer";
 
 interface CompilationProgressIndicatorElementProps {

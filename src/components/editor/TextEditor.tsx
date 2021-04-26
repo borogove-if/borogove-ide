@@ -15,7 +15,7 @@ interface TextEditorElementProps {
     language?: string;
     onChange: ( newValue: string ) => void;
     options: editor.IEditorConstructionOptions;
-    setInitialCursorPosition: ( editor: editor.IStandaloneCodeEditor ) => void;
+    setInitialCursorPosition: ( editor: MonacoEditor[ "editor" ] ) => void;
     theme: string;
     value: string;
 }
@@ -27,10 +27,10 @@ interface TextEditorElementProps {
  * https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.istandalonecodeeditor.html
  */
 export const TextEditorElement: React.FC<TextEditorElementProps> = ( props ) => {
-    const editorDidMount: EditorDidMount = ( editor ) => {
-        editor.focus();
-        editor.layout();
-        props.setInitialCursorPosition( editor );
+    const editorDidMount: EditorDidMount = ( mountedEditor ) => {
+        mountedEditor.focus();
+        mountedEditor.layout();
+        props.setInitialCursorPosition( mountedEditor );
     };
 
     const editorWillMount = ( monaco: unknown ): void => {
@@ -65,8 +65,8 @@ const TextEditor: React.FC = observer( () => {
         editorStateStore.setContents( newValue, false );
     };
 
-    const setInitialCursorPosition = ( editor: editor.IStandaloneCodeEditor ): void => {
-        if( initialCursorPosition ) {
+    const setInitialCursorPosition = ( editor: MonacoEditor[ "editor" ] ): void => {
+        if( initialCursorPosition && editor ) {
             editor.setPosition( initialCursorPosition );
 
             // this should be done only once, not every time the editor opens!
