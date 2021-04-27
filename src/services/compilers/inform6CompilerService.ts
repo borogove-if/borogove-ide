@@ -1,5 +1,5 @@
 const BrowserFS = require( "browserfs" );   // must be a require() call
-import emscriptenLoader from "../remoteAssets/emscriptenLoaderService";
+import emscriptenLoader from "../remoteAssets/inform6LoaderService";
 import * as path from "path";
 
 import compilationResultStore, { CompilationStage } from "stores/compilationResultStore";
@@ -42,32 +42,6 @@ export function compileI6( variant: CompilationVariant ): Promise<boolean> {
         compilationResultStore.addToCompilerOutput( "inform6 " + compilerArguments.join( " " ) + "\n\n" );
 
         emscriptenLoader({
-            // EXTRACTED FROM EMSCRIPTEN GENERATED JS FILE
-            DYNAMIC_BASE: 5444032,
-            DYNAMICTOP_PTR: 201120,
-            wasmTableInitial: 32,
-            wasmTableMaximum: 32,
-            tmCurrent: 200976,
-            tmTimezone: 201024,
-            functionAlias: {
-                environConstructor: "x",
-                errnoLocation: "y",
-                getDaylight: "z",
-                getTimezone: "A",
-                getTzname: "B",
-                fflush: "C",
-                free: null,
-                main: "D",
-                malloc: "E",
-                stackAlloc: "G",
-                dynCallVi: "F"
-            },
-            /////////
-
-            // used by the loader to choose correct internal addresses
-            systemId: "inform6",
-
-
             arguments: compilerArguments,
             locateFile: ( path: string ) => {
                 return `${process.env.REACT_APP_REMOTE_ASSETS_URL}/compilers/inform6/${process.env.REACT_APP_INFORM6_COMPILER_VERSION}/${path}`;
