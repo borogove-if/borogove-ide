@@ -1,7 +1,7 @@
 import ProjectTemplate from "services/projects/ProjectTemplate.class";
 import { MaterialsFileType } from "types/enum";
 
-import code from "./i6code.txt";
+import code from "./code/i6.txt";
 
 /**
  * Inform 6 with library version 6.11. Many existing projects and especially
