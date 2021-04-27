@@ -1,12 +1,14 @@
 const BrowserFS = require( "browserfs" );   // must be a require() call
-import emscriptenLoader from "../remoteAssets/inform6LoaderService";
 import * as path from "path";
 
 import compilationResultStore, { CompilationStage } from "stores/compilationResultStore";
 import projectStore from "stores/projectStore";
 import materialsStore from "stores/materialsStore";
 
-import { OUTPUT_TMP_PATH, PROJECT_ROOT_DIR, INPUT_TMP_PATH } from "services/filesystem/filesystemConstants";
+import { OUTPUT_TMP_PATH, INPUT_TMP_PATH } from "services/filesystem/filesystemConstants";
+
+import emscriptenLoader from "../remoteAssets/inform6LoaderService";
+import { emscriptenLoaderCallback } from "./compilerHelpers";
 
 
 function findStoryfile(): string | null {
@@ -76,29 +78,6 @@ export function compileI6( variant: CompilationVariant ): Promise<boolean> {
 
                 resolve( success );
             }
-    }).then( ( { FS }: any ) => {     // eslint-disable-line
-            // Use BrowserFS's Emscripten compatibility function to
-            // mount Borogove's filesystem to Emscripten's filesystem
-            // join2 is to fix a BrowserFS bug (https://github.com/jvilk/BrowserFS/issues/270)
-            const BFS = new BrowserFS.EmscriptenFS( FS, { join2: path.join, ...path });
-            const BorogoveFS = BrowserFS.BFSRequire( "fs" );
-
-            // Create folders inside Emscripten
-            FS.createFolder( FS.root, "input", true, true );
-            FS.createFolder( FS.root, "output", true, true );
-
-            // Change the directory to /output so that Inform will write all output files there
-            FS.chdir( OUTPUT_TMP_PATH );
-
-            // Mount BFS's root folder into the input folder.
-            FS.mount( BFS, { root: PROJECT_ROOT_DIR }, INPUT_TMP_PATH );
-
-            // Mount the output folder
-            if( !BorogoveFS.existsSync( OUTPUT_TMP_PATH ) ) {
-                BorogoveFS.mkdirSync( OUTPUT_TMP_PATH );
-            }
-
-            FS.mount( BFS, { root: OUTPUT_TMP_PATH }, OUTPUT_TMP_PATH );
-        });
+        }).then( emscriptenLoaderCallback );
     });
 }

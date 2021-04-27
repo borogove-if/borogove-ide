@@ -24,6 +24,10 @@ module.exports = {
         // e.g. "@typescript-eslint/explicit-function-return-type": "off",
 
         "@typescript-eslint/explicit-function-return-type": 1,
+        "@typescript-eslint/indent": [ 1, 4, {
+            "ignoredNodes": [ "JSXElement *", "JSXElement" ],    // ignoredNodes prevents clashing with react/jsx-indent-props
+            "SwitchCase": 1
+        } ],
         "@typescript-eslint/interface-name-prefix": 0,
         "@typescript-eslint/no-empty-function": 0,
         "@typescript-eslint/no-unused-vars": [ 1, { "argsIgnorePattern": "^_" } ],  // allows unused parameters if they're prefixed with underscore
@@ -38,10 +42,6 @@ module.exports = {
         "array-bracket-spacing": [ 1, "always" ],
         "comma-dangle": [ 1, "never" ],
         "eol-last": 1,
-        "indent": [ 1, 4, {
-            "ignoredNodes": [ "JSXElement *", "JSXElement" ],    // ignoredNodes prevents clashing with react/jsx-indent-props
-            "SwitchCase": 1
-        } ],
         "key-spacing": [ 1, { "afterColon": true, "beforeColon": false } ],
         "keyword-spacing": [ 1, { "before": true, "after": true, "overrides": {
             "catch": { "after": false },
