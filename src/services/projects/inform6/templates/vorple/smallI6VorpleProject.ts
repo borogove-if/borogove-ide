@@ -55,9 +55,9 @@ Verb 'wind'
 `;
 
 class SmallI6VorpleProject extends ProjectTemplate {
-	id = "serinetteVorpleI6";
-	name = "Serinette (small example)";
-	isSnippetTemplate = false;
+    id = "serinetteVorpleI6";
+    name = "Serinette (small example)";
+    isSnippetTemplate = false;
 
     files = [
         {
@@ -76,7 +76,7 @@ class SmallI6VorpleProject extends ProjectTemplate {
         }
     ];
 
-	manifestFile = "manifest.i6.json";
+    manifestFile = "manifest.i6.json";
 }
 
 export default new SmallI6VorpleProject();
