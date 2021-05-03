@@ -44,6 +44,9 @@ export default abstract class ProjectService {
     // Should the file manager be initially open?
     public fileManagerStartsOpen = true;
 
+    // Does the order of source files matter?
+    public orderedFiles = false;
+
     // Optional function that processes the story file for web site release
     public processReleaseFile: ( name: string, content: Blob ) => Promise<{ name: string; content: Blob }>;
 

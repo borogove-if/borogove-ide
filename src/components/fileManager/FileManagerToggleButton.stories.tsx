@@ -1,9 +1,9 @@
 import React from "react";
-
-import { storiesOf } from "@storybook/react";
-import { FileManagerToggleButtonElement } from "./FileManagerToggleButton";
-import { action } from "@storybook/addon-actions";
 import { Tabs, TabList } from "bloomer";
+import { storiesOf } from "@storybook/react";
+import { action } from "@storybook/addon-actions";
+
+import { FileManagerToggleButtonElement } from "./FileManagerToggleButton";
 
 storiesOf( "FileManagerToggleButton", module )
     .addDecorator( storyFn => <Tabs><TabList>{storyFn()}</TabList></Tabs> )

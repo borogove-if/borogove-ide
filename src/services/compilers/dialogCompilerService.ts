@@ -28,11 +28,28 @@ export function compileDialog( variant: CompilationVariant ): Promise<boolean> {
     compilationResultStore.reset();
     compilationResultStore.setCompilationStatus( true );
     compilationResultStore.setStage( CompilationStage.firstPass );
+    materialsStore.setCompilationIndexes();
+
     let didQuit = false;    // make sure quit() is called only once
 
     return new Promise( ( resolve ) => {
         const compilerOptions = projectStore.manager.compilerOptions ? projectStore.manager.compilerOptions[ variant ] || [] : [];
-        const includePaths = materialsStore.files.filter( file => file.name.indexOf( ".dg" ) === file.name.length - 3 ).map( file => "/input" + materialsStore.getPath( file ) );
+        const includePaths = materialsStore.files
+            .filter( file => file.name.indexOf( ".dg" ) === file.name.length - 3 )
+            .sort( ( file1, file2 ) => {
+                if( typeof file1.compilationIndex === "number" || typeof file2.compilationIndex === "number" ) {
+                    if( typeof file1.compilationIndex !== "number" ) {
+                        return 1;
+                    }
+
+                    if( typeof file2.compilationIndex !== "number" ) {
+                        return -1;
+                    }
+                }
+
+                return ( file1.compilationIndex || 0 ) - ( file2.compilationIndex || 0 );
+            })
+            .map( file => "/input" + materialsStore.getPath( file ) );
         const compilerArguments = [
             ...compilerOptions,
             ...includePaths

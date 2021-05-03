@@ -37,6 +37,7 @@ class MaterialsStore {
             addFolder: action,
             getContents: action,
             deleteFile: action,
+            moveCompilationOrder: action,
             moveToFolder: action,
             openFile: action,
             processUploads: action,
@@ -283,7 +284,21 @@ class MaterialsStore {
             ? JSON.parse( JSON.stringify( this.files.filter( file => file.parent && ( typeof file.parent === "string" ? file.parent : file.parent.id ) === parent.id ) ) )
             : JSON.parse( JSON.stringify( this.files.filter( file => !file.parent ) ) ) )
             .sort( ( file1: MaterialsFile, file2: MaterialsFile ) => {
-                // folders first
+                // if compilation ordering exists, sort by that first
+                if( typeof file1.compilationIndex === "number" || typeof file2.compilationIndex === "number" ) {
+                    // files with no ordering index go to the bottom
+                    if( typeof file1.compilationIndex !== "number" ) {
+                        return 1;
+                    }
+
+                    if( typeof file2.compilationIndex !== "number" ) {
+                        return -1;
+                    }
+
+                    return file1.compilationIndex - file2.compilationIndex;
+                }
+
+                // prioritize folders
                 if( file1.type !== file2.type ) {
                     if( file1.type === MaterialsFileType.folder ) {
                         return -1;
@@ -294,6 +309,7 @@ class MaterialsStore {
                     }
                 }
 
+                // then sort by filename by default
                 const sortName1 = ( file1.displayName || file1.name ).toLowerCase();
                 const sortName2 = ( file2.displayName || file2.name ).toLowerCase();
 
@@ -323,6 +339,82 @@ class MaterialsStore {
     }
 
     public getIncludePaths = ( root: string ): string[] => this.files.filter( file => file.isIncludePath ).map( file => join( root, this.getPath( file ) ) );
+
+
+    /**
+     * Check if two material files are the same, accepts either a MaterialsFile, an id as a string, or null/undefined
+     */
+    public isSameFile = ( file1: MaterialsFile | string | undefined | null, file2: MaterialsFile | string | undefined | null ): boolean => {
+        if( !file1 || !file2 ) {
+            return ( file1 || null ) === ( file2 || null );
+        }
+
+        const id1 = typeof file1 === "string" ? file1 : file1.id;
+        const id2 = typeof file2 === "string" ? file2 : file2.id;
+
+        return id1 === id2;
+    };
+
+
+    /**
+     * (Re)calculate all compilation indexes
+     */
+    public setCompilationIndexes = ( parent?: MaterialsFile, startIndex = 0 ): number => {
+        const tree = this.getFileTree( parent );
+
+        tree.forEach( ( item, index ) => {
+            const file = this.findById( item.id );
+
+            if( file ) {
+                file.compilationIndex = index + startIndex;
+
+                if( file.type === MaterialsFileType.folder ) {
+                    startIndex = this.setCompilationIndexes( file, index + startIndex );
+                }
+            }
+        });
+
+        return startIndex + tree.length;
+    };
+
+
+    /**
+     * Change the compilation order by moving the file up or down in the compilation order tree
+     */
+    public moveCompilationOrder = ( target: MaterialsFile, direction: 1 | -1 ): void => {
+        const file = this.findById( target.id );
+
+        if( !file ) {
+            console.error( "Can't move unknown file" );
+            return;
+        }
+
+        const parentId = typeof target.parent === "string" ? target.parent : target.parent?.id;
+        const tree = this.getFileTree( this.findById( parentId as string ) as MaterialsFile );
+
+        // set the indexes of all files as they now are, to ensure everything has an index
+        this.setCompilationIndexes();
+
+        // find the item that the swap would affect
+        const thisIndex = tree.findIndex( item => item.id === file.id );
+        const swapIndex = thisIndex + direction;
+
+        if( swapIndex < 0 || swapIndex > tree.length ) {
+            return;
+        }
+
+        const swap = this.findById( tree[ swapIndex ].id );
+
+        if( !swap ) {
+            return;
+        }
+
+        const thisOrder = file.compilationIndex;
+        const swapOrder = swap.compilationIndex;
+        file.compilationIndex = swapOrder;
+        swap.compilationIndex = thisOrder;
+    }
+
 
     /**
      * Move a file to another folder

@@ -20,6 +20,7 @@ class DialogProjectService extends ProjectService {
     public interpreter: InterpreterIdentifier = "aamachine";
     public language = "dialog";
     public name = "Dialog";
+    public orderedFiles = true;
     public templates = [ standardDialogProject, emptyDialogProject ];
 
     /**

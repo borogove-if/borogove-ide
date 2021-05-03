@@ -18,10 +18,12 @@ import "./FileItem.scss";
 interface FileItemElementProps extends FileItemProps {
     isEntryFile: boolean;
     isIncludePath: boolean;
+    isSortable: boolean;
     onClick: ( file: MaterialsFile ) => void;
+    onSort: ( dir: 1 | -1 ) => void;
 }
 
-export const FileItemElement: React.FC<FileItemElementProps> = ({ file, isActive = false, isEntryFile, isIncludePath, onClick, readonly = false }) => {
+export const FileItemElement: React.FC<FileItemElementProps> = ({ file, isActive = false, isEntryFile, isFirst, isIncludePath, isLast, isSortable, onClick, onSort, readonly = false }) => {
     const { displayName, locked, name, type } = file;
     const isFolder = type === MaterialsFileType.folder;
     const classes = [ "file-item", "type-" + MaterialsFileType[type] ];
@@ -44,7 +46,14 @@ export const FileItemElement: React.FC<FileItemElementProps> = ({ file, isActive
                 <FileIcon file={file} />{" "}
                 {isFolder ? <FolderName file={file} /> : ( displayName || name )}
             </div>
-            {!readonly && <FileActions file={file} isLocked={Boolean( locked )} isEntryFile={isEntryFile} />}
+            <FileActions file={file}
+                         isLocked={Boolean( locked )}
+                         isEntryFile={isEntryFile}
+                         isFirst={isFirst}
+                         isLast={isLast}
+                         isReadOnly={readonly}
+                         isSortable={isSortable}
+                         onSort={onSort} />
         </MenuLink>
     </li>;
 };
@@ -52,6 +61,8 @@ export const FileItemElement: React.FC<FileItemElementProps> = ({ file, isActive
 interface FileItemProps {
     file: MaterialsFile;
     isActive?: boolean;
+    isFirst: boolean;
+    isLast: boolean;
     readonly?: boolean;
 }
 
@@ -85,10 +96,16 @@ const FileItem: React.FC<FileItemProps> = observer( ( props ) => {
     };
 
     const { file } = props;
-    const isEntryFile = projectStore.entryFile ? file.id === projectStore.entryFile.id : false;
+    const isSortable = projectStore.manager.orderedFiles;
+    const isEntryFile = !isSortable && projectStore.entryFile ? file.id === projectStore.entryFile.id : false;
     const isIncludePath = Boolean( file.type === MaterialsFileType.folder && file.isIncludePath );
 
-    return <FileItemElement onClick={onClick} isEntryFile={isEntryFile} isIncludePath={isIncludePath} {...props} />;
+    return <FileItemElement onClick={onClick}
+                            isEntryFile={isEntryFile}
+                            isIncludePath={isIncludePath}
+                            isSortable={isSortable}
+                            onSort={( dir: 1 | -1 ): void => materialsStore.moveCompilationOrder( file, dir )}
+                            {...props} />;
 });
 
 export default FileItem;

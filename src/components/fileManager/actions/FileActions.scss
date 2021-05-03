@@ -11,16 +11,20 @@
             top: 0;
         }
 
-        .dropdown-trigger {
-            opacity: 0;
-        }
-
         .dropdown-item:hover {
             background-color: #ecf0f1;
         }
+
+        .file-action-icon {
+            opacity: 0;
+
+            &.hidden {
+                visibility: hidden;
+            }
+        }
     }
 
-    &:hover .file-actions .dropdown-trigger {
+    &:hover .file-actions .file-action-icon {
         opacity: 0.5;
     }
 }

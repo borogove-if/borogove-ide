@@ -1,10 +1,11 @@
 import React from "react";
-
 import { storiesOf } from "@storybook/react";
-import { FileItemElement } from "./FileItem";
 import { Menu, MenuList } from "bloomer";
-import { MaterialsFileType } from "../../types/enum";
 import { action } from "@storybook/addon-actions";
+
+import { FileItemElement } from "./FileItem";
+
+import { MaterialsFileType } from "../../types/enum";
 
 const openFolder: MaterialsFile = {
     name: "Folder 1",
@@ -22,11 +23,18 @@ const file1: MaterialsFile = {
     parent: null
 };
 
+const onSort = ( dir: 1 | -1 ): void => { action( "Sort " + dir ); };
+
 storiesOf( "FileItem", module )
     .addDecorator( storyFn => <Menu className="filelisting"><MenuList>{storyFn()}</MenuList></Menu> )
-    .add( "Normal source file", () => <FileItemElement file={file1} onClick={action( "File click" )} isEntryFile={false} isIncludePath={false} /> )
-    .add( "Active source file", () => <FileItemElement file={file1} onClick={action( "File click" )} isEntryFile={false} isIncludePath={false} isActive /> )
-    .add( "Entry file", () => <FileItemElement file={openFolder} onClick={action( "File click" )} isEntryFile={true} isIncludePath={false} /> )
-    .add( "Include path", () => <FileItemElement file={openFolder} onClick={action( "File click" )} isEntryFile={false} isIncludePath={true} /> )
-    .add( "Open folder", () => <FileItemElement file={openFolder} onClick={action( "File click" )} isEntryFile={false} isIncludePath={false} /> )
-    .add( "Closed folder", () => <FileItemElement file={closedFolder} onClick={action( "File click" )} isEntryFile={false} isIncludePath={false} /> );
+    .add( "Normal source file", () => <FileItemElement file={file1} onClick={action( "File click" )} onSort={onSort} isEntryFile={false} isIncludePath={false} isFirst={false} isLast={false} isSortable={false} /> )
+    .add( "Active source file", () => <FileItemElement file={file1} onClick={action( "File click" )} onSort={onSort} isEntryFile={false} isIncludePath={false} isFirst={false} isLast={false} isSortable={false} isActive /> )
+    .add( "Entry file", () => <FileItemElement file={openFolder} onClick={action( "File click" )} onSort={onSort} isEntryFile={true} isIncludePath={false} isFirst={false} isLast={false} isSortable={false} /> )
+    .add( "Include path", () => <FileItemElement file={openFolder} onClick={action( "File click" )} onSort={onSort} isEntryFile={false} isIncludePath={true} isFirst={false} isLast={false} isSortable={false} /> )
+    .add( "Open folder", () => <FileItemElement file={openFolder} onClick={action( "File click" )} onSort={onSort} isEntryFile={false} isIncludePath={false} isFirst={false} isLast={false} isSortable={false} /> )
+    .add( "Closed folder", () => <FileItemElement file={closedFolder} onClick={action( "File click" )} onSort={onSort} isEntryFile={false} isIncludePath={false} isFirst={false} isLast={false} isSortable={false} /> )
+    .add( "Sortable", () => <FileItemElement file={closedFolder} onClick={action( "File click" )} onSort={onSort} isEntryFile={false} isIncludePath={false} isFirst={false} isLast={false} isSortable={true} /> )
+    .add( "Sortable first", () => <FileItemElement file={closedFolder} onClick={action( "File click" )} onSort={onSort} isEntryFile={false} isIncludePath={false} isFirst={true} isLast={false} isSortable={true} /> )
+    .add( "Sortable last", () => <FileItemElement file={closedFolder} onClick={action( "File click" )} onSort={onSort} isEntryFile={false} isIncludePath={false} isFirst={false} isLast={true} isSortable={true} /> )
+    .add( "Sortable first & last", () => <FileItemElement file={closedFolder} onClick={action( "File click" )} onSort={onSort} isEntryFile={false} isIncludePath={false} isFirst={true} isLast={true} isSortable={true} /> );
+

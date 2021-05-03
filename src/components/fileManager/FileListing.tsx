@@ -17,15 +17,23 @@ interface FileListingElementProps {
 }
 
 export const FileListingElement: React.FC<FileListingElementProps> = observer( ({ files, readonly, selected }) => <MenuList>
-    {files.map( file => {
+    {files.map( ( file, index ) => {
+        const isFirst = index === 0;
+        const isLast = index === files.length - 1;
+
         if( file.type === MaterialsFileType.folder && file.children && file.isOpen ) {
             return <Fragment key={file.id}>
-                <FileItem file={file} readonly={readonly} />
-                <FileListingElement files={file.children} selected={selected} readonly={readonly} />
+                <FileItem file={file} isFirst={isFirst} isLast={isLast} readonly={readonly} />
+                <FileListingElement files={file.children} readonly={readonly} selected={selected} />
             </Fragment>;
         }
         else {
-            return <FileItem key={file.id} file={file} isActive={file.id === selected} readonly={readonly} />;
+            return <FileItem key={file.id}
+                             file={file}
+                             isActive={file.id === selected}
+                             isFirst={isFirst}
+                             isLast={isLast}
+                             readonly={readonly} />;
         }
     })}
 </MenuList> );
