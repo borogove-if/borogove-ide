@@ -746,7 +746,7 @@ module.exports = function (webpackEnv) {
           },
         }),
         // Upload source maps to Sentry
-        isEnvProduction &&
+        isEnvProduction && process.env.REACT_APP_SENTRY_DSN &&
           new SentryWebpackPlugin({
             include: '.',
             ignoreFile: '.sentrycliignore',
