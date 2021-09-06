@@ -1,4 +1,4 @@
-import Axios from "axios";
+import Axios, { AxiosError } from "axios";
 
 import materialsStore from "stores/materialsStore";
 import projectStore from "stores/projectStore";
@@ -34,7 +34,7 @@ export const publishSnippet = async(): Promise<void> => {
     }
     catch( e ) {
         try {
-            snippetStore.setState( SnippetLoadState.error, JSON.parse( e.request.response ).error || GENERIC_ERROR_MESSAGE );
+            snippetStore.setState( SnippetLoadState.error, JSON.parse( ( e as AxiosError ).request.response ).error || GENERIC_ERROR_MESSAGE );
         }
         catch( e ) {
             snippetStore.setState( SnippetLoadState.error, GENERIC_ERROR_MESSAGE );

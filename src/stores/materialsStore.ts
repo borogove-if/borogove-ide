@@ -1,7 +1,7 @@
 import { observable, action, makeObservable, runInAction } from "mobx";
 import { dirname, basename, join, extname } from "path";
 import { FileWithPath } from "file-selector";
-import { isBinary } from "istextorbinary";
+import { isBinary } from "istextorbinary/edition-es2019/index"; /* eslint-disable-line */
 import { v4 as uuid } from "uuid";
 
 import { MaterialsFileType, TabContentType } from "types/enum";

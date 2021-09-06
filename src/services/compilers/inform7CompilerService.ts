@@ -64,7 +64,7 @@ export async function compileI7( variant: CompilationVariant ): Promise<boolean>
         compilationResultStore.setRemoteResults({
             data: {
                 success: false,
-                report: `${e.message}
+                report: `${( e as Error ).message}
                 
 UUID (aka IFID) is an identifier for the story file and it needs to be in a specific format, and for Inform 7 projects it needs to be set in a file called uuid.txt. The format of the identifier is xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx (8-4-4-4-12 characters) where each character is a number 0-9 or a letter A-F.
 

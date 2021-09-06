@@ -1,6 +1,6 @@
-import firebase from "firebase/app";
-import "firebase/analytics";
-import "firebase/database";
+import firebase from "firebase/compat/app";
+import "firebase/compat/analytics";
+import "firebase/compat/database";
 
 import projectServiceList from "services/projects/projectServiceList";
 import { isSnippetsVariant } from "services/app/env";

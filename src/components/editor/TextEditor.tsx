@@ -1,7 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react";
-import MonacoEditor, { EditorDidMount } from "react-monaco-editor";
-import { editor } from "monaco-editor";
+import MonacoEditor, { EditorConstructionOptions, EditorDidMount } from "react-monaco-editor";
 import { registerAll } from "monarch";
 
 import editorStateStore from "stores/editorStateStore";
@@ -14,7 +13,7 @@ import "./TextEditor.scss";
 interface TextEditorElementProps {
     language?: string;
     onChange: ( newValue: string ) => void;
-    options: editor.IEditorConstructionOptions;
+    options: EditorConstructionOptions;
     setInitialCursorPosition: ( editor: MonacoEditor[ "editor" ] ) => void;
     theme: string;
     value: string;
@@ -47,7 +46,7 @@ export const TextEditorElement: React.FC<TextEditorElementProps> = ( props ) => 
 
 // see https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.ieditoroptions.html
 // These are exported so that we can use them in the Storybook stories
-export const defaultOptions: editor.IEditorConstructionOptions = {
+export const defaultOptions: EditorConstructionOptions = {
     automaticLayout: true,
     cursorStyle: "line",
     readOnly: false,
@@ -74,7 +73,7 @@ const TextEditor: React.FC = observer( () => {
         }
     };
 
-    const options: editor.IEditorConstructionOptions = {
+    const options: EditorConstructionOptions = {
         ...defaultOptions,
         copyWithSyntaxHighlighting: false,
         fontFamily: ( settingsStore.getSetting( "editor", "fontFamily" ) === "sans-serif" )
