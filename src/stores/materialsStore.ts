@@ -253,6 +253,12 @@ class MaterialsStore {
 
 
     /**
+     * All files (no folders)
+     */
+    public getAllFiles = (): MaterialsFile[] => this.files.filter( file => file.type !== MaterialsFileType.folder );
+
+
+    /**
      * Get a list of all folders
      */
     public getAllFolderPaths = (): string[] => {

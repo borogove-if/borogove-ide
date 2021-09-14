@@ -25,15 +25,15 @@ export const SnippetsInfoElement: React.FC<SnippetsInfoElementProps> = ({ flaggi
         Write your code with the editor and test it by pressing the "Go" button.
         When you're ready, press the "Share" button in the main menu to publish the snippet and get a shareable link.
     </p>
-    <p>
+    {language !== "ink" && <p>
         The standard library is included automatically
         {language === "inform7"
             ? " and all the extensions in the Public Library are available"
             : " (unless you chose a \"no library\" template)"}.
-    </p>
+    </p>}
     <p>
         The code for one snippet can contain at most {new Intl.NumberFormat( "en" ).format( SNIPPET_MAX_CHARACTERS )} characters.
-        Standard libraries and extensions are not counted in the limit.
+        {language !== "ink" && " Standard libraries and extensions are not counted in the limit."}
     </p>
     <p>
         You can't edit or remove a snippet after publishing it, but you can always create a new snippet based on the previous one.

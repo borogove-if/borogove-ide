@@ -65,6 +65,7 @@ class EditorStateStore {
             hugo: [ "hug", "h", "g" ],
             inform6: [ "inf", "h" ],
             inform7: [ "ni", "i7x" ],
+            ink: [ "ink" ],
             javascript: [ "js" ],
             markdown: [ "md" ],
             text: [ "txt" ]

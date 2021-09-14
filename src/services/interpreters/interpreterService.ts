@@ -1,7 +1,7 @@
 import ideStateStore from "stores/ideStateStore";
 import snippetStore from "stores/snippetStore";
 
-export type InterpreterIdentifier = "aamachine" | "hugojs" | "parchment" | "quixe" | "vorple";
+export type InterpreterIdentifier = "aamachine" | "hugojs" | "inkjs" | "parchment" | "quixe" | "vorple";
 
 
 /**
@@ -13,7 +13,7 @@ export function getInterpreterDomain(): string {
 
 
 /**
- * Builds an URL to the interpreter with optionally the story file address included.
+ * Builds a URL to the interpreter with optionally the story file address included.
  */
 export function getInterpreterUrl( interpreter: InterpreterIdentifier, storyfileUrl?: string | null ): string {
     const interpreterServiceUrl = getInterpreterDomain();
@@ -29,6 +29,11 @@ export function getInterpreterUrl( interpreter: InterpreterIdentifier, storyfile
         {
             const storyParameter = storyfileUrl ? `?story=${storyfileUrl}` : "";
             return `${interpreterServiceUrl}/hugojs/${process.env.REACT_APP_HUGOJS_VERSION}/index.html${storyParameter}`;
+        }
+
+        case "inkjs":
+        {
+            return `${interpreterServiceUrl}/inkjs/${process.env.REACT_APP_INKJS_VERSION}/index.html`;
         }
 
         case "parchment":
@@ -76,6 +81,14 @@ export function getStandaloneInterpreterMeta( interpreter: InterpreterIdentifier
             return {
                 storyfileName: "story.hex",
                 templateZipUrl: `${interpreterServiceUrl}/hugojs/${process.env.REACT_APP_HUGOJS_VERSION}/release.zip`
+            };
+        }
+
+        case "inkjs":
+        {
+            return {
+                storyfileName: "story.json",
+                templateZipUrl: `${interpreterServiceUrl}/inkjs/${process.env.REACT_APP_INKJS_VERSION}/release.zip`
             };
         }
 

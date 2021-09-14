@@ -6,6 +6,7 @@ import inform6VanillaProjectService from "./inform6/inform6VanillaProjectService
 import inform6VorpleProjectService from "./inform6/Inform6VorpleProjectService";
 import inform7VanillaProjectService from "./inform7/inform7VanillaProjectService";
 import inform7VorpleProjectService from "./inform7/inform7VorpleProjectService";
+import inkProjectService from "./ink/inkProjectService";
 
 
 /**
@@ -20,7 +21,8 @@ const projectServiceList: ReadonlyArray<ProjectService> = [
     inform6VanillaProjectService,
     inform6VorpleProjectService,
     hugoProjectService,
-    dialogProjectService
+    dialogProjectService,
+    inkProjectService
 ];
 
 export default projectServiceList;
