@@ -18,6 +18,24 @@ class InkProjectService extends ProjectService {
     public language = "ink";
     public name = "Ink";
     public templates = [ emptyInkProject, smallInkProject, largeInkProject ];
+
+    /**
+     * Convert the compiled JSON story file to a JS file for web site release
+     */
+    public processReleaseFile = async( name: string, content: Blob ): Promise<{ name: string; content: Blob }> => {
+        return new Promise( resolve => {
+            const reader = new FileReader();
+            reader.readAsText( content );
+            reader.onloadend = function(): void {
+                const json = reader.result as string;
+
+                resolve({
+                    name: "story.js",
+                    content: new Blob( [ `window.storyContent = ${json};` ], { type: "text/javascript" })
+                });
+            };
+        });
+    }
 }
 
 export default new InkProjectService();
