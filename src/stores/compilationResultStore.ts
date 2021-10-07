@@ -12,6 +12,23 @@ export enum CompilationStage {
 
 export type SpecialCompilationAction = "createUUID";
 
+export interface RemoteCompilationResultResponse {
+    data: {
+        action?: SpecialCompilationAction;
+        attributes?: {
+            jobId?: string;
+            output?: string;
+            storyfile?: string;
+        };
+        report: string;
+        success: boolean;
+    };
+    links?: {
+        index: string;
+        storyfile: string;
+    }
+}
+
 
 /**
  * The results of a compilation – generated files, reports and compiler status
@@ -160,7 +177,7 @@ class CompilationResultStore {
     /*
      * Same as setLocalResults but for an external compiler service
      */
-    setRemoteResults = ({ data, links }: { data: { success: boolean; report: string; action?: SpecialCompilationAction }; links?: { index: string; storyfile: string } }): void => {
+    setRemoteResults = ({ data, links }: RemoteCompilationResultResponse ): void => {
         this.indexUrl = links ? links.index : null;
         this.storyfileRemoteUrl = links ? links.storyfile : null;
         this.resultsReport = data.report;

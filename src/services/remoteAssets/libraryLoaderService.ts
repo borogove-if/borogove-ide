@@ -2,6 +2,12 @@ import Axios from "axios";
 import materialsStore from "stores/materialsStore";
 import { MaterialsFileType } from "../../types/enum";
 
+interface MaterialManifest {
+    files: ManifestFile[];
+    includePaths: string[];
+    version: number;
+}
+
 interface ManifestFile {
     path: string;
     type: "code" | "text" | "image" | "audio" | "data" | "folder";
@@ -19,7 +25,7 @@ const typeMap = {
 
 export async function loadRemoteLibraryFiles( sourceUrl: string, manifestFile: string ): Promise<void> {
     const manifestRequest = await Axios.get( sourceUrl + "/" + manifestFile );
-    const manifest = manifestRequest.data;
+    const manifest: MaterialManifest = manifestRequest.data;
     const { files, includePaths } = manifest;
 
     if( manifest.version !== 1 ) {

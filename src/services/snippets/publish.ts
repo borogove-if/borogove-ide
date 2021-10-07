@@ -1,10 +1,17 @@
-import Axios, { AxiosError } from "axios";
+import Axios, { AxiosError, AxiosResponse } from "axios";
 
 import materialsStore from "stores/materialsStore";
 import projectStore from "stores/projectStore";
 import snippetStore, { SnippetLoadState } from "stores/snippetStore";
 
 const GENERIC_ERROR_MESSAGE = "Cannot connect to snippet service";
+
+interface SnippetPublishingResponse {
+    error?: string;
+    id: string;
+    success: boolean;
+}
+
 
 /**
  * Publish a snippet
@@ -17,7 +24,7 @@ export const publishSnippet = async(): Promise<void> => {
     snippetStore.setState( SnippetLoadState.saving );
 
     const code = materialsStore.getContents( projectStore.entryFile );
-    let request;
+    let request: AxiosResponse<SnippetPublishingResponse>;
 
     snippetStore.setDirty( false );
 

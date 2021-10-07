@@ -1,12 +1,13 @@
-import axios, { AxiosPromise } from "axios";
+import axios, { AxiosPromise, AxiosResponse } from "axios";
 
-import compilationResultStore, { CompilationStage } from "stores/compilationResultStore";
+import compilationResultStore, { CompilationStage, RemoteCompilationResultResponse } from "stores/compilationResultStore";
 import ideStateStore from "stores/ideStateStore";
 import projectStore from "stores/projectStore";
 import materialsStore from "stores/materialsStore";
 import { logErrorMessage } from "services/app/loggers";
 
 const API_URL = process.env.REACT_APP_I7_COMPILER_SERVICE_URL;
+
 
 /**
  * Start the compilation process on the server. The server streams the compiler
@@ -152,7 +153,7 @@ There was a problem reading the UUID from the file but you can create a new UUID
 /**
  * Gets the results of the compilation from the server.
  */
-function getResults( jobId: string ): AxiosPromise | null {
+function getResults( jobId: string ): AxiosPromise<RemoteCompilationResultResponse> | null {
     try {
         return axios.get( `${API_URL}/results/${jobId}` );
     }
@@ -174,7 +175,7 @@ async function prepare(): Promise<string|null> {
     }
 
     try {
-        const result = await axios.post( API_URL + "/prepare", {
+        const result: AxiosResponse<RemoteCompilationResultResponse> = await axios.post( API_URL + "/prepare", {
             data: {
                 sessionId: ideStateStore.sessionId,
                 language: "Inform 7",
@@ -193,7 +194,7 @@ async function prepare(): Promise<string|null> {
             ]
         });
 
-        return result.data.data.attributes.jobId;
+        return result?.data?.data?.attributes?.jobId || null;
     }
     catch( e ) {
         return null;

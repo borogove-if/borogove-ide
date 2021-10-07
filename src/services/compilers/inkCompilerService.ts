@@ -1,7 +1,7 @@
-import axios, { AxiosError } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { join } from "path";
 
-import compilationResultStore, { CompilationStage } from "stores/compilationResultStore";
+import compilationResultStore, { CompilationStage, RemoteCompilationResultResponse } from "stores/compilationResultStore";
 import projectStore from "stores/projectStore";
 import materialsStore from "stores/materialsStore";
 import ideStateStore from "stores/ideStateStore";
@@ -49,7 +49,7 @@ export async function compileInk(): Promise<boolean> {
     saveFolder( OUTPUT_TMP_PATH );
 
     try {
-        const response = await axios.post(
+        const response: AxiosResponse<RemoteCompilationResultResponse> = await axios.post(
             `${API_URL}/compile`,
             {
                 data: {
@@ -61,9 +61,13 @@ export async function compileInk(): Promise<boolean> {
             }
         );
 
-        compilationResultStore.setCompilerOutput( response.data.data?.attributes?.output );
+        compilationResultStore.setCompilerOutput( response.data.data?.attributes?.output || "" );
 
         const localFilename = join( OUTPUT_TMP_PATH, "story.json" );
+
+        if( !response.data?.data?.attributes?.storyfile ) {
+            throw new Error( "Invalid Ink compiler response" );
+        }
 
         saveFile( localFilename, response.data.data.attributes.storyfile, false );
 
@@ -75,9 +79,18 @@ export async function compileInk(): Promise<boolean> {
         return true;
     }
     catch( e ) {
-        const error = ( e as AxiosError ).response?.data?.data?.attributes?.output || ( "Unknown error: " + ( e as Error ).message );
+        const axiosError = e as AxiosError;
+        const response: AxiosResponse<RemoteCompilationResultResponse> | undefined = axiosError.response;
+        let errorMessage = "";
 
-        compilationResultStore.setCompilerOutput( error );
+        if( !response?.data?.data?.attributes?.output ) {
+            errorMessage = "Unknown error: " + axiosError.message;
+        }
+        else {
+            errorMessage = response.data.data.attributes.output;
+        }
+
+        compilationResultStore.setCompilerOutput( errorMessage );
         compilationResultStore.setLocalResults({
             storyfilePath: null,
             success: false
