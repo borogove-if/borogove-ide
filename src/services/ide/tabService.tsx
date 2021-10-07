@@ -6,8 +6,10 @@ import React, { createElement } from "react";
 import FileViewer from "components/fileViewer/FileViewer";
 import Interpreter from "components/interpreter/Interpreter";
 import ProjectIndex from "components/projectIndex/ProjectIndex";
+import ReleasePane from "components/release/ReleasePane";
 import Settings from "components/settings/Settings";
 import SimpleCompilationProcess from "components/compilationProcess/SimpleCompilationProcess";
+import SnippetsInfo from "components/documents/snippets/SnippetsInfo";
 import StagedCompilationProcess from "components/compilationProcess/StagedCompilationProcess";
 import TextEditor from "components/editor/TextEditor";
 
@@ -15,8 +17,6 @@ import projectStore from "stores/projectStore";
 import { leftTabStore, rightTabStore } from "stores/tabStore";
 
 import { TabContentType } from "types/enum";
-import ReleasePane from "../../components/release/ReleasePane";
-import SnippetsInfo from "../../components/snippets/SnippetsInfo";
 
 interface TabOptions {
     closable?: boolean;

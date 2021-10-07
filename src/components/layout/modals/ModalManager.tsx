@@ -7,9 +7,10 @@ import AddFileModal from "components/fileManager/actions/AddFileModal";
 import DeleteFileModal from "components/fileManager/actions/DeleteFileModal";
 import MoveFileModal from "components/fileManager/actions/MoveFileModal";
 import OverwriteFileModal from "components/fileManager/actions/OverwriteFileModal";
-import PrivacyPolicy from "components/logging/PrivacyPolicy";
+import PrivacyPolicy from "components/documents/PrivacyPolicy";
 import RenameFileModal from "components/fileManager/actions/RenameFileModal";
-import SnippetsTOS from "components/snippets/SnippetsTOS";
+import SnippetsTOS from "components/documents/snippets/SnippetsTOS";
+import OverviewInfo from "components/documents/OverviewInfo";
 
 /**
  * Handles opening modals
@@ -39,6 +40,9 @@ const ModalManager: React.FC = observer( () => {
         /**
          * Documentation
          */
+        case "overview":
+            return <OverviewInfo {...modalProps} />;
+
         case "privacyPolicy":
             return <PrivacyPolicy {...modalProps} />;
 

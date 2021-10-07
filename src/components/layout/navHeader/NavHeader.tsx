@@ -1,5 +1,7 @@
 import React from "react";
-import { Title, Navbar, NavbarBrand, NavbarItem } from "bloomer";
+import { Title, Navbar, NavbarBrand, NavbarItem, NavbarEnd } from "bloomer";
+
+import BrandNav from "./BrandNav";
 
 import "./NavHeader.scss";
 
@@ -20,6 +22,11 @@ export const NavHeaderElement: React.FC<NavHeaderElementProps> = ({ title }) => 
             </Title>
         </NavbarItem>
     </NavbarBrand>
+    <NavbarEnd>
+        <NavbarItem>
+            <BrandNav />
+        </NavbarItem>
+    </NavbarEnd>
 </Navbar>;
 
 /**
