@@ -65,6 +65,14 @@ export const OverviewInfoElement: React.FC<OverviewInfoElementProps> = ({ ideURL
             </p>
         </section>}
 
+        <hr />
+
+        <section>
+            <p>
+                Found a bug? Post a ticket to <a href="https://github.com/vorple/borogove-ide/issues" target="_blank" rel="noreferrer">the GitHub repository</a>!
+            </p>
+        </section>
+
     </ModalTemplate>;
 };
 
