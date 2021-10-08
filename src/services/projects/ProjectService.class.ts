@@ -44,6 +44,10 @@ export default abstract class ProjectService {
     // Should the file manager be initially open?
     public fileManagerStartsOpen = true;
 
+    // What type of story files this format produces
+    // true: binary, false: text (UTF-8)
+    public hasBinaryStoryFiles = true;
+
     // Does the order of source files matter?
     public orderedFiles = false;
 

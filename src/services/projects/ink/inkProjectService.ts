@@ -13,6 +13,7 @@ import largeInkProject from "./templates/largeInkProject";
  */
 class InkProjectService extends ProjectService {
     public compile = compileInk;
+    public hasBinaryStoryFiles = false;
     public id = "ink";
     public interpreter: InterpreterIdentifier = "inkjs";
     public language = "ink";

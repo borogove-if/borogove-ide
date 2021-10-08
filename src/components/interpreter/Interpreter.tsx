@@ -19,7 +19,13 @@ const Interpreter: React.FC = () => {
     // send story files and materials to the interpreter
     const sendFiles = function( e: SyntheticEvent<HTMLIFrameElement> ): void {
         const contentWindow = e.currentTarget.contentWindow;
-        const storydata = storyfileLocalPath && compilationResultStore.getBase64Storyfile();
+        let storydata: string | null = null;
+
+        if( storyfileLocalPath ) {
+            storydata = projectStore.manager.hasBinaryStoryFiles
+                ? compilationResultStore.getBase64Storyfile()
+                : readFile( storyfileLocalPath, false ) as string;
+        }
 
         // send the story file
         ( contentWindow as any ).postMessage({  // eslint-disable-line
@@ -36,7 +42,7 @@ const Interpreter: React.FC = () => {
                 }
 
                 const path = materialsStore.getPath( materialsFile ).substr( 1 );
-                const content = readFile( materialsStore.getFilesystemPath( materialsFile ), true );
+                const content = readFile( materialsStore.getFilesystemPath( materialsFile ), projectStore.manager.hasBinaryStoryFiles );
 
                 ( contentWindow as any ).postMessage({  // eslint-disable-line
                     action: "fileupload",
