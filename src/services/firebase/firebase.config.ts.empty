@@ -1,0 +1,4 @@
+// Use this as firebase.config.ts content if you're not using Firebase
+
+export const publishingConfig = {};
+export const snippetsConfig = {};

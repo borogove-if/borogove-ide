@@ -1,9 +1,11 @@
 import React from "react";
-
-import { storiesOf } from "@storybook/react";
-import { FileListingElement } from "./FileListing";
-import { MaterialsFileType } from "types/enum";
 import { Menu } from "bloomer";
+import { storiesOf } from "@storybook/react";
+
+import { MaterialsFileType } from "stores/materialsStore";
+
+import { FileListingElement } from "./FileListing";
+
 
 const folder1: MaterialsFile = {
     name: "Folder 1",

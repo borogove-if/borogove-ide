@@ -4,11 +4,10 @@ import { FileWithPath } from "file-selector";
 import { isBinary } from "istextorbinary/edition-es2019/index"; /* eslint-disable-line */
 import { v4 as uuid } from "uuid";
 
-import { MaterialsFileType, TabContentType } from "types/enum";
-
 import editorStateStore from "./editorStateStore";
 import ideStateStore from "./ideStateStore";
-import settingsStore from "stores/settingsStore";
+import settingsStore from "./settingsStore";
+import { TabContentType } from "./tabStore";
 
 import { initFS, moveFile, recursiveRm, renameFile, saveFile, saveFolder, downloadFile, downloadFolder, readFile } from "services/filesystem/localFilesystemService";
 import { closeTabsByType, openTab } from "services/ide/tabService";
@@ -18,6 +17,15 @@ export enum FSLoadState {
     initializing,
     unavailable,
     ready
+}
+
+export enum MaterialsFileType {
+    audio,
+    code,
+    folder,
+    image,
+    text,   // other text file
+    data    // other binary file
 }
 
 /**

@@ -19,6 +19,7 @@ node_modules
 
 # Firebase API keys
 .firebase
+/src/services/firebase/firebase.config.ts
 
 # Sentry API keys
 .sentryclirc

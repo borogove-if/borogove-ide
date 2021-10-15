@@ -1,9 +1,11 @@
 import React from "react";
 import { observer } from "mobx-react";
+
 import ModalTemplate, { cancelButton } from "components/layout/modals/ModalTemplate";
-import { MaterialsFileType } from "types/enum";
+
 import ideStateStore from "stores/ideStateStore";
-import filesystemStore from "stores/materialsStore";
+import filesystemStore, { MaterialsFileType } from "stores/materialsStore";
+
 
 interface DeleteFileModalElementProps {
     isFolder: boolean;

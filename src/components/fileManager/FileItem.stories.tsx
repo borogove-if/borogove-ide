@@ -3,9 +3,10 @@ import { storiesOf } from "@storybook/react";
 import { Menu, MenuList } from "bloomer";
 import { action } from "@storybook/addon-actions";
 
+import { MaterialsFileType } from "stores/materialsStore";
+
 import { FileItemElement } from "./FileItem";
 
-import { MaterialsFileType } from "../../types/enum";
 
 const openFolder: MaterialsFile = {
     name: "Folder 1",

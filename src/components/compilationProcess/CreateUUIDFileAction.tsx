@@ -3,9 +3,7 @@ import { observer } from "mobx-react";
 import { Button } from "bloomer";
 import { v4 as uuid } from "uuid";
 
-import { MaterialsFileType } from "types/enum";
-
-import materialsStore from "stores/materialsStore";
+import materialsStore, { MaterialsFileType } from "stores/materialsStore";
 import editorStateStore from "stores/editorStateStore";
 
 interface CreateUUIDFileActionElementProps {

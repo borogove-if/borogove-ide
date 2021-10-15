@@ -1,9 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import { isSnippetsVariant } from "services/app/env";
 import { initLoggers } from "services/app/loggers";
-import { initFirebase } from "services/snippets/import";
+import { initFirebase } from "services/firebase/setup";
 
 import App from "./App";
 
@@ -14,9 +13,7 @@ import "bulmaswatch/flatly/bulmaswatch.scss";
 initLoggers();
 
 // Initialize Firebase
-if( isSnippetsVariant ) {
-    initFirebase();
-}
+initFirebase();
 
 // Mount the React app
 ReactDOM.render( <App />, document.getElementById( "root" ) );

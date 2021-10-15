@@ -6,6 +6,7 @@ import React, { createElement } from "react";
 import FileViewer from "components/fileViewer/FileViewer";
 import Interpreter from "components/interpreter/Interpreter";
 import ProjectIndex from "components/projectIndex/ProjectIndex";
+import PublishPane from "components/publish/PublishPane";
 import ReleasePane from "components/release/ReleasePane";
 import Settings from "components/settings/Settings";
 import SimpleCompilationProcess from "components/compilationProcess/SimpleCompilationProcess";
@@ -14,9 +15,8 @@ import StagedCompilationProcess from "components/compilationProcess/StagedCompil
 import TextEditor from "components/editor/TextEditor";
 
 import projectStore from "stores/projectStore";
-import { leftTabStore, rightTabStore } from "stores/tabStore";
+import { leftTabStore, rightTabStore, TabContentType } from "stores/tabStore";
 
-import { TabContentType } from "types/enum";
 
 interface TabOptions {
     closable?: boolean;
@@ -32,6 +32,7 @@ const tabOrder = [
     TabContentType.projectIndex,
     TabContentType.compiler,
     TabContentType.release,
+    TabContentType.publish,
     TabContentType.settings,
     TabContentType.welcome,
     TabContentType.snippetsInfo
@@ -143,6 +144,20 @@ export function openTab( type: TabContentType, options: TabOptions = {}): void {
             });
             break;
 
+        case TabContentType.publish:
+            if( oldTab.right ) {
+                rightTabStore.removeTab( oldTab.right.id );
+            }
+
+            rightTabStore.addTab({
+                ...addTabOptions,
+                component: <PublishPane />,
+                label: "Publish"
+            });
+
+            rightTabStore.removeTabType( TabContentType.release );
+            break;
+
         case TabContentType.release:
             if( oldTab.right ) {
                 rightTabStore.removeTab( oldTab.right.id );
@@ -153,6 +168,8 @@ export function openTab( type: TabContentType, options: TabOptions = {}): void {
                 component: <ReleasePane />,
                 label: "Share"
             });
+
+            rightTabStore.removeTabType( TabContentType.publish );
             break;
 
         case TabContentType.settings:

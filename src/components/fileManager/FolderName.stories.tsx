@@ -1,8 +1,10 @@
 import React from "react";
-
 import { storiesOf } from "@storybook/react";
+
+import { MaterialsFileType } from "stores/materialsStore";
+
 import FolderName from "./FolderName";
-import { MaterialsFileType } from "types/enum";
+
 
 const file: MaterialsFile = {
     name: "story.inf",

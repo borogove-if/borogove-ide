@@ -1,6 +1,5 @@
 import Axios from "axios";
-import materialsStore from "stores/materialsStore";
-import { MaterialsFileType } from "../../types/enum";
+import materialsStore, { MaterialsFileType } from "stores/materialsStore";
 
 interface MaterialManifest {
     files: ManifestFile[];

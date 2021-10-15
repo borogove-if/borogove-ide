@@ -1,7 +1,8 @@
 import React from "react";
 import { observer } from "mobx-react";
-import { MaterialsFileType } from "types/enum";
 import { TiFolderOpen, TiFolder, TiDocument } from "react-icons/ti";
+
+import { MaterialsFileType } from "stores/materialsStore";
 
 
 interface FileIconProps {

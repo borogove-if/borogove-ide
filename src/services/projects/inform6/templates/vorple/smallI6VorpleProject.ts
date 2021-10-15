@@ -1,5 +1,5 @@
 import ProjectTemplate from "services/projects/ProjectTemplate.class";
-import { MaterialsFileType } from "types/enum";
+import { MaterialsFileType } from "stores/materialsStore";
 
 const code = `! Serinette - Basic example of playing music and sound effects.
 ! The serinette (a type of music box) plays music when it opens and a sound effect when it's wound. We'll also show its picture when it's examined.

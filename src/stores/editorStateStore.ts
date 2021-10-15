@@ -7,8 +7,7 @@ import { openTab } from "services/ide/tabService";
 import materialsStore from "./materialsStore";
 import projectStore from "./projectStore";
 import snippetStore from "./snippetStore";
-
-import { TabContentType } from "types/enum";
+import { TabContentType } from "./tabStore";
 
 
 /**

@@ -10,8 +10,6 @@ import {
 } from "bloomer";
 import { TiHome, TiCog, TiExport } from "react-icons/ti";
 
-import { TabContentType } from "types/enum";
-
 import GoButton from "./GoButton";
 
 import { isInFrame, isSnippetsVariant } from "services/app/env";
@@ -19,7 +17,7 @@ import { openTab } from "services/ide/tabService";
 import { firstSnippetPublish } from "services/snippets/publish";
 
 import ideStateStore from "stores/ideStateStore";
-import { TabStore, leftTabStore, rightTabStore } from "stores/tabStore";
+import { TabStore, leftTabStore, rightTabStore, TabContentType } from "stores/tabStore";
 
 import "./MainNavigation.scss";
 

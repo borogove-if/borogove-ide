@@ -4,11 +4,11 @@ import { Menu, MenuList } from "bloomer";
 
 import FileItem from "./FileItem";
 
-import materialsStore from "stores/materialsStore";
+import materialsStore, { MaterialsFileType } from "stores/materialsStore";
 import editorStateStore from "stores/editorStateStore";
-import { MaterialsFileType } from "types/enum";
 
 import "./FileListing.scss";
+
 
 interface FileListingElementProps {
     files: MaterialsFile[];

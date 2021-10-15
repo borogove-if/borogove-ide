@@ -1,5 +1,5 @@
 import ProjectTemplate from "services/projects/ProjectTemplate.class";
-import { MaterialsFileType } from "types/enum";
+import { MaterialsFileType } from "stores/materialsStore";
 
 class EmptyInkProjectTemplate extends ProjectTemplate {
     id = "ink";

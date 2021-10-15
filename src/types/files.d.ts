@@ -1,4 +1,4 @@
-import { MaterialsFileType } from "./enum";
+import { MaterialsFileType } from "stores/materialsStore";
 
 export declare global {
     // What a file can contain: string for text files, ArrayBuffer for binary files

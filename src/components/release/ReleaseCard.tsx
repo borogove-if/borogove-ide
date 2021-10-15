@@ -3,11 +3,12 @@ import { observer } from "mobx-react";
 import { Card, CardContent, Content, CardFooter, CardFooterItem, CardHeader, CardHeaderTitle } from "bloomer";
 
 interface ReleaseCardElementProps {
+    buttonText: string;
     onBuild: () => void;
     title: string;
 }
 
-export const ReleaseCardElement: React.FC<ReleaseCardElementProps> = ({ children, onBuild, title }) => <Card>
+export const ReleaseCardElement: React.FC<ReleaseCardElementProps> = ({ buttonText, children, onBuild, title }) => <Card>
     <CardHeader>
         <CardHeaderTitle>
             {title}
@@ -20,7 +21,7 @@ export const ReleaseCardElement: React.FC<ReleaseCardElementProps> = ({ children
     </CardContent>
     <CardFooter>
         <CardFooterItem href="#" onClick={onBuild}>
-            Build and download
+            {buttonText}
         </CardFooterItem>
     </CardFooter>
 </Card>;

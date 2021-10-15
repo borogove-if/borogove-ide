@@ -1,0 +1,24 @@
+// This is an example of how the firebase.config.ts file should look like
+// after Firebase configuration has been added
+
+export const publishingConfig = {
+    apiKey: "xxx",
+    authDomain: "example.firebaseapp.com",
+    databaseURL: "https://example-rtdb.firebaseio.com",
+    projectId: "example",
+    storageBucket: "example.appspot.com",
+    messagingSenderId: "123456",
+    appId: "1:12345:web:67890",
+    measurementId: "G-ABC123"
+};
+
+export const snippetsConfig = {
+    apiKey: "xxx",
+    authDomain: "example.firebaseapp.com",
+    databaseURL: "https://example-rtdb.firebaseio.com",
+    projectId: "example",
+    storageBucket: "example.appspot.com",
+    messagingSenderId: "123456",
+    appId: "1:12345:web:67890",
+    measurementId: "G-ABC123"
+};

@@ -1,12 +1,12 @@
 import React, { SyntheticEvent } from "react";
-import { MaterialsFileType } from "types/enum";
 
 import compilationResultStore from "stores/compilationResultStore";
-import materialsStore from "stores/materialsStore";
+import materialsStore, { MaterialsFileType } from "stores/materialsStore";
 import projectStore from "stores/projectStore";
 
 import { readFile } from "services/filesystem/localFilesystemService";
 import { getInterpreterDomain } from "services/interpreters/interpreterService";
+
 
 /**
  * Loads and runs an interpreter with the latest compiled story file.

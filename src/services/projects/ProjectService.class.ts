@@ -6,11 +6,10 @@ import { restoreFS } from "services/filesystem/persistentFilesystemService";
 
 import editorStateStore from "stores/editorStateStore";
 import ideStateStore from "stores/ideStateStore";
-import materialsStore from "stores/materialsStore";
+import materialsStore, { MaterialsFileType } from "stores/materialsStore";
 import projectStore, { ProjectStoreState } from "stores/projectStore";
 
 import ProjectTemplate from "./ProjectTemplate.class";
-import { MaterialsFileType } from "types/enum";
 
 
 /**

@@ -1,9 +1,7 @@
-import firebase from "firebase/compat/app";
-import "firebase/compat/analytics";
-import "firebase/compat/database";
+import { child, get, getDatabase, ref } from "firebase/database";
 
+import { getSnippetsFirebaseApp } from "services/firebase/setup";
 import projectServiceList from "services/projects/projectServiceList";
-import { isSnippetsVariant } from "services/app/env";
 
 import snippetStore from "stores/snippetStore";
 import editorStateStore from "stores/editorStateStore";
@@ -15,45 +13,20 @@ const SNIPPET_ID_MIN_LENGTH = 6;
 
 
 /**
- * Firebase initialization
- */
-export const initFirebase = (): void => {
-    if( !isSnippetsVariant ) {
-        return;
-    }
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyCNaPF0uWxzrw68MEeIwdjVzRxiIeF_Ewg",
-        authDomain: "borogove-ide.firebaseapp.com",
-        databaseURL: "https://borogove-ide.firebaseio.com",
-        projectId: "borogove-ide",
-        storageBucket: "borogove-ide.appspot.com",
-        messagingSenderId: "571355987682",
-        appId: "1:571355987682:web:7d949700c4b7cabf5628bb",
-        measurementId: "G-Y3RG7241MC"
-    };
-
-    firebase.initializeApp( firebaseConfig );
-
-    firebase.analytics.isSupported().then( isSupported => {
-        if( isSupported ) {
-            firebase.analytics();
-        }
-    });
-};
-
-
-/**
  * Retrieves snippet data from Firebase by the snippet id
  */
 export const getSnippet = async( snippetId: string ): Promise<FirebaseSnippetData | null> => {
+    console.log( "getSnippet " + snippetId );
     try {
-        const db = firebase.database();
-        const snapshot = await db.ref( "/snippets/" + snippetId ).once( "value" );
+        const firebaseApp = getSnippetsFirebaseApp();
+        const db = getDatabase( firebaseApp );
+        const dbRef = ref( db );
+        const snapshot = await get( child( dbRef,  "/snippets/" + snippetId ) );
 
         return snapshot.val();
     }
     catch( e ) {
+        console.log( e );
         return null;
     }
 };

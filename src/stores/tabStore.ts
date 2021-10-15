@@ -1,11 +1,23 @@
 import { observable, action, computed, IObservableArray, makeObservable } from "mobx";
 import { v4 as uuid } from "uuid";
 
-import { TabContentType } from "types/enum";
-
 import ideStateStore from "./ideStateStore";
 
 type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
+
+export enum TabContentType {
+    compiler,
+    editor,
+    fileViewer,
+    interpreter,
+    projectIndex,
+    publish,
+    release,
+    settings,
+    snippetsInfo,
+    welcome
+}
+
 
 /**
  * Tabs that are shown on the left and right panes.
@@ -14,6 +26,7 @@ export class TabStore {
     activeTabId: string | null = null;
 
     readonly tabsList: IObservableArray<Tab> = observable.array( [] );  // can't use @observable here because it doesn't apply the correct type for Typescript
+
 
     /**
      * Create a new tab. Pass in the tab's properties except for its id which is
@@ -75,15 +88,18 @@ export class TabStore {
     };
 
 
-    constructor() {
-        makeObservable( this, {
-            activeTabId: observable,
-            addTab: action,
-            setActiveTab: action,
-            removeTab: action,
-            activeTab: computed
-        });
-    }
+    /**
+     * Removes a tab by type.
+     */
+    public removeTabType = ( type: TabContentType ): boolean => {
+        const tab = this.findByType( type );
+
+        if( !tab ) {
+            return false;
+        }
+
+        return this.removeTab( tab.id );
+    };
 
 
     /**
@@ -105,6 +121,17 @@ export class TabStore {
      * or undefined if one doesn't exist.
      */
     public findByType = ( type: TabContentType ): Tab | undefined => this.tabsList.find( tab => tab.type === type );
+
+
+    constructor() {
+        makeObservable( this, {
+            activeTabId: observable,
+            addTab: action,
+            setActiveTab: action,
+            removeTab: action,
+            activeTab: computed
+        });
+    }
 }
 
 // Export tab stores separately for the left and right panes

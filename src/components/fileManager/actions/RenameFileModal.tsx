@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { observer } from "mobx-react";
-import ModalTemplate, { cancelButton } from "components/layout/modals/ModalTemplate";
-import { MaterialsFileType } from "types/enum";
-import ideStateStore from "stores/ideStateStore";
 import { Field, Label, Control, Input } from "bloomer";
-import materialsStore from "stores/materialsStore";
+
+import ModalTemplate, { cancelButton } from "components/layout/modals/ModalTemplate";
+
+import ideStateStore from "stores/ideStateStore";
+import materialsStore, { MaterialsFileType } from "stores/materialsStore";
+
 
 interface RenameFileModalElementProps {
     isFolder: boolean;

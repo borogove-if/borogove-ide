@@ -3,12 +3,14 @@ import { observer } from "mobx-react";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownContent, DropdownItem } from "bloomer";
 import { TiThMenu } from "react-icons/ti";
 
-import "./FileActions.scss";
 import ideStateStore from "stores/ideStateStore";
-import materialsStore from "stores/materialsStore";
+import materialsStore, { MaterialsFileType } from "stores/materialsStore";
 import projectStore from "stores/projectStore";
-import { MaterialsFileType } from "types/enum";
+
 import SortingIcons from "./SortingIcon";
+
+import "./FileActions.scss";
+
 
 interface FileActionsElementProps {
     isEntryFile: boolean;

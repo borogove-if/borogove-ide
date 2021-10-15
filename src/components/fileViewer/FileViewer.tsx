@@ -2,11 +2,9 @@ import React from "react";
 import { observer } from "mobx-react";
 import { Message, MessageBody } from "bloomer";
 
-import { MaterialsFileType } from "types/enum";
-
 import { readFileAsBase64 } from "services/filesystem/localFilesystemService";
 
-import materialsStore from "stores/materialsStore";
+import materialsStore, { MaterialsFileType } from "stores/materialsStore";
 
 import ViewImage from "./ViewImage";
 import PlayAudio from "./PlayAudio";

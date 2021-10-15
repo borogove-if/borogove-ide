@@ -1,9 +1,9 @@
 import { compileI7 } from "services/compilers/inform7CompilerService";
 
-import ProjectService from "../ProjectService.class";
 import projectStore, { ProjectStoreState } from "stores/projectStore";
-import materialsStore from "stores/materialsStore";
-import { MaterialsFileType } from "types/enum";
+import materialsStore, { MaterialsFileType } from "stores/materialsStore";
+
+import ProjectService from "../ProjectService.class";
 import ProjectTemplate from "../ProjectTemplate.class";
 
 

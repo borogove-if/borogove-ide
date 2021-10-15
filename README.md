@@ -22,6 +22,7 @@ To set up the project locally you need [Node.js](https://nodejs.org) and either 
 * Clone the repository locally (`git clone` (recommended) or download and unpack the source code)
 * `npm install` (or `yarn install`) in the project directory
 * Create a file called `.env` to the project root and use `.env.example` as a template for its contents
+* For Firebase integration (publishing games and the Snippets variant) add Firebase configuration to the src/services/firebase/firebase.config.ts file using the firebase.config.ts.example as a template. If you don't use Firebase, instead copy the contents of firebase.config.ts.empty to firebase.config.ts.
 
 The .env file contains values that vary between development and production environments. If you create a file called `.env.production` its values are used in the production build.
 

@@ -2,8 +2,9 @@ import React from "react";
 import { observer } from "mobx-react";
 import { MenuLink } from "bloomer";
 
-import materialsStore from "stores/materialsStore";
+import materialsStore, { MaterialsFileType } from "stores/materialsStore";
 import projectStore from "stores/projectStore";
+import { TabContentType } from "stores/tabStore";
 
 import { openTab } from "services/ide/tabService";
 
@@ -11,9 +12,8 @@ import FolderName from "./FolderName";
 import FileIcon from "./FileIcon";
 import FileActions from "./actions/FileActions";
 
-import { MaterialsFileType, TabContentType } from "types/enum";
-
 import "./FileItem.scss";
+
 
 interface FileItemElementProps extends FileItemProps {
     isEntryFile: boolean;
