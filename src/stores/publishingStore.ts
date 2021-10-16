@@ -3,7 +3,9 @@ import { UploadTaskSnapshot } from "@firebase/storage";
 
 import { uploadFile } from "services/firebase/publishing";
 import { openTab } from "services/ide/tabService";
+
 import { TabContentType } from "./tabStore";
+import projectStore from "./projectStore";
 
 
 export enum PublishingStage {
@@ -25,7 +27,10 @@ class PublishingStore {
     uploadedFileId: string;
 
     get uploadURL(): string {
-        return `${process.env.REACT_APP_PUBLISHING_BASE_URL}/ide-upload/${this.uploadedFileId}`;
+        const format = projectStore.manager.storyFileFormat;
+        const system = projectStore.manager.name;
+
+        return `${process.env.REACT_APP_PUBLISHING_BASE_URL}/ide-upload/${this.uploadedFileId}/${format}/${system}`;
     }
 
     onUploadProgress = ( snapshot: UploadTaskSnapshot ): void => {

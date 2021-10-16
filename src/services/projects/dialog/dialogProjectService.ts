@@ -21,6 +21,7 @@ class DialogProjectService extends ProjectService {
     public language = "dialog";
     public name = "Dialog";
     public orderedFiles = true;
+    public storyFileFormat = "aamachine";
     public templates = [ standardDialogProject, emptyDialogProject ];
 
     /**

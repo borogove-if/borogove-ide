@@ -24,6 +24,7 @@ class HugoProjectService extends ProjectService {
     public interpreter: InterpreterIdentifier = "hugojs";
     public language = "hugo";
     public name = "Hugo";
+    public storyFileFormat = "hugo";
     public templates = [ standardHugoProject, roodylibHugoProject, emptyHugoProject ];
 }
 

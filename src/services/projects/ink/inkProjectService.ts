@@ -18,6 +18,7 @@ class InkProjectService extends ProjectService {
     public interpreter: InterpreterIdentifier = "inkjs";
     public language = "ink";
     public name = "Ink";
+    public storyFileFormat = "ink";
     public templates = [ emptyInkProject, smallInkProject, largeInkProject ];
 
     /**

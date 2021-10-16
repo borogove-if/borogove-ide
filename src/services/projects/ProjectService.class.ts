@@ -29,7 +29,7 @@ export default abstract class ProjectService {
     // language names (see editorStateStore).
     public abstract language: string;
 
-    // The name of the project. This is shown as the title in the New Project page.
+    // The name of the project. This is shown as the title in the New Project page. Must match the names used in Borogove.io.
     public abstract name: string;
 
     // The template id that was used to initialize the project
@@ -58,6 +58,9 @@ export default abstract class ProjectService {
 
     // Should the filesystem show compiler options (setting main entry point and include paths)
     public showFilesystemCompilerOptions = true;
+
+    // Id for the story file format, must match what Borogove.io uses
+    public storyFileFormat: string;
 
     // The optional subtitle shown on the New Project page below the title
     public subtitle?: string;

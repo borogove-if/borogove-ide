@@ -10,4 +10,5 @@ export default abstract class Inform6ProjectService extends ProjectService {
     public includePaths = [ "/input/library" ];
     public language = "inform6";
     public name = "Inform 6";
+    public storyFileFormat = "z";
 }

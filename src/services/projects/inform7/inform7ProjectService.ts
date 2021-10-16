@@ -16,6 +16,7 @@ export default abstract class Inform7ProjectService extends ProjectService {
     public language = "inform7";
     public name = "Inform 7";
     public showFilesystemCompilerOptions = false;   // I7 always has the same entry point and no include paths
+    public storyFileFormat = "glulx";
 
     public generateUUIDFile(): void {
         const { uuid } = projectStore;

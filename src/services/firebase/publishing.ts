@@ -8,8 +8,6 @@ import {
 import { getPublishingFirebaseApp } from "./setup";
 import { v4 as uuid } from "uuid";
 
-const PUBLISHING_UPLOAD_DIRECTORY = "pending";
-
 
 /**
  * Uploads a file to Firebase into the temporary directory, for Borogove.io
@@ -24,7 +22,7 @@ export const uploadFile = (
     const id = uuid();
     const firebaseApp = getPublishingFirebaseApp();
     const storage = getStorage( firebaseApp );
-    const storageRef = ref( storage, `${PUBLISHING_UPLOAD_DIRECTORY}/${id}` );
+    const storageRef = ref( storage, id );
     const uploadTask = uploadBytesResumable( storageRef, file );
 
     uploadTask.on( "state_changed", progressCallback, errorCallback, successCallback );

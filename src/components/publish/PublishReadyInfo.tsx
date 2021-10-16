@@ -17,6 +17,10 @@ export const PublishReadyInfoElement: React.FC<PublishReadyInfoElementProps> = (
     <p>
         The story file has been compiled and uploaded to a temporary location.
         You can now proceed to Borogove.io using the button below and get a permanent link to a playable online version.
+        You will be asked to log in using a Google account.
+    </p>
+
+    <p>
         If you don't complete the process, the uploaded file will be deleted within few hours.
     </p>
 
