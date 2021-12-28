@@ -1,7 +1,7 @@
 import { observable, action, makeObservable, runInAction } from "mobx";
 import { dirname, basename, join, extname } from "path";
 import { FileWithPath } from "file-selector";
-import { isBinary } from "istextorbinary/edition-es2019/index"; /* eslint-disable-line */
+import { isBinary } from "istextorbinary";
 import { v4 as uuid } from "uuid";
 
 import editorStateStore from "./editorStateStore";
@@ -279,7 +279,7 @@ class MaterialsStore {
         folders.unshift( "/" );
 
         return folders;
-    }
+    };
 
 
     /**
@@ -350,7 +350,7 @@ class MaterialsStore {
 
     public getContents = ( file: MaterialsFile ): string => {
         return readFile( this.getFilesystemPath( file ), false ) as string;
-    }
+    };
 
     public getIncludePaths = ( root: string ): string[] => this.files.filter( file => file.isIncludePath ).map( file => join( root, this.getPath( file ) ) );
 
@@ -427,7 +427,7 @@ class MaterialsStore {
         const swapOrder = swap.compilationIndex;
         file.compilationIndex = swapOrder;
         swap.compilationIndex = thisOrder;
-    }
+    };
 
 
     /**

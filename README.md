@@ -9,6 +9,7 @@ The main technologies used:
 * [React](https://reactjs.org) user interface library
 * [MobX](https://mobx.js.org) state management
 * [SASS](https://sass-lang.com) for writing CSS
+* [Node](https://nodejs.org) (version 14 or higher) for build tools
 
 Adding new features requires knowing or learning more or less all of the above, but for making modifications you might get by with general programming skills, depending on the task.
 

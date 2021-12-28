@@ -5,8 +5,9 @@ import {
     uploadBytesResumable,
     UploadTaskSnapshot
 } from "firebase/storage";
-import { getPublishingFirebaseApp } from "./setup";
 import { v4 as uuid } from "uuid";
+
+import { getPublishingFirebaseApp } from "./setup";
 
 
 /**

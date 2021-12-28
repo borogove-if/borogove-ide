@@ -67,14 +67,14 @@ class SettingsStore {
      */
     public getSetting = ( scope: keyof AppSettings, setting: string ): any => {    // eslint-disable-line
         return this.settings[scope][setting];
-    }
+    };
 
     /**
      * Checks if the browser has a "do not track" option set on
      */
     private hasDoNotTrack = (): boolean => {
         return navigator.doNotTrack === "1";
-    }
+    };
 
     /**
      * Save settings to localstorage

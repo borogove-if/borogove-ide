@@ -194,5 +194,5 @@ export default abstract class ProjectService {
             console.log( e );
             return false;
         }
-    }
+    };
 }

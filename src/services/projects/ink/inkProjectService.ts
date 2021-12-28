@@ -37,7 +37,7 @@ class InkProjectService extends ProjectService {
                 });
             };
         });
-    }
+    };
 }
 
 export default new InkProjectService();

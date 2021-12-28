@@ -57,7 +57,7 @@ class PublishingStore {
             this.onUploadError,
             this.onUploadSuccess
         );
-    }
+    };
 
     constructor() {
         makeObservable( this, {

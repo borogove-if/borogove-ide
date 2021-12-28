@@ -44,7 +44,7 @@ class DialogProjectService extends ProjectService {
                 });
             };
         });
-    }
+    };
 }
 
 export default new DialogProjectService();

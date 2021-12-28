@@ -46,5 +46,5 @@ export default abstract class Inform7ProjectService extends ProjectService {
         else {
             projectStore.setState( ProjectStoreState.error );
         }
-    }
+    };
 }
