@@ -116,10 +116,10 @@
     "workbox-webpack-plugin": "6.4.2"
   },
   "scripts": {
-    "start": "REACT_APP_VARIANT=ide node scripts/start.js",
-    "start:snippets": "REACT_APP_VARIANT=snippets node scripts/start.js",
-    "build": "REACT_APP_VARIANT=ide node scripts/build.js",
-    "build:snippets": "REACT_APP_VARIANT=snippets node scripts/build.js",
+    "start": "node scripts/start.js ide",
+    "start:snippets": "node scripts/start.js snippets",
+    "build": "node scripts/build.js ide",
+    "build:snippets": "node scripts/build.js snippets",
     "deploy:dev": "yarn build && firebase use dev && firebase deploy",
     "deploy:prod": "yarn build && yarn build:snippets && firebase use production && firebase deploy",
     "lint": "eslint -c .eslintrc.js src/**/*.{ts,tsx}",
