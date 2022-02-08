@@ -37,7 +37,7 @@ async function copyRecursively( fs: any, sourceRoot: string, source: string, tar
 interface SettingsFile {
     version: number;
     editor: {
-        file: string;
+        file?: string;
     };
     entryFile: string | null;
     files: MaterialsFile[];
@@ -47,7 +47,7 @@ function createSettingsFile(): string {
     const data: SettingsFile = {
         version: 1,
         editor: {
-            file: editorStateStore.file.id
+            file: editorStateStore.file?.id
         },
         entryFile: projectStore.entryFile ? projectStore.entryFile.id : null,
         files: materialsStore.serialize()
@@ -136,7 +136,10 @@ export async function restoreFS( projectId: string ): Promise<void> {
                     const settings: SettingsFile = JSON.parse( contents );
 
                     materialsStore.restoreFS( settings.files );
-                    fileToOpen = materialsStore.findById( settings.editor.file );
+
+                    if( settings.editor.file ) {
+                        fileToOpen = materialsStore.findById( settings.editor.file );
+                    }
 
                     if( settings.entryFile ) {
                         projectStore.setEntryFile( materialsStore.findById( settings.entryFile ) );
@@ -158,10 +161,6 @@ export async function restoreFS( projectId: string ): Promise<void> {
 
     if( fileToOpen ) {
         editorStateStore.openFile( fileToOpen );
-    }
-    else {
-        materialsStore.restoreFS( [] );
-        throw new Error( "Can't open file that was previously open" );
     }
 }
 

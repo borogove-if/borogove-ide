@@ -50,7 +50,7 @@ const FileListing: React.FC<FileListingProps> = observer( ({ readonly }) => {
 
     // FileListingElement is called recursively so <Menu> must be here
     return <Menu className="filelisting">
-        <FileListingElement files={files} readonly={readonly} selected={editorStateStore.file.id} />
+        <FileListingElement files={files} readonly={readonly} selected={editorStateStore.file?.id} />
     </Menu>;
 });
 

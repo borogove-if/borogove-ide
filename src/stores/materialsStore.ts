@@ -523,7 +523,7 @@ class MaterialsStore {
 
         reader.onabort = (): void => console.log( "file reading was aborted" );
         reader.onerror = (): void => console.log( "file reading has failed" );
-        reader.onload = (): void => {
+        reader.onload = action( (): void => {
             const binaryStr = reader.result;
             const path = file.path ? file.path.substr( 0, file.path.length - file.name.length - 1 ) : null;
             const nameWithPath = path ? join( path, file.name ) : file.name;
@@ -540,7 +540,7 @@ class MaterialsStore {
 
                     saveFile( this.getFilesystemPath( existingFile ), binaryStr, binary ?? undefined );
 
-                    if( editorStateStore.file.id === existingFile.id ) {
+                    if( editorStateStore.file && editorStateStore.file.id === existingFile.id ) {
                         // if the file was open on the editor, re-open it to update the contents
                         editorStateStore.refreshView();
                     }
@@ -578,7 +578,7 @@ class MaterialsStore {
                 );
                 this.processUploads();
             }
-        };
+        });
 
         reader.readAsBinaryString( file );
     };

@@ -18,7 +18,7 @@ class EditorStateStore {
     contents = "";
 
     // The file that's currently open in the editor
-    file: MaterialsFile;
+    file: MaterialsFile | undefined;
 
     // Which programming language the contents are written in
     language?: string;
@@ -89,8 +89,18 @@ class EditorStateStore {
      * Open a file from the file manager in the editor
      */
     openFile = ( file: MaterialsFile ): void => {
+        let contents;
+
+        try {
+            contents = materialsStore.getContents( file );
+        }
+        catch( e ) {
+            // if the file doesn't exist, just do nothing
+            return;
+        }
+
         this.file = file;
-        this.setContents( materialsStore.getContents( file ) );
+        this.setContents( contents );
         openTab( TabContentType.editor, { label: file.displayName || file.name });
 
         this.language = this.detectLanguage( file.name );
@@ -101,6 +111,10 @@ class EditorStateStore {
      * Refresh the editor view (reload contents from currently open file)
      */
     refreshView = (): void => {
+        if( !this.file ) {
+            return;
+        }
+
         const file = materialsStore.getCurrent( this.file );
 
         if( !file ) {
@@ -123,7 +137,10 @@ class EditorStateStore {
             this.contents = code;
         }
 
-        materialsStore.updateFile( this.file, code );
+        if( this.file ) {
+            materialsStore.updateFile( this.file, code );
+        }
+
         projectStore.persistState();
 
         // only set the dirty flag if the input was from the user
