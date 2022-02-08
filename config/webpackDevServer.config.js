@@ -64,29 +64,44 @@ module.exports = function(proxy, allowedHost) {
     },
     // `proxy` is run between `before` and `after` `webpack-dev-server` hooks
     proxy,
-    onBeforeSetupMiddleware(devServer) {
-      // Keep `evalSourceMapMiddleware` and `errorOverlayMiddleware`
-      // middlewares before `redirectServedPath` otherwise will not have any effect
-      // This lets us fetch source contents from webpack for the error overlay
-      devServer.app.use(evalSourceMapMiddleware(devServer));
-      // This lets us open files from the runtime error overlay.
-      devServer.app.use(errorOverlayMiddleware());
+    setupMiddlewares(middlewares, devServer) {
+      middlewares.unshift({
+        name: 'onBeforeSetupMiddleware',
+        middleware: (req, res, next) => {
+          // Keep `evalSourceMapMiddleware` and `errorOverlayMiddleware`
+          // middlewares before `redirectServedPath` otherwise will not have any effect
+          // This lets us fetch source contents from webpack for the error overlay
+          devServer.app.use(evalSourceMapMiddleware(devServer));
+          // This lets us open files from the runtime error overlay.
+          devServer.app.use(errorOverlayMiddleware());
 
-      if (fs.existsSync(paths.proxySetup)) {
-        // This registers user provided middleware for proxy reasons
-        require(paths.proxySetup)(app);
-      }
-    },
-    onAfterSetupMiddleware(devServer) {
-      // Redirect to `PUBLIC_URL` or `homepage` from `package.json` if url not match
-      devServer.app.use(redirectServedPath(paths.publicUrlOrPath));
+          if (fs.existsSync(paths.proxySetup)) {
+            // This registers user provided middleware for proxy reasons
+            require(paths.proxySetup)(app);
+          }
 
-      // This service worker file is effectively a 'no-op' that will reset any
-      // previous service worker registered for the same host:port combination.
-      // We do this in development to avoid hitting the production cache if
-      // it used the same host and port.
-      // https://github.com/facebook/create-react-app/issues/2272#issuecomment-302832432
-      devServer.app.use(noopServiceWorkerMiddleware(paths.publicUrlOrPath));
+          next();
+        },
+      });
+
+      middlewares.push({
+        name: 'onAfterSetupMiddleware',
+        middleware: (req, res, next) => {
+          // Redirect to `PUBLIC_URL` or `homepage` from `package.json` if url not match
+          devServer.app.use(redirectServedPath(paths.publicUrlOrPath));
+
+          // This service worker file is effectively a 'no-op' that will reset any
+          // previous service worker registered for the same host:port combination.
+          // We do this in development to avoid hitting the production cache if
+          // it used the same host and port.
+          // https://github.com/facebook/create-react-app/issues/2272#issuecomment-302832432
+          devServer.app.use(noopServiceWorkerMiddleware(paths.publicUrlOrPath));
+
+          next();
+        },
+      });
+
+      return middlewares;
     },
   };
 };
