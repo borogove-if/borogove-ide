@@ -73,6 +73,7 @@
     "optimize-css-assets-webpack-plugin": "6.0.1",
     "path-browserify": "1.0.1",
     "pnp-webpack-plugin": "1.7.0",
+    "postcss": "8.4.6",
     "postcss-flexbugs-fixes": "5.0.2",
     "postcss-loader": "6.2.1",
     "postcss-normalize": "10.0.1",
