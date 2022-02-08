@@ -69,7 +69,7 @@ export const OverviewInfoElement: React.FC<OverviewInfoElementProps> = ({ ideURL
 
         <section>
             <p>
-                Found a bug? Post a ticket to <a href="https://github.com/vorple/borogove-ide/issues" target="_blank" rel="noreferrer">the GitHub repository</a>!
+                Found a bug? Post a ticket to <a href="https://github.com/borogove-if/borogove-ide/issues" target="_blank" rel="noreferrer">the GitHub repository</a>!
             </p>
         </section>
 
