@@ -17,7 +17,7 @@ export const getSnippetsFirebaseApp = (): FirebaseApp => getApp( SNIPPETS_FIREBA
  * Firebase initialization
  */
 export const initFirebase = (): void => {
-    if( publishingConfig.apiKey ) {
+    if( "apiKey" in publishingConfig ) {
         const publishingApp = initializeApp( publishingConfig, PUBLISHING_FIREBASE_APP_ID );
 
         if( location.hostname === "localhost" ) {
@@ -26,7 +26,7 @@ export const initFirebase = (): void => {
         }
     }
 
-    if( isSnippetsVariant && snippetsConfig.apiKey ) {
+    if( isSnippetsVariant && "apiKey" in snippetsConfig ) {
         const snippetsApp = initializeApp( snippetsConfig, SNIPPETS_FIREBASE_APP_ID );
 
         if( location.hostname === "localhost" ) {
