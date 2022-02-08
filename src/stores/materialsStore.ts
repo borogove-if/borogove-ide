@@ -203,6 +203,11 @@ class MaterialsStore {
             return false;
         }
 
+        // delete all materials files recursively inside this folder (if it is one)
+        this.getFileTree( file ).forEach( child => {
+            this.deleteFile( child );
+        });
+
         this.files.splice( fileIndex, 1 );
         recursiveRm( this.getFilesystemPath( file ) );
 
