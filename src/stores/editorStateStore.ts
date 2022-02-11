@@ -1,5 +1,4 @@
 import { observable, action, makeObservable } from "mobx";
-import { IPosition } from "monaco-editor";
 import { extname } from "path";
 
 import { openTab } from "services/ide/tabService";
@@ -28,7 +27,7 @@ class EditorStateStore {
 
     // When the editor opens, where should the cursor be placed.
     // Used in project templates.
-    initialCursorPosition: IPosition | null = null;
+    initialCursorPosition: { column: number, lineNumber: number } | null = null;
 
 
     constructor() {

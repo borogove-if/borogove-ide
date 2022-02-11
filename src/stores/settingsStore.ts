@@ -39,8 +39,6 @@ class SettingsStore {
                 fontFamily: "monospace",
                 fontSize: 14,
                 lineNumbers: true,
-                minimap: true,
-                quickSuggestions: true,
                 showSettingsInfo: true,
                 wordWrap: true,
                 wrappingIndent: true,

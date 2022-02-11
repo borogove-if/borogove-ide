@@ -34,8 +34,6 @@ const EditorOptions: React.FC = observer( () => {
 
     ];
 
-    const variableWidthWrappingWarning = settingsStore.getSetting( "editor", "fontFamily" ) !== "monospace" && settingsStore.getSetting( "editor", "wordWrap" );
-
     return <section>
         <Title isSize={3}>
             Editor options
@@ -62,25 +60,10 @@ const EditorOptions: React.FC = observer( () => {
                          checked={getValue( "wordWrap" ) as boolean}
                          onChange={onChange( "wordWrap" )} />
 
-        {variableWidthWrappingWarning && <div className="is-size-7 has-text-warning">
-            Note: word wrapping might not work correctly with variable width fonts
-        </div>}
-
         <CheckboxControl label="Wrapping indent"
                          description="Indent wrapped lines"
                          checked={getValue( "wrappingIndent" ) as boolean}
                          onChange={onChange( "wrappingIndent" )} />
-
-        <CheckboxControl label="Word completion"
-                         description="Suggest words while typing"
-                         checked={getValue( "quickSuggestions" ) as boolean}
-                         onChange={onChange( "quickSuggestions" )} />
-
-        <CheckboxControl label="Minimap"
-                         description="Show overview of contents in a sidebar"
-                         checked={getValue( "minimap" ) as boolean}
-                         onChange={onChange( "minimap" )} />
-
 
     </section>;
 });

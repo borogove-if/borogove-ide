@@ -13,14 +13,14 @@ The Deep Forest is a room. "You are lost in a deep forest. The trees grow so clo
 [Try changing the words inside the quote marks to give the room a new description.]
 
 
-Baba Yaga's Garden is west of the Deep Forest. "In this garden grow plants that eat insects and plants that eat birds. It is bordered by a bone fence, and the pavements are made of a giant's kneecaps. 
+Baba Yaga's Garden is west of the Deep Forest. "In this garden grow plants that eat insects and plants that eat birds. It is bordered by a bone fence, and the pavements are made of a giant's kneecaps.
 
 In the center of the garden is Baba Yaga's hut, which walks on chicken legs. Currently the hut is squatting on the ground."
 
 [You can add more plants to Baba's garden by writing something like 'A carnivorous plant is in Baba Yaga's Garden.']
 
 
-Baba Yaga's Hut is inside from Baba Yaga's Garden. "From in here, there is no evidence of the hut's chicken nature except that the wallpaper is made of yellow-white feathers." 
+Baba Yaga's Hut is inside from Baba Yaga's Garden. "From in here, there is no evidence of the hut's chicken nature except that the wallpaper is made of yellow-white feathers."
 
 A gigantic mortar is in Baba Yaga's Hut. "One corner of the hut is taken up by the gigantic mortar, big enough to stand in." It is an enterable vehicle. The description of the gigantic mortar is "Baba Yaga flies around inside it whenever she is in too much of a hurry to make her hut walk."
 
@@ -33,7 +33,7 @@ Baba Yaga is carrying a magic towel. The description of the magic towel is "To j
 
 The description of the player is "Some people call you Ivan the Fool, but you pay no attention to their rudeness."
 
-The player is carrying a magic ball. The description of the magic ball is "Whenever you drop this, it rolls in the way you should go."  
+The player is carrying a magic ball. The description of the magic ball is "Whenever you drop this, it rolls in the way you should go."
 
 After dropping the ball:
 	if an unvisited room (called target location) is adjacent to the location:
@@ -46,14 +46,11 @@ After dropping the ball:
 Test me with "look / take inventory / examine the ball / drop the ball / west / examine me / in / look at baba / examine towel / drop ball / look at mortar / get in mortar".`;
 
 const defaultProps = {
-    theme: "vs-light",
     value: i7code,
     options: defaultOptions,
-    onChange: action( "Text editor onChange" ),
-    setInitialCursorPosition: action( "setInitialCursorPosition" )
+    onChange: action( "Text editor onChange" )
 };
 
 storiesOf( "TextEditor", module )
     .addDecorator( storyFn => <div style={{ height: "500px" }}>{storyFn()}</div> )
-    .add( "Default options", () => <TextEditorElement {...defaultProps} /> )
-    .add( "Dark theme", () => <TextEditorElement {...defaultProps} theme="vs-dark" /> );
+    .add( "Default options", () => <TextEditorElement {...defaultProps} /> );

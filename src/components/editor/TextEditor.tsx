@@ -1,62 +1,122 @@
 import React from "react";
 import { observer } from "mobx-react";
-import MonacoEditor, { EditorConstructionOptions, EditorDidMount } from "react-monaco-editor";
-import { registerAll } from "monarch";
+import CodeMirror from "@uiw/react-codemirror";
+
+import { autocompletion, completionKeymap } from "@codemirror/autocomplete";
+import { closeBrackets, closeBracketsKeymap } from "@codemirror/closebrackets";
+import { defaultKeymap } from "@codemirror/commands";
+import { commentKeymap } from "@codemirror/comment";
+import { foldGutter, foldKeymap } from "@codemirror/fold";
+import { lineNumbers, highlightActiveLineGutter } from "@codemirror/gutter";
+import { defaultHighlightStyle } from "@codemirror/highlight";
+import { history, historyKeymap } from "@codemirror/history";
+import { indentOnInput } from "@codemirror/language";
+import { bracketMatching } from "@codemirror/matchbrackets";
+import { rectangularSelection } from "@codemirror/rectangular-selection";
+import { searchKeymap, highlightSelectionMatches } from "@codemirror/search";
+import { EditorState, Extension } from "@codemirror/state"; // This package isn't listed in package.json because it then conflicts with @uiw/react-codemirror for some reason. It's included through that package instead. Can try installing it as a first-class package if either of them get updates later.
+import { EditorView, keymap, highlightSpecialChars, drawSelection, highlightActiveLine, dropCursor } from "@codemirror/view";
 
 import editorStateStore from "stores/editorStateStore";
 import projectStore from "stores/projectStore";
 import settingsStore from "stores/settingsStore";
 import { isSnippetsVariant } from "services/app/env";
 
-import "./TextEditor.scss";
-
 interface TextEditorElementProps {
     language?: string;
     onChange: ( newValue: string ) => void;
-    options: EditorConstructionOptions;
-    setInitialCursorPosition: ( editor: MonacoEditor[ "editor" ] ) => void;
-    theme: string;
+    options: EditorOptions;
     value: string;
 }
 
-/**
- * The code editor itself. We're using Monaco, see:
- * https://microsoft.github.io/monaco-editor/
- * https://github.com/react-monaco-editor/react-monaco-editor
- * https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.istandalonecodeeditor.html
- */
-export const TextEditorElement: React.FC<TextEditorElementProps> = ( props ) => {
-    const editorDidMount: EditorDidMount = ( mountedEditor ) => {
-        mountedEditor.focus();
-        mountedEditor.layout();
-        props.setInitialCursorPosition( mountedEditor );
-    };
+interface EditorOptions {
+    editable: boolean;
+    fontFamily: string;
+    fontSize: number;
+    indentWithTab: boolean;
+    lineNumbers: boolean;
+    wordWrap: boolean;
+    wrappingIndent: boolean;
+}
 
-    const editorWillMount = ( monaco: unknown ): void => {
-        // Register custom syntax highlighting rules for the editor
-        registerAll( monaco );
-    };
+// These are exported so that we can use them in the Storybook stories
+export const defaultOptions: EditorOptions = {
+    editable: true,
+    fontFamily: "monospace",
+    fontSize: 15,
+    indentWithTab: true,
+    lineNumbers: true,
+    wordWrap: true,
+    wrappingIndent: true
+};
+
+/**
+ * The code editor itself. We're using CodeMirror 6, see https://codemirror.net/6/docs/
+ */
+export const TextEditorElement: React.FC<TextEditorElementProps> = ({ onChange, options, value }) => {
+    let extensions: Extension[] = [
+        highlightSpecialChars(),
+        history(),
+        drawSelection(),
+        dropCursor(),
+        EditorState.allowMultipleSelections.of( true ),
+        indentOnInput(),
+        defaultHighlightStyle.fallback,
+        bracketMatching(),
+        closeBrackets(),
+        autocompletion(),
+        rectangularSelection(),
+        highlightActiveLine(),
+        highlightSelectionMatches(),
+        keymap.of( [
+            ...closeBracketsKeymap,
+            ...defaultKeymap,
+            ...searchKeymap,
+            ...historyKeymap,
+            ...foldKeymap,
+            ...commentKeymap,
+            ...completionKeymap
+        ] )
+    ];
+
+    if( options.lineNumbers ) {
+        // line numbers option enables or disables the entire gutter
+        extensions = [
+            ...extensions,
+            lineNumbers(),
+            highlightActiveLineGutter(),
+            foldGutter()
+        ];
+    }
+
+    if( options.wordWrap ) {
+        extensions.push( EditorView.lineWrapping );
+    }
+
+    const theme = EditorView.theme({
+        ".cm-content": {
+            fontFamily: options.fontFamily,
+            paddingLeft: options.wrappingIndent ? "1.5em" : "0",
+            textIndent: options.wrappingIndent ? "-1.5em" : "0"
+        },
+        ".cm-content, .cm-gutters": {
+            fontSize: options.fontSize + "px"
+        }
+    });
 
     return <div className="editor-container">
-        <MonacoEditor editorDidMount={editorDidMount}
-                      editorWillMount={editorWillMount}
-                      {...props} />
+        <CodeMirror autoFocus
+                    basicSetup={false}
+                    editable={options.editable}
+                    extensions={extensions}
+                    onChange={onChange}
+                    theme={theme}
+                    value={value} />
     </div>;
 };
 
-// see https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.ieditoroptions.html
-// These are exported so that we can use them in the Storybook stories
-export const defaultOptions: EditorConstructionOptions = {
-    automaticLayout: true,
-    cursorStyle: "line",
-    readOnly: false,
-    roundedSelection: false,
-    selectOnLineNumbers: true,
-    wordWrap: "on"
-};
-
 const TextEditor: React.FC = observer( () => {
-    const { contents, initialCursorPosition, language, theme } = editorStateStore;
+    const { contents, language } = editorStateStore;
 
     // when text is entered, send it to the state store which handles passing
     // it to other components that need it, and saving it
@@ -64,35 +124,29 @@ const TextEditor: React.FC = observer( () => {
         editorStateStore.setContents( newValue, false );
     };
 
-    const setInitialCursorPosition = ( editor: MonacoEditor[ "editor" ] ): void => {
-        if( initialCursorPosition && editor ) {
-            editor.setPosition( initialCursorPosition );
+    // editing is disabled only in Snippets for all files that aren't the main file
+    const editable = !( isSnippetsVariant && projectStore.entryFile?.id !== editorStateStore.file?.id );
+    const fontFamily = ( settingsStore.getSetting( "editor", "fontFamily" ) === "sans-serif" )
+        ? "Lato, Arial, sans-serif"
+        : "Menlo, Monaco, \"Courier New\", monospace";
+    const fontSize = settingsStore.getSetting( "editor", "fontSize" );
+    const lineNumbers = settingsStore.getSetting( "editor", "lineNumbers" );
+    const wordWrap = settingsStore.getSetting( "editor", "wordWrap" );
+    const wrappingIndent = settingsStore.getSetting( "editor", "wrappingIndent" );
 
-            // this should be done only once, not every time the editor opens!
-            editorStateStore.initialCursorPosition = null;
-        }
-    };
-
-    const options: EditorConstructionOptions = {
+    const options: EditorOptions = {
         ...defaultOptions,
-        copyWithSyntaxHighlighting: false,
-        fontFamily: ( settingsStore.getSetting( "editor", "fontFamily" ) === "sans-serif" )
-            ? "Lato, Arial, sans-serif"
-            : "Menlo, Monaco, \"Courier New\", monospace",
-        fontSize: settingsStore.getSetting( "editor", "fontSize" ),
-        lineNumbers: settingsStore.getSetting( "editor", "lineNumbers" ),
-        minimap: { enabled: settingsStore.getSetting( "editor", "minimap" ) },
-        quickSuggestions: settingsStore.getSetting( "editor", "quickSuggestions" ),
-        wordWrap: settingsStore.getSetting( "editor", "wordWrap" ) ? "on" : "off",
-        wrappingIndent: settingsStore.getSetting( "editor", "wrappingIndent" ) ? "indent" : "none",
-        readOnly: isSnippetsVariant && projectStore.entryFile?.id !== editorStateStore.file?.id
+        editable,
+        fontFamily,
+        fontSize,
+        lineNumbers,
+        wordWrap,
+        wrappingIndent
     };
 
     return <TextEditorElement language={language}
-                              theme={theme}
                               value={contents}
                               options={options}
-                              setInitialCursorPosition={setInitialCursorPosition}
                               onChange={onChange} />;
 });
 

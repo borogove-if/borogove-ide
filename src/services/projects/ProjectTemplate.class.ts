@@ -1,5 +1,3 @@
-import { IPosition } from "monaco-editor";
-
 export default abstract class ProjectTemplate {
     // Unique id for the template
     abstract id: string;
@@ -10,7 +8,7 @@ export default abstract class ProjectTemplate {
     // Where to put the cursor in the main source file when it first opens.
     // Format is { column: number, lineNumber: number }.
     // Default is the start of the first line (column 1, lineNumber 1.)
-    initialCursorPosition?: IPosition;
+    initialCursorPosition?: { column: number, lineNumber: number };
 
     // The title of the template shown in the New Project page
     abstract name: string;

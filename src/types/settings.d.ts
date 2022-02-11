@@ -19,8 +19,6 @@ export declare global {
         fontFamily: "monospace" | "sans-serif";
         fontSize: number;
         lineNumbers: boolean;
-        minimap: boolean;
-        quickSuggestions: boolean;
         wordWrap: boolean;
         wrappingIndent: boolean;
     }
