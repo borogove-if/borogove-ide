@@ -10,6 +10,8 @@ import {
 import { TiHome, TiCog, TiExport } from "react-icons/ti";
 
 import GoButton from "./GoButton";
+import SwapPanesButton from "./SwapPanesButton";
+import TabKeyButton from "./TabKeyButton";
 
 import { isInFrame, isSnippetsVariant } from "services/app/env";
 import { openTab } from "services/ide/tabService";
@@ -18,6 +20,7 @@ import { firstSnippetPublish } from "services/snippets/publish";
 import { TabStore, leftTabStore, rightTabStore, TabContentType } from "stores/tabStore";
 
 import "./MainNavigation.scss";
+
 
 const MainNavigation: React.FC = () => {
     const [ mobileMenuOpen, setMobileMenuOpen ] = useState( false );
@@ -63,9 +66,15 @@ const MainNavigation: React.FC = () => {
                 <GoButton />
             </div>
         </NavbarBrand>
-        <NavbarBrand isHidden="tablet">
+        <NavbarBrand isHidden="tablet" id="mobile-main-nav">
             <NavbarItem>
                 <GoButton />
+            </NavbarItem>
+            <NavbarItem>
+                <TabKeyButton />
+            </NavbarItem>
+            <NavbarItem>
+                <SwapPanesButton />
             </NavbarItem>
             <NavbarBurger onClick={(): void => setMobileMenuOpen( !mobileMenuOpen )} />
         </NavbarBrand>

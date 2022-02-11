@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { observer } from "mobx-react";
-import CodeMirror from "@uiw/react-codemirror";
+import { useCodeMirror } from "@uiw/react-codemirror";
 
 import { autocompletion, completionKeymap } from "@codemirror/autocomplete";
 import { closeBrackets, closeBracketsKeymap } from "@codemirror/closebrackets";
@@ -51,7 +51,7 @@ export const defaultOptions: EditorOptions = {
 };
 
 /**
- * The code editor itself. We're using CodeMirror 6, see https://codemirror.net/6/docs/
+ * The code editor itself. We're using CodeMirror 6, see https://codemirror.net/6/docs/ and https://github.com/uiwjs/react-codemirror/
  */
 export const TextEditorElement: React.FC<TextEditorElementProps> = ({ onChange, options, value }) => {
     let extensions: Extension[] = [
@@ -104,15 +104,29 @@ export const TextEditorElement: React.FC<TextEditorElementProps> = ({ onChange, 
         }
     });
 
-    return <div className="editor-container">
-        <CodeMirror autoFocus
-                    basicSetup={false}
-                    editable={options.editable}
-                    extensions={extensions}
-                    onChange={onChange}
-                    theme={theme}
-                    value={value} />
-    </div>;
+    const editorRef = useRef<HTMLDivElement>( null );
+    const { setContainer, view } = useCodeMirror({
+        autoFocus: true,
+        basicSetup: false,
+        container: editorRef.current,
+        editable: options.editable,
+        extensions,
+        onChange,
+        theme,
+        value
+    });
+
+    useEffect( () => {
+        if( editorRef.current ) {
+            setContainer( editorRef.current );
+        }
+    }, [ editorRef.current ] );
+
+    useEffect( () => {
+        editorStateStore.setEditorReference( view );
+    }, [ view ] );
+
+    return <div ref={editorRef} className="editor-container" />;
 };
 
 const TextEditor: React.FC = observer( () => {

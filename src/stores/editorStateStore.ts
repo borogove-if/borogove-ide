@@ -1,5 +1,7 @@
 import { observable, action, makeObservable } from "mobx";
 import { extname } from "path";
+import { insertTab } from "@codemirror/commands";
+import { EditorView } from "@codemirror/view";
 
 import { openTab } from "services/ide/tabService";
 
@@ -15,6 +17,9 @@ import { TabContentType } from "./tabStore";
 class EditorStateStore {
     // The text contents of the editor
     contents = "";
+
+    // Reference to the CodeMirror editor instance
+    editorReference: EditorView | undefined;
 
     // The file that's currently open in the editor
     file: MaterialsFile | undefined;
@@ -85,6 +90,16 @@ class EditorStateStore {
 
 
     /**
+     * Inserts a tab character at the current position of the caret
+     */
+    public insertTab = (): void => {
+        if( this.editorReference ) {
+            insertTab( this.editorReference );
+        }
+    };
+
+
+    /**
      * Open a file from the file manager in the editor
      */
     openFile = ( file: MaterialsFile ): void => {
@@ -145,6 +160,12 @@ class EditorStateStore {
         // only set the dirty flag if the input was from the user
         snippetStore.setDirty( !updateEditor );
     };
+
+
+    /**
+     * Sets the editor reference
+     */
+    public setEditorReference = ( ref: EditorView | undefined ): void => { this.editorReference = ref; };
 }
 
 export default new EditorStateStore();

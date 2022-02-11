@@ -34,6 +34,10 @@ class IDEStateStore {
         this.currentlyOpenModal = name;
     };
 
+    public getActivePane = (): Tab | null => {
+        return this.activePane.activeTab;
+    };
+
     public setActivePane = ( pane: TabStore ): void => {
         this.activePane = pane;
     };

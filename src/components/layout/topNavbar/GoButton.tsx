@@ -11,7 +11,7 @@ interface GoButtonElementProps {
     onClick: () => void;
 }
 
-export const GoButtonElement: React.FC<GoButtonElementProps> = ({ loading = false, onClick }) => <Button onClick={onClick} disabled={loading} isLoading={loading}>
+export const GoButtonElement: React.FC<GoButtonElementProps> = ({ loading = false, onClick }) => <Button onClick={onClick} disabled={loading} isColor="info" isLoading={loading}>
     <TiMediaPlay />{" "} Go
 </Button>;
 

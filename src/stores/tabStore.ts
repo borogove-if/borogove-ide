@@ -105,7 +105,7 @@ export class TabStore {
     /**
      * Returns the currently open tab.
      */
-    get activeTab(): Tab | null {
+    public get activeTab(): Tab | null {
         return this.tabsList.find( tab => tab.id === this.activeTabId ) || null;
     }
 
