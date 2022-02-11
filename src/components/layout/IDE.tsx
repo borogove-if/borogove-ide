@@ -28,14 +28,7 @@ const IDE: React.FC = observer( () => {
         <Pane key="right" side="right" />
     ];
 
-    let isMobile = width <= breakpoints.mobile;
-
-    ideStateStore.setWideScreenExists( ideStateStore.wideScreenExists || !isMobile );
-
-    if( ideStateStore.wideScreenExists ) {
-        // if we've already seen a wide screen, pretend that mobile view doesn't exist to avoid re-renders
-        isMobile = false;
-    }
+    const isMobile = width <= breakpoints.mobile;
 
     const fileManagerOpen = !isMobile && ideStateStore.fileManagerOpen;
 

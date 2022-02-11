@@ -3,7 +3,6 @@ import { observer } from "mobx-react";
 import { TabList, Tabs } from "bloomer";
 import PaneTab from "./PaneTab";
 import FileManagerToggleButton from "components/fileManager/FileManagerToggleButton";
-import ideStateStore from "stores/ideStateStore";
 
 interface PaneTabNavElementProps {
     activeTabId: string | null;
@@ -32,7 +31,7 @@ export const PaneTabNavElement: React.FC<PaneTabNavElementProps> = observer( ({ 
  * The tab navigation inside a pane.
  */
 const PaneTabNav: React.FC<PaneTabNavElementProps> = observer( ( props ) => {
-    return <PaneTabNavElement {...props} hiddenInMobile={!ideStateStore.wideScreenExists} />;
+    return <PaneTabNavElement {...props} hiddenInMobile />;
 });
 
 export default PaneTabNav;

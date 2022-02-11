@@ -15,11 +15,6 @@ class IDEStateStore {
     // Is the file manager visible?
     fileManagerOpen = true;
 
-    // We'll remember if a wider than mobile screen has been triggered,
-    // to avoid re-rendering components when window size changes which would
-    // e.g. restart the interpreter
-    wideScreenExists = false;
-
     // The id for the current session, which is used to optimize space
     // on the server (previous compilations can be removed faster if we know
     // that they were made with the same IDE instance.)
@@ -43,12 +38,6 @@ class IDEStateStore {
         this.activePane = pane;
     };
 
-    public setWideScreenExists = ( status: boolean ): void => {
-        if( this.wideScreenExists !== status ) {
-            this.wideScreenExists = status;
-        }
-    };
-
     public toggleFileManager = ( isOpen?: boolean ): void => {
         if( typeof isOpen === "boolean" ) {
             this.fileManagerOpen = isOpen;
@@ -62,13 +51,11 @@ class IDEStateStore {
         makeObservable( this, {
             activePane: observable,
             fileManagerOpen: observable,
-            wideScreenExists: observable,
             currentlyOpenModal: observable,
             modalProps: observable,
             closeModal: action,
             openModal: action,
             setActivePane: action,
-            setWideScreenExists: action,
             toggleFileManager: action
         });
     }

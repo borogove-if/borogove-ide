@@ -52,7 +52,7 @@ const Pane: React.FC<PaneProps> = observer( ({ side }) => {
     }
 
     // determine if we should hide the panel when the window size is mobile-sized
-    const hideInMobile = !ideStateStore.wideScreenExists && tabStore !== ideStateStore.activePane;
+    const hideInMobile = tabStore !== ideStateStore.activePane;
 
     // the tab store will handle tab actions
     const onClickTab = ( id: string ): void => tabStore.setActiveTab( id );
