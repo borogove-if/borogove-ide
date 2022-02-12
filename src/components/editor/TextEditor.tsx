@@ -10,17 +10,19 @@ import { foldGutter, foldKeymap } from "@codemirror/fold";
 import { lineNumbers, highlightActiveLineGutter } from "@codemirror/gutter";
 import { defaultHighlightStyle } from "@codemirror/highlight";
 import { history, historyKeymap } from "@codemirror/history";
-import { indentOnInput } from "@codemirror/language";
+import { indentOnInput, indentService, indentUnit } from "@codemirror/language";
 import { bracketMatching } from "@codemirror/matchbrackets";
 import { rectangularSelection } from "@codemirror/rectangular-selection";
 import { searchKeymap, highlightSelectionMatches } from "@codemirror/search";
 import { EditorState, Extension } from "@codemirror/state"; // This package isn't listed in package.json because it then conflicts with @uiw/react-codemirror for some reason. It's included through that package instead. Can try installing it as a first-class package if either of them get updates later.
-import { EditorView, keymap, highlightSpecialChars, drawSelection, highlightActiveLine, dropCursor } from "@codemirror/view";
+import { EditorView, keymap, highlightSpecialChars, drawSelection, dropCursor } from "@codemirror/view";
 
 import editorStateStore from "stores/editorStateStore";
 import projectStore from "stores/projectStore";
 import settingsStore from "stores/settingsStore";
 import { isSnippetsVariant } from "services/app/env";
+
+const TAB_SIZE = 4;
 
 interface TextEditorElementProps {
     language?: string;
@@ -33,8 +35,8 @@ interface EditorOptions {
     editable: boolean;
     fontFamily: string;
     fontSize: number;
-    indentWithTab: boolean;
     lineNumbers: boolean;
+    tabChars: string;
     wordWrap: boolean;
     wrappingIndent: boolean;
 }
@@ -44,8 +46,8 @@ export const defaultOptions: EditorOptions = {
     editable: true,
     fontFamily: "monospace",
     fontSize: 15,
-    indentWithTab: true,
     lineNumbers: true,
+    tabChars: "    ",
     wordWrap: true,
     wrappingIndent: true
 };
@@ -55,29 +57,48 @@ export const defaultOptions: EditorOptions = {
  */
 export const TextEditorElement: React.FC<TextEditorElementProps> = ({ onChange, options, value }) => {
     let extensions: Extension[] = [
-        highlightSpecialChars(),
-        history(),
+        autocompletion(),
+        bracketMatching(),
+        closeBrackets(),
+        defaultHighlightStyle.fallback,
         drawSelection(),
         dropCursor(),
         EditorState.allowMultipleSelections.of( true ),
-        indentOnInput(),
-        defaultHighlightStyle.fallback,
-        bracketMatching(),
-        closeBrackets(),
-        autocompletion(),
-        rectangularSelection(),
-        highlightActiveLine(),
+        EditorState.tabSize.of( TAB_SIZE ),
         highlightSelectionMatches(),
+        highlightSpecialChars(),
+        history(),
+        indentOnInput(),
+        rectangularSelection(),
         keymap.of( [
             ...closeBracketsKeymap,
-            ...defaultKeymap,
-            ...searchKeymap,
-            ...historyKeymap,
-            ...foldKeymap,
             ...commentKeymap,
-            ...completionKeymap
+            ...completionKeymap,
+            ...defaultKeymap,
+            ...foldKeymap,
+            ...historyKeymap,
+            ...searchKeymap
         ] )
     ];
+
+    // set the indent characters to tab or spaces
+    extensions.push( indentUnit.of( options.tabChars ) );
+
+    // indents the next line based on how much the previous one was indented
+    const autoIndentExtension = indentService.of( ( context, pos ) => {
+        const previousLine = context.lineAt( pos, -1 );
+
+        // if the previous line has no text other than whitespace, don't indent the next line
+        if( previousLine.text.trim().length === 0 ) {
+            return 0;
+        }
+
+        const previousIndentChars = previousLine.text.match( new RegExp( `^(${options.tabChars})*` ) );
+        const multiplier = ( options.tabChars[0] === "\t" ) ? TAB_SIZE : 1;   // when using tabs for indentation, must multiply the result by tab length for the editor to insert tab characters
+
+        return previousIndentChars ? previousIndentChars[0]?.length * multiplier : 0;
+    });
+    extensions.push( autoIndentExtension );
 
     if( options.lineNumbers ) {
         // line numbers option enables or disables the entire gutter
@@ -145,6 +166,7 @@ const TextEditor: React.FC = observer( () => {
         : "Menlo, Monaco, \"Courier New\", monospace";
     const fontSize = settingsStore.getSetting( "editor", "fontSize" );
     const lineNumbers = settingsStore.getSetting( "editor", "lineNumbers" );
+    const tabChars = projectStore.manager.tabIndent ? "\t" : "    ";
     const wordWrap = settingsStore.getSetting( "editor", "wordWrap" );
     const wrappingIndent = settingsStore.getSetting( "editor", "wrappingIndent" );
 
@@ -154,6 +176,7 @@ const TextEditor: React.FC = observer( () => {
         fontFamily,
         fontSize,
         lineNumbers,
+        tabChars,
         wordWrap,
         wrappingIndent
     };

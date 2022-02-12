@@ -68,6 +68,9 @@ export default abstract class ProjectService {
     // Language-specific settings page
     public systemSettingsPage?: JSX.Element;
 
+    // Does pressing the tab button insert tab characters (true) or spaces (false)?
+    public tabIndent = false;
+
     // Project templates (see ProjectTemplate.class.ts).
     // There should be at least one template here.
     public templates: ProjectTemplate[] = [];

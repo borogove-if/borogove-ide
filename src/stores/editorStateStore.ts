@@ -1,6 +1,6 @@
 import { observable, action, makeObservable } from "mobx";
 import { extname } from "path";
-import { insertTab } from "@codemirror/commands";
+import { indentMore } from "@codemirror/commands";
 import { EditorView } from "@codemirror/view";
 
 import { openTab } from "services/ide/tabService";
@@ -94,7 +94,7 @@ class EditorStateStore {
      */
     public insertTab = (): void => {
         if( this.editorReference ) {
-            insertTab( this.editorReference );
+            indentMore( this.editorReference );
         }
     };
 
