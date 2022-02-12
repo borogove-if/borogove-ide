@@ -2,10 +2,12 @@ import React from "react";
 import { observer } from "mobx-react";
 import { MenuLink } from "bloomer";
 
+import ideStateStore from "stores/ideStateStore";
 import materialsStore, { MaterialsFileType } from "stores/materialsStore";
 import projectStore from "stores/projectStore";
 import { TabContentType } from "stores/tabStore";
 
+import { isMobileWidth } from "services/ide/environmentService";
 import { openTab } from "services/ide/tabService";
 
 import FolderName from "./FolderName";
@@ -79,6 +81,11 @@ const FileItem: React.FC<FileItemProps> = observer( ( props ) => {
             case MaterialsFileType.code:
             case MaterialsFileType.text:
                 materialsStore.openFile( file );
+
+                if( isMobileWidth() ) {
+                    // close the file manager on mobile
+                    ideStateStore.toggleFileManager();
+                }
                 break;
 
             case MaterialsFileType.audio:

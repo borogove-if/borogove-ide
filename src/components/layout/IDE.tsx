@@ -21,7 +21,7 @@ const FileManager = isSnippetsVariant
 const IDE: React.FC = observer( () => {
     return <div id="ide">
         <MainNavigation />
-        <div id="workspace">
+        <div id="workspace" className={ideStateStore.fileManagerOpen ? "is-file-manager-open" : undefined}>
             {ideStateStore.fileManagerOpen && <FileManager />}
             <Split minSize={300}
                    cursor="col-resize">

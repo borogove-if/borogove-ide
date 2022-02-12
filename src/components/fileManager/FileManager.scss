@@ -17,6 +17,10 @@ $manager-width: 250px;
     .filelisting {
         flex-grow: 1;
     }
+
+    @media (max-width: 768px) {
+        width: 100%;
+    }
 }
 
 #dropzone-container {

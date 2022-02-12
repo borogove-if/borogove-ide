@@ -11,8 +11,10 @@ interface FileManagerToggleButtonElementProps {
     onClick: () => void;
 }
 
-export const FileManagerToggleButtonElement: React.FC<FileManagerToggleButtonElementProps> = observer( ({ onClick }) =>
-    <Button id="file-manager-toggle" isColor="text" onClick={onClick}><TiFolder /></Button> );
+export const FileManagerToggleButtonElement: React.FC<FileManagerToggleButtonElementProps> = ({ onClick }) =>
+    <Button id="file-manager-toggle" isColor="text" onClick={onClick}>
+        <TiFolder />
+    </Button>;
 
 /**
  * The button in the left tab bar that toggles the file manager.

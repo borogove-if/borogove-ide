@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { observer } from "mobx-react";
-import { Dropdown, DropdownTrigger, Subtitle, DropdownMenu, DropdownContent, DropdownItem } from "bloomer";
-import { TiArrowSortedDown } from "react-icons/ti";
+import { Dropdown, DropdownTrigger, Subtitle, DropdownMenu, DropdownContent, DropdownItem, Button } from "bloomer";
+import { TiArrowSortedDown, TiTimes } from "react-icons/ti";
 
 import ideStateStore from "stores/ideStateStore";
 import materialsStore from "stores/materialsStore";
@@ -14,16 +14,21 @@ interface FileManagerMainActionsElementProps {
     onClickNewFolder: ( e: React.MouseEvent ) => void;
     onClickNewSource: ( e: React.MouseEvent ) => void;
     onClickUpload: ( e: React.MouseEvent ) => void;
+    onClose: () => void;
     onToggleOpen: ( open?: boolean ) => void;
 }
 
-export const FileManagerMainActionsElement: React.FC<FileManagerMainActionsElementProps> = observer( ({ isOpen, onClickDownloadProject, onClickNewFolder, onClickNewSource, onClickUpload, onToggleOpen }) => {
+export const FileManagerMainActionsElement: React.FC<FileManagerMainActionsElementProps> = observer( ({ isOpen, onClickDownloadProject, onClickNewFolder, onClickNewSource, onClickUpload, onClose, onToggleOpen }) => {
     const stopPropagation = ( e: React.MouseEvent ): void => e.stopPropagation();
 
     return <div id="file-manager-main-actions" onClick={stopPropagation}>
+
         {isOpen && <div className="file-actions-overlay" onClick={(): void => onToggleOpen( false )} />}
         <Dropdown isActive={isOpen} isAlign="right">
             <DropdownTrigger onClick={(): void => onToggleOpen()}>
+                <Button href="#" onClick={onClose} isColor="white">
+                    <TiTimes />
+                </Button>
                 <Subtitle aria-haspopup="true" aria-controls="dropdown-menu">
                     File Manager
                 </Subtitle>
@@ -71,6 +76,7 @@ const FileManagerMainActions: React.FC<FileManagerMainActionsProps> = observer( 
     const onClickNewSource = doAction( () => ideStateStore.openModal( "addFile", { type: "source file" }) );
     const onClickUpload = doAction( uploadFiles );
 
+    const onClose = (): void => ideStateStore.toggleFileManager();
     const onToggleOpen = ( open = true ): void => setOpen( open && !isOpen );
 
     return <FileManagerMainActionsElement isOpen={isOpen}
@@ -78,6 +84,7 @@ const FileManagerMainActions: React.FC<FileManagerMainActionsProps> = observer( 
                                           onClickNewFolder={onClickNewFolder}
                                           onClickNewSource={onClickNewSource}
                                           onClickUpload={onClickUpload}
+                                          onClose={onClose}
                                           onToggleOpen={onToggleOpen} />;
 });
 

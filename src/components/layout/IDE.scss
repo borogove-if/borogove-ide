@@ -11,6 +11,13 @@
     height: 100%;
     width: 100%;
     overflow-y: hidden !important;
+
+    &.is-file-manager-open {
+        @media (max-width: 768px) {
+            // this puts the file manager on top in a mobile view
+            flex-direction: column;
+        }
+    }
 }
 
 .grid {

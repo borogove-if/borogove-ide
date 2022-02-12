@@ -7,7 +7,7 @@ import {
     NavbarMenu,
     NavbarStart
 } from "bloomer";
-import { TiHome, TiCog, TiExport } from "react-icons/ti";
+import { TiHome, TiCog, TiExport, TiFolder } from "react-icons/ti";
 
 import GoButton from "./GoButton";
 import SwapPanesButton from "./SwapPanesButton";
@@ -20,14 +20,20 @@ import { firstSnippetPublish } from "services/snippets/publish";
 import { TabStore, leftTabStore, rightTabStore, TabContentType } from "stores/tabStore";
 
 import "./MainNavigation.scss";
+import ideStateStore from "stores/ideStateStore";
 
 
 const MainNavigation: React.FC = () => {
     const [ mobileMenuOpen, setMobileMenuOpen ] = useState( false );
-    const openSettings = (): void => {
-        openTab( TabContentType.settings, { closable: true });
+
+    const openFileManager = (): void => {
+        if( !ideStateStore.fileManagerOpen ) {
+            ideStateStore.toggleFileManager();
+        }
+
         setMobileMenuOpen( false );
     };
+
     const openReleasePane = (): void => {
         // In snippets mode clicking the release link automatically publishes the snippet
         if( isSnippetsVariant ) {
@@ -35,6 +41,11 @@ const MainNavigation: React.FC = () => {
         }
 
         openTab( TabContentType.release, { closable: true });
+        setMobileMenuOpen( false );
+    };
+
+    const openSettings = (): void => {
+        openTab( TabContentType.settings, { closable: true });
         setMobileMenuOpen( false );
     };
 
@@ -81,6 +92,10 @@ const MainNavigation: React.FC = () => {
         <NavbarMenu isActive={mobileMenuOpen} isHidden="tablet">
             <NavbarStart>
                 {fullNav}
+                <NavbarItem href="#" onClick={openFileManager}>
+                    <TiFolder />
+                    File Manager
+                </NavbarItem>
                 {leftTabStore.tabsList.map( tab => paneTabItem( leftTabStore, tab ) )}
                 {rightTabStore.tabsList.map( tab => paneTabItem( rightTabStore, tab ) )}
             </NavbarStart>

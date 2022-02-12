@@ -3,6 +3,7 @@ import { loadRemoteLibraryFiles } from "services/remoteAssets/libraryLoaderServi
 import { setProjectTags, pageView } from "services/app/loggers";
 import { isSnippetsVariant } from "services/app/env";
 import { restoreFS } from "services/filesystem/persistentFilesystemService";
+import { isMobileWidth } from "services/ide/environmentService";
 
 import editorStateStore from "stores/editorStateStore";
 import ideStateStore from "stores/ideStateStore";
@@ -177,6 +178,11 @@ export default abstract class ProjectService {
         const status = await this.init( template );
 
         if( status ) {
+            // on mobile sizes always start with the file manager closed
+            if( isMobileWidth() && ideStateStore.fileManagerOpen ) {
+                ideStateStore.toggleFileManager();
+            }
+
             projectStore.setReady();
         }
         else {
