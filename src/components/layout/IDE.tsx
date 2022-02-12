@@ -1,14 +1,12 @@
 import React from "react";
 
 import { observer } from "mobx-react";
-import Split from "react-split";
+import Split from "react-split-grid";
 
 import MainNavigation from "./topNavbar/MainNavigation";
 import Pane from "./panes/Pane";
 
 import ideStateStore from "stores/ideStateStore";
-import { useWindowDimensions } from "services/ide/environmentService";
-import { breakpoints } from "services/ide/environmentService";
 import { isSnippetsVariant } from "services/app/env";
 
 import "./IDE.scss";
@@ -21,33 +19,24 @@ const FileManager = isSnippetsVariant
  * This is the main component for the entire IDE view.
  */
 const IDE: React.FC = observer( () => {
-    const { width } = useWindowDimensions();
-
-    const panes = [
-        <Pane key="left" side="left" />,
-        <Pane key="right" side="right" />
-    ];
-
-    const isMobile = width <= breakpoints.mobile;
-
-    const fileManagerOpen = !isMobile && ideStateStore.fileManagerOpen;
-
     return <div id="ide">
         <MainNavigation />
         <div id="workspace">
-            {fileManagerOpen && <FileManager />}
-            {isMobile
-                ? panes
-                : <Split id="split"
-                         sizes={[ 50, 50 ]}
-                         minSize={300}
-                         expandToMin
-                         gutterSize={10}
-                         gutterAlign="center"
-                         direction="horizontal"
-                         cursor="col-resize">
-                    {panes}
-                </Split>}
+            {ideStateStore.fileManagerOpen && <FileManager />}
+            <Split minSize={300}
+                   cursor="col-resize">
+                {({
+                    getGridProps,
+                    getGutterProps
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                }: any ): JSX.Element => (
+                    <div className="grid" {...getGridProps()}>
+                        <Pane key="left" side="left" />
+                        <div className="gutter-col is-hidden-mobile" {...getGutterProps( "column", 1 )} />
+                        <Pane key="right" side="right" />
+                    </div>
+                )}
+            </Split>
         </div>
     </div>;
 });

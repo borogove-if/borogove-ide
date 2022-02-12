@@ -9,14 +9,23 @@
 #workspace {
     display: flex;
     height: 100%;
+    width: 100%;
     overflow-y: hidden !important;
 }
 
-#split {
-    display: flex;
-    flex-direction: row;
-    flex-grow: 1;
-    max-width: 100%;
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 10px 1fr;
+    width: 100%;
+
+    @media (max-width: 768px) {
+        display: block;
+    }
+}
+
+.gutter-col {
+    cursor: col-resize;
+    background-color: #ecf0f1;
 }
 
 div.pane {
@@ -69,9 +78,4 @@ div.pane {
         position: relative;
         left: -1px;
     }
-}
-
-.gutter.gutter-horizontal {
-    cursor: ew-resize;
-    background-color: #ecf0f1;
 }
