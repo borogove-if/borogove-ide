@@ -1,7 +1,7 @@
 import React from "react";
 
 import { observer } from "mobx-react";
-import Split from "react-split-grid";
+import Split from "services/ide/splitGridService";
 
 import MainNavigation from "./topNavbar/MainNavigation";
 import Pane from "./panes/Pane";
