@@ -9,7 +9,7 @@ interface NavHeaderElementProps {
     title: string;
 }
 
-export const NavHeaderElement: React.FC<NavHeaderElementProps> = ({ title }) => <Navbar id="nav-header" className="is-white">
+export const NavHeaderElement: React.FC<NavHeaderElementProps> = ({ title }) => <Navbar id="pm-nav-header" className="is-white">
     <NavbarBrand>
         <NavbarItem>
             <Title id="borogove-main-logo">

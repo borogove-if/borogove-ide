@@ -1,13 +1,20 @@
 @import url('https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap');
 
-#nav-header {
-    
+#pm-nav-header {
     h1.title {
         text-align: center;
 
         &#borogove-main-logo {
             font-family: 'Permanent Marker', cursive;
             text-align: left;
+        }
+
+        @media (max-width: 450px) {
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 350px) {
+            font-size: 1rem;
         }
     }
 
