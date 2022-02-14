@@ -526,6 +526,10 @@ module.exports = function (webpackEnv) {
       ],
     },
     plugins: [
+      // Client-side Buffer shim
+      new webpack.ProvidePlugin({
+        Buffer: ['buffer', 'Buffer'],
+      }),
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(
         Object.assign(
