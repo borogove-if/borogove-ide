@@ -1,7 +1,7 @@
 import { observable, action, makeObservable } from "mobx";
 import { extname } from "path";
 import { indentMore } from "@codemirror/commands";
-import { EditorView } from "@codemirror/view";
+import { EditorView } from "@uiw/react-codemirror";
 
 import { openTab } from "services/ide/tabService";
 

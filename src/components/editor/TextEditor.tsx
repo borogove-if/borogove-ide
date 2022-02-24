@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { observer } from "mobx-react";
-import { useCodeMirror } from "@uiw/react-codemirror";
+import { EditorView, keymap, highlightSpecialChars, drawSelection, dropCursor, useCodeMirror } from "@uiw/react-codemirror";
 
 import { autocompletion, completionKeymap } from "@codemirror/autocomplete";
 import { closeBrackets, closeBracketsKeymap } from "@codemirror/closebrackets";
@@ -15,7 +15,6 @@ import { bracketMatching } from "@codemirror/matchbrackets";
 import { rectangularSelection } from "@codemirror/rectangular-selection";
 import { searchKeymap, highlightSelectionMatches } from "@codemirror/search";
 import { EditorState, Extension } from "@codemirror/state"; // This package isn't listed in package.json because it then conflicts with @uiw/react-codemirror for some reason. It's included through that package instead. Can try installing it as a first-class package if either of them get updates later.
-import { EditorView, keymap, highlightSpecialChars, drawSelection, dropCursor } from "@codemirror/view";
 
 import editorStateStore from "stores/editorStateStore";
 import projectStore from "stores/projectStore";
