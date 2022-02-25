@@ -52,6 +52,7 @@ export function compileI6( variant: CompilationVariant ): Promise<boolean> {
             // TODO: compiler crashed, must reload page!
                 console.error( "Emscripten aborted" );
             },
+            preRun: emscriptenLoaderCallback,
             print: ( text: string ) => {
                 console.log( "- STDOUT:", text );
                 compilationResultStore.addToCompilerOutput( text + "\n" );
@@ -78,6 +79,6 @@ export function compileI6( variant: CompilationVariant ): Promise<boolean> {
 
                 resolve( success );
             }
-        }).then( emscriptenLoaderCallback );
+        });
     });
 }

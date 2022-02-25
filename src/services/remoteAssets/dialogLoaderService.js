@@ -7,6 +7,9 @@
  * The line
  *   Module["FS"] = FS;
  * has been added to expose the filesystem object for later use.
+ *  
+ * Reminder for the future: Use the emscripten/emsdk Docker image, see inform6LoaderService.ts and inform6CompilerService.ts for the required changes.
+ * When both Hugo and Dialog compilers use the new image, remove the FS.createFolder() calls from compilerHelpers.ts.
  */
 var Module = (function () {
     var _scriptDir =

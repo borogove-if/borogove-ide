@@ -22,8 +22,16 @@ export const emscriptenLoaderCallback = ( { FS }: any ) => {     // eslint-disab
     saveFolder( OUTPUT_TMP_PATH );
 
     // Create folders inside Emscripten
-    FS.createFolder( FS.root, "input", true, true );
-    FS.createFolder( FS.root, "output", true, true );
+    if( FS.createPath ) {
+        // newer Emscripten versions
+        FS.createPath( FS.root, "input", true, true );
+        FS.createPath( FS.root, "output", true, true );
+    }
+    else {
+        // older Emscripten versions
+        FS.createFolder( FS.root, "input", true, true );
+        FS.createFolder( FS.root, "output", true, true );
+    }
 
     // Change the directory to /output so that Inform will write all output files there
     FS.chdir( OUTPUT_TMP_PATH );

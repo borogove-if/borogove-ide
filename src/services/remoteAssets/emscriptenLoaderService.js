@@ -11,6 +11,9 @@
   
  * There have been several edits to the generated file.
  * The changed lines are marked with EDITED comments.
+ * 
+ * Reminder for the future: Use the emscripten/emsdk Docker image, see inform6CompilerService for the required loader changes.
+ * When both Hugo and Dialog compilers use the new image, remove the FS.createFolder() calls from compilerHelpers.ts.
  */
 
 var Module = (function() {
