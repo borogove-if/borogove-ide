@@ -1,14 +1,14 @@
 import ProjectTemplate from "services/projects/ProjectTemplate.class";
 import { MaterialsFileType } from "stores/materialsStore";
 
-import code from "./code/minimalPunyinform.txt";
+import code from "./code/libraryOfHorror.txt";
 
 /**
  * PunyInform project (https://github.com/johanberntsson/PunyInform)
  */
 class PunyInformProject extends ProjectTemplate {
     id = "punyinform";
-    name = "PunyInform " + process.env.REACT_APP_PUNYINFORM_VERSION;
+    name = `PunyInform ${process.env.REACT_APP_PUNYINFORM_VERSION} "Library of Horror" example project`;
     files = [
         {
             contents: code,
