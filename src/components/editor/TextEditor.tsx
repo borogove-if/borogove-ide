@@ -16,6 +16,13 @@ import { rectangularSelection } from "@codemirror/rectangular-selection";
 import { searchKeymap, highlightSelectionMatches } from "@codemirror/search";
 import { EditorState, Extension } from "@codemirror/state"; // This package isn't listed in package.json because it then conflicts with @uiw/react-codemirror for some reason. It's included through that package instead. Can try installing it as a first-class package if either of them get updates later.
 
+import { languages } from "@codemirror/language-data";
+import { inform7 } from "codemirror-lang-inform7";
+import { javascript } from "@codemirror/lang-javascript";
+import { css } from "@codemirror/lang-css";
+import { json } from "@codemirror/lang-json";
+import { markdown, markdownLanguage } from "@codemirror/lang-markdown";
+
 import editorStateStore from "stores/editorStateStore";
 import projectStore from "stores/projectStore";
 import settingsStore from "stores/settingsStore";
@@ -35,6 +42,7 @@ interface EditorOptions {
     fontFamily: string;
     fontSize: number;
     lineNumbers: boolean;
+    syntaxHighlighting: boolean;
     tabChars: string;
     wordWrap: boolean;
     wrappingIndent: boolean;
@@ -46,6 +54,7 @@ export const defaultOptions: EditorOptions = {
     fontFamily: "monospace",
     fontSize: 15,
     lineNumbers: true,
+    syntaxHighlighting: true,
     tabChars: "    ",
     wordWrap: true,
     wrappingIndent: true
@@ -79,6 +88,31 @@ export const TextEditorElement: React.FC<TextEditorElementProps> = ({ onChange, 
             ...searchKeymap
         ] )
     ];
+
+    // Set code highlighting to the detected language.
+    if( options.syntaxHighlighting ) {
+        switch( editorStateStore.language ) {
+            case "css":
+                extensions.push( css() );
+                break;
+
+            case "inform7":
+                extensions.push( inform7() );
+                break;
+
+            case "javascript":
+                extensions.push( javascript() );
+                break;
+
+            case "json":
+                extensions.push( json() );
+                break;
+
+            case "markdown":
+                extensions.push( markdown({ base: markdownLanguage, codeLanguages: languages }) );
+                break;
+        }
+    }
 
     // set the indent characters to tab or spaces
     extensions.push( indentUnit.of( options.tabChars ) );
@@ -165,6 +199,7 @@ const TextEditor: React.FC = observer( () => {
         : "Menlo, Monaco, \"Courier New\", monospace";
     const fontSize = settingsStore.getSetting( "editor", "fontSize" );
     const lineNumbers = settingsStore.getSetting( "editor", "lineNumbers" );
+    const syntaxHighlighting = settingsStore.getSetting( "editor", "syntaxHighlighting" );
     const tabChars = projectStore.manager.tabIndent ? "\t" : "    ";
     const wordWrap = settingsStore.getSetting( "editor", "wordWrap" );
     const wrappingIndent = settingsStore.getSetting( "editor", "wrappingIndent" );
@@ -175,6 +210,7 @@ const TextEditor: React.FC = observer( () => {
         fontFamily,
         fontSize,
         lineNumbers,
+        syntaxHighlighting,
         tabChars,
         wordWrap,
         wrappingIndent

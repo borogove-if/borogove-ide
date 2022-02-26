@@ -70,6 +70,7 @@ class EditorStateStore {
             inform7: [ "ni", "i7x" ],
             ink: [ "ink" ],
             javascript: [ "js" ],
+            json: [ "json" ],
             markdown: [ "md" ],
             text: [ "txt" ]
         };

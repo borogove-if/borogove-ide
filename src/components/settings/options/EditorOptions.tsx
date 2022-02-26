@@ -50,6 +50,11 @@ const EditorOptions: React.FC = observer( () => {
                          value={getValue( "fontFamily" ) as string}
                          onChange={onChange( "fontFamily" )} />
 
+        <CheckboxControl label="Syntax highlighting"
+                         description="Add colors to syntactic elements of the code (not supported in all languages)"
+                         checked={getValue( "syntaxHighlighting" ) as boolean}
+                         onChange={onChange( "syntaxHighlighting" )} />
+
         <CheckboxControl label="Line numbers"
                          description="Show line numbers"
                          checked={getValue( "lineNumbers" ) as boolean}

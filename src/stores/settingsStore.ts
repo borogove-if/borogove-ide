@@ -39,7 +39,7 @@ class SettingsStore {
                 fontFamily: "monospace",
                 fontSize: 14,
                 lineNumbers: true,
-                showSettingsInfo: true,
+                syntaxHighlighting: true,
                 wordWrap: true,
                 wrappingIndent: true,
                 ...settings.editor
