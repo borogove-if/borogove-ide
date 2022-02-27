@@ -5,7 +5,7 @@ import code from "./code/i6.txt";
 
 class BasicI6ProjectTemplate extends ProjectTemplate {
     id = "inform6";
-    name = `Library version ${process.env.REACT_APP_INFORM6_LIBRARY_VERSION} (recommended)`;
+    name = "Standard Library";
     files = [
         {
             contents: code,
