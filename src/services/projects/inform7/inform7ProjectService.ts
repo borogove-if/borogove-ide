@@ -13,6 +13,7 @@ import ProjectTemplate from "../ProjectTemplate.class";
 export default abstract class Inform7ProjectService extends ProjectService {
     public compile = compileI7;
     public compilerReportType: "staged" = "staged";  // this looks silly, but without the "staged" type, Typescript can't make the connection to the type in the parent class
+    public hasSyntaxHighlighting = true;
     public language = "inform7";
     public name = "Inform 7";
     public showFilesystemCompilerOptions = false;   // I7 always has the same entry point and no include paths

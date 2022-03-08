@@ -2,9 +2,10 @@ import React from "react";
 import { observer } from "mobx-react";
 import { Button, Container } from "bloomer";
 
-import EditorOptions from "./options/EditorOptions";
 import DataCollectionOptions from "./options/DataCollectionOptions";
+import EditorOptions from "./options/EditorOptions";
 import FileManagerOptions from "./options/FileManagerOptions";
+import LanguageSpecificOptions from "./options/LanguageSpecificOptions";
 
 import ideStateStore from "stores/ideStateStore";
 
@@ -18,6 +19,7 @@ const Settings: React.FC = observer( () => {
 
     return <div>
         <Container>
+            <LanguageSpecificOptions />
             <EditorOptions />
             <FileManagerOptions />
             <DataCollectionOptions />

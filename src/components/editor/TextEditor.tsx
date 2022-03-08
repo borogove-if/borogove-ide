@@ -199,7 +199,7 @@ const TextEditor: React.FC = observer( () => {
         : "Menlo, Monaco, \"Courier New\", monospace";
     const fontSize = settingsStore.getSetting( "editor", "fontSize" );
     const lineNumbers = settingsStore.getSetting( "editor", "lineNumbers" );
-    const syntaxHighlighting = settingsStore.getSetting( "editor", "syntaxHighlighting" );
+    const syntaxHighlighting = settingsStore.getSetting( "language", "syntaxHighlighting", true );
     const tabChars = projectStore.manager.tabIndent ? "\t" : "    ";
     const wordWrap = settingsStore.getSetting( "editor", "wordWrap" );
     const wrappingIndent = settingsStore.getSetting( "editor", "wrappingIndent" );

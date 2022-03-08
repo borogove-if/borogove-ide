@@ -33,9 +33,6 @@ export default abstract class ProjectService {
     // The name of the project. This is shown as the title in the New Project page. Must match the names used in Borogove.io.
     public abstract name: string;
 
-    // The template id that was used to initialize the project
-    public template: string;
-
     // The type of the compilation report. This is "simple" for everything else
     // other than Inform 7 which uses reporting that tells the status of each
     // stage of the compilation.
@@ -47,6 +44,9 @@ export default abstract class ProjectService {
     // What type of story files this format produces
     // true: binary, false: text (UTF-8)
     public hasBinaryStoryFiles = true;
+
+    // Does the editor have syntax highlighting for this language
+    public hasSyntaxHighlighting = false;
 
     // Does the order of source files matter?
     public orderedFiles = false;
@@ -71,6 +71,9 @@ export default abstract class ProjectService {
 
     // Does pressing the tab button insert tab characters (true) or spaces (false)?
     public tabIndent = false;
+
+    // The template id that was used to initialize the project
+    public template: string;
 
     // Project templates (see ProjectTemplate.class.ts).
     // There should be at least one template here.

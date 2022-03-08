@@ -1,4 +1,5 @@
 import { observable, action, makeObservable } from "mobx";
+import projectStore from "./projectStore";
 
 const SETTINGS_KEY = "borogove.settings";
 
@@ -39,7 +40,6 @@ class SettingsStore {
                 fontFamily: "monospace",
                 fontSize: 14,
                 lineNumbers: true,
-                syntaxHighlighting: true,
                 wordWrap: true,
                 wrappingIndent: true,
                 ...settings.editor
@@ -53,6 +53,9 @@ class SettingsStore {
                 errors: !this.hasDoNotTrack(),
                 ...settings.logging
             },
+            language: {     // language-specific settings
+                ...settings.language
+            },
             transient: {
                 showLoggingNotification: true,
                 ...settings.transient
@@ -63,8 +66,16 @@ class SettingsStore {
     /**
      * Gets the current value of a setting
      */
-    public getSetting = ( scope: keyof AppSettings, setting: string ): any => {    // eslint-disable-line
-        return this.settings[scope][setting];
+    public getSetting = ( scope: keyof AppSettings, setting: string, defaultValue?: any ): any => {    // eslint-disable-line
+        if( scope === "language" ) {
+            if( this.settings.language[projectStore.manager.language] ) {
+                return this.settings.language[projectStore.manager.language][setting];
+            }
+
+            return defaultValue;
+        }
+
+        return this.settings[scope][setting] || defaultValue;
     };
 
     /**
@@ -85,7 +96,17 @@ class SettingsStore {
      * Sets and saves a setting
      */
     public saveSetting = ( scope: keyof AppSettings, setting: string, value: any ): void => {    // eslint-disable-line
-        this.settings[scope][setting] = value;
+        if( scope === "language" ) {
+            if( !this.settings.language[projectStore.manager.language] ) {
+                this.settings.language[projectStore.manager.language] = {};
+            }
+
+            this.settings.language[projectStore.manager.language][setting] = value;
+        }
+        else {
+            this.settings[scope][setting] = value;
+        }
+
         this.persistSettings();
     };
 }
