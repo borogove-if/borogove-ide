@@ -8,6 +8,10 @@ body, html, #root {
     margin-bottom: 0.5em;
   }
 
+  textarea {
+    min-width: auto;
+  }
+
   .container {
     padding: 1rem;
   }

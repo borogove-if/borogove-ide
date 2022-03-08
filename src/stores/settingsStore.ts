@@ -68,14 +68,18 @@ class SettingsStore {
      */
     public getSetting = ( scope: keyof AppSettings, setting: string, defaultValue?: any ): any => {    // eslint-disable-line
         if( scope === "language" ) {
-            if( this.settings.language[projectStore.manager.language] ) {
+            if( this.settings.language[projectStore.manager.language]?.[setting] !== undefined ) {
                 return this.settings.language[projectStore.manager.language][setting];
             }
 
             return defaultValue;
         }
 
-        return this.settings[scope][setting] || defaultValue;
+        if( this.settings[scope][setting] === undefined ) {
+            return defaultValue;
+        }
+
+        return this.settings[scope][setting];
     };
 
     /**

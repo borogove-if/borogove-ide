@@ -2,8 +2,9 @@ const BrowserFS = require( "browserfs" );   // must be a require() call
 import * as path from "path";
 
 import compilationResultStore, { CompilationStage } from "stores/compilationResultStore";
-import projectStore from "stores/projectStore";
 import materialsStore from "stores/materialsStore";
+import projectStore from "stores/projectStore";
+import settingsStore from "stores/settingsStore";
 
 import { OUTPUT_TMP_PATH, INPUT_TMP_PATH } from "services/filesystem/filesystemConstants";
 
@@ -32,7 +33,7 @@ export function compileI6( variant: CompilationVariant ): Promise<boolean> {
     let didQuit = false;    // make sure quit() is called only once
 
     return new Promise( ( resolve ) => {
-        const compilerOptions = projectStore.manager.compilerOptions ? projectStore.manager.compilerOptions[ variant ] || [] : [];
+        const compilerOptions = settingsStore.getSetting( "language", variant + "CompilerOptions", projectStore.manager.compilerOptions?.[ variant ] ) || [];
         const entryFile = materialsStore.getPath( projectStore.entryFile );
         const includePaths = materialsStore.getIncludePaths( INPUT_TMP_PATH );
         const compilerArguments = [

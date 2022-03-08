@@ -3,6 +3,7 @@ import { observer } from "mobx-react";
 import { Title } from "bloomer";
 
 import CheckboxControl from "../controls/CheckboxControl";
+import TextInputControl from "../controls/TextInputControl";
 
 import projectStore from "stores/projectStore";
 import settingsStore from "stores/settingsStore";
@@ -16,9 +17,17 @@ const LanguageSpecificOptions: React.FC = observer( () => {
         settingsStore.saveSetting( "language", option, newValue );
     };
 
-    const getValue = ( value: string, defaultValue?: boolean ): boolean | string | number => settingsStore.getSetting( "language", value, defaultValue );
+    const onChangeCompilerOptions = ( variant: CompilationVariant ): ( newValue: string ) => void => ( newValue: string ): void => {
+        settingsStore.saveSetting( "language", variant + "CompilerOptions", newValue.split( "\n" ) );
+    };
 
-    if( !projectStore.manager.hasSyntaxHighlighting ) {
+    const getValue = ( value: string, defaultValue?: boolean | string | string[] ): boolean | string | number | string[] => settingsStore.getSetting( "language", value, defaultValue );
+
+    const { hasSyntaxHighlighting, compilerOptions } = projectStore.manager;
+    const hasCompilerOptions = Boolean( compilerOptions );
+
+    // if the language has no options, do nothing
+    if( !hasSyntaxHighlighting && !hasCompilerOptions ) {
         return null;
     }
 
@@ -27,10 +36,26 @@ const LanguageSpecificOptions: React.FC = observer( () => {
             {projectStore.manager.name} options
         </Title>
 
-        <CheckboxControl label="Syntax highlighting"
-                         description="Add colors to syntactic elements of the code"
-                         checked={getValue( "syntaxHighlighting", true ) as boolean}
-                         onChange={onChange( "syntaxHighlighting" )} />
+        {hasSyntaxHighlighting && <CheckboxControl label="Syntax highlighting"
+                                                   description="Add colors to syntactic elements of the code"
+                                                   checked={getValue( "syntaxHighlighting", true ) as boolean}
+                                                   onChange={onChange( "syntaxHighlighting" )} />}
+
+        {hasCompilerOptions && <>
+            <TextInputControl label="Compiler flags for debug version"
+                              description="Command line options passed to the compiler in the editor preview. One option per line."
+                              resetValue={projectStore.manager.compilerOptions?.debug.join( "\n" )}
+                              value={( getValue( "debugCompilerOptions", projectStore.manager.compilerOptions?.debug ) as string[] ).join( "\n" )}
+                              onChange={onChangeCompilerOptions( "debug" )}
+                              multiline />
+
+            <TextInputControl label="Compiler flags for release version"
+                              description="Command line options passed to the compiler when building the release version. One option per line."
+                              resetValue={projectStore.manager.compilerOptions?.release.join( "\n" )}
+                              value={getValue( "releaseCompilerOptions", projectStore.manager.compilerOptions?.release.join( "\n" ) ) as string}
+                              onChange={onChangeCompilerOptions( "release" )}
+                              multiline />
+        </>}
     </section>;
 });
 
