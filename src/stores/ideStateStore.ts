@@ -35,7 +35,7 @@ class IDEStateStore {
     };
 
     public getActivePane = (): Tab | null => {
-        return this.activePane.activeTab;
+        return this.activePane?.activeTab || null;
     };
 
     public setActivePane = ( pane: TabStore ): void => {
