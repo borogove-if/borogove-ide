@@ -49,3 +49,8 @@ The build process is quite slow, so don't panic if it doesn't seem to do anythin
 The `npm run deploy:prod` and `npm run deploy:dev` commands (or `yarn deploy:prod` / `yarn deploy:dev`) build and deploy the project to [Firebase](https://firebase.google.com) hosting. If you'd like to deploy to your own Firebase project, edit the .firebaserc file and replace the project ids with your own project ids created in the Firebase console. The ids in the default .firebaserc file refer to the "official" borogove.app hosting, which naturally won't work without proper credentials.
 
 The .firebaserc file contains two separate projects, one for development or testing releases, and the other for production releases. If you only have one Firebase project you can use the production variant (`npm run deploy:prod`) and ignore the development variant.
+
+
+### Troubleshooting
+
+If starting the dev server shows errors like "Plugin "react" was conflicted between ".eslintrc.js » plugin:react/recommended" and BaseConfig" or "The requested module '@codemirror/xxx' contains conflicting star exports" delete yarn.lock (or package-lock.json) and install packages again.
