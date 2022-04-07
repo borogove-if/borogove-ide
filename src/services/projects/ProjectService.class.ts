@@ -33,10 +33,18 @@ export default abstract class ProjectService {
     // The name of the project. This is shown as the title in the New Project page. Must match the names used in Borogove.io.
     public abstract name: string;
 
+    // Options passed to the compiler, debug and release variants separately
+    public compilerOptions?: {
+        [key in CompilationVariant]: string[];
+    };
+
     // The type of the compilation report. This is "simple" for everything else
     // other than Inform 7 which uses reporting that tells the status of each
     // stage of the compilation.
     public compilerReportType: "staged" | "simple" = "simple";
+
+    // List of all available compiler versions
+    public compilerVersions?: string[];
 
     // Should the file manager be initially open?
     public fileManagerStartsOpen = true;
@@ -47,6 +55,9 @@ export default abstract class ProjectService {
 
     // Does the editor have syntax highlighting for this language
     public hasSyntaxHighlighting = false;
+
+    // Virtual paths to pass to the compiler as search paths
+    public includePaths?: string[];
 
     // Does the order of source files matter?
     public orderedFiles = false;
@@ -81,15 +92,6 @@ export default abstract class ProjectService {
 
     // The contents of the welcome page that opens when the project has been started.
     public welcomePage?: React.FC;
-
-    // Options passed to the compiler, debug and release variants separately
-    public compilerOptions?: {
-        [key in CompilationVariant]: string[];
-    };
-
-    // Virtual paths to pass to the compiler as search paths
-    public includePaths?: string[];
-
 
     /**
      * Adds the template's initial files to the project

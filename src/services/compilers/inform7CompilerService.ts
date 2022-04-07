@@ -2,12 +2,14 @@ import axios, { AxiosPromise, AxiosResponse } from "axios";
 
 import compilationResultStore, { CompilationStage, RemoteCompilationResultResponse } from "stores/compilationResultStore";
 import ideStateStore from "stores/ideStateStore";
-import projectStore from "stores/projectStore";
 import materialsStore from "stores/materialsStore";
+import projectStore from "stores/projectStore";
+import settingsStore from "stores/settingsStore";
+
 import { logErrorMessage } from "services/app/loggers";
+import { DEFAULT_I7_COMPILER_VERSION, I7CompilerVersion } from "services/projects/inform7/inform7ProjectService";
 
 const API_URL = process.env.REACT_APP_I7_COMPILER_SERVICE_URL;
-
 
 /**
  * Start the compilation process on the server. The server streams the compiler
@@ -15,11 +17,11 @@ const API_URL = process.env.REACT_APP_I7_COMPILER_SERVICE_URL;
  * errors, so this doesn't do anything else – we'll make another request for the
  * compilation results after this.
  */
-function compile( jobId: string, variant: CompilationVariant ): AxiosPromise | null {
+function compile( compilerVersion: I7CompilerVersion, jobId: string, variant: CompilationVariant ): AxiosPromise | null {
     try {
         return axios({
             method: "get",
-            url: `${API_URL}/compile/${jobId}/${variant}`,
+            url: `${API_URL}/compile/${compilerVersion}/${jobId}/${variant}`,
             onDownloadProgress: ( event: ProgressEvent ) => {
                 // Typescript doesn't recognize the responseText member so we have to do this song and dance
                 const target: unknown = event.currentTarget;
@@ -94,7 +96,11 @@ There was a problem reading the UUID from the file but you can create a new UUID
     compilationResultStore.setStage( CompilationStage.firstPass );
 
     // Tell the service to start the actual compilation job
-    const compilationResults = await compile( jobId, variant );
+    const compilationResults = await compile(
+        settingsStore.getSetting( "language", "compilerVersion", DEFAULT_I7_COMPILER_VERSION ),
+        jobId,
+        variant
+    );
 
     if( !compilationResults ) {
         compilationResultStore.setRemoteResults({

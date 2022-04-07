@@ -3,6 +3,7 @@ import { observer } from "mobx-react";
 import { Title } from "bloomer";
 
 import CheckboxControl from "../controls/CheckboxControl";
+import DropdownControl from "../controls/DropdownControl";
 import TextInputControl from "../controls/TextInputControl";
 
 import projectStore from "stores/projectStore";
@@ -23,11 +24,12 @@ const LanguageSpecificOptions: React.FC = observer( () => {
 
     const getValue = ( value: string, defaultValue?: boolean | string | string[] ): boolean | string | number | string[] => settingsStore.getSetting( "language", value, defaultValue );
 
-    const { hasSyntaxHighlighting, compilerOptions } = projectStore.manager;
+    const { hasSyntaxHighlighting, compilerOptions, compilerVersions } = projectStore.manager;
     const hasCompilerOptions = Boolean( compilerOptions );
+    const hasCompilerVersions = compilerVersions && compilerVersions.length > 1;
 
     // if the language has no options, do nothing
-    if( !hasSyntaxHighlighting && !hasCompilerOptions ) {
+    if( !hasSyntaxHighlighting && !hasCompilerOptions && !hasCompilerVersions ) {
         return null;
     }
 
@@ -35,6 +37,11 @@ const LanguageSpecificOptions: React.FC = observer( () => {
         <Title isSize={3}>
             {projectStore.manager.name} options
         </Title>
+
+        {hasCompilerVersions && <DropdownControl label="Compiler version"
+                                                 options={compilerVersions.map( version => ({ label: version, value: version }) )}
+                                                 value={getValue( "compilerVersion" ) as string}
+                                                 onChange={onChange( "compilerVersion" )} />}
 
         {hasSyntaxHighlighting && <CheckboxControl label="Syntax highlighting"
                                                    description="Add colors to syntactic elements of the code"
