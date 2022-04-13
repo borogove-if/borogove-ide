@@ -1,9 +1,10 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { observer } from "mobx-react";
 import { Card, CardContent, Content, CardFooter, CardFooterItem, CardHeader, CardHeaderTitle } from "bloomer";
 
 interface ReleaseCardElementProps {
     buttonText: string;
+    children?: ReactNode;
     onBuild: () => void;
     title: string;
 }

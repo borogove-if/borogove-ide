@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { observer } from "mobx-react";
 import {
     Button,
@@ -33,6 +33,7 @@ interface ModalTemplateProps {
     buttons?: ModalButton[];
     callbacks?: Array<() => void>;
     cancelCallback?: () => void;
+    children?: ReactNode;
     header: string;
     okCallback?: () => void;
     wide?: boolean;

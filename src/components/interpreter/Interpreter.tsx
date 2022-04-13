@@ -41,7 +41,7 @@ const Interpreter: React.FC = () => {
                     return;
                 }
 
-                const path = materialsStore.getPath( materialsFile ).substr( 1 );
+                const path = materialsStore.getPath( materialsFile ).substring( 1 );
                 const content = readFile( materialsStore.getFilesystemPath( materialsFile ), projectStore.manager.hasBinaryStoryFiles );
 
                 ( contentWindow as any ).postMessage({  // eslint-disable-line

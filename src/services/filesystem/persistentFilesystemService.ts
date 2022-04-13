@@ -1,13 +1,13 @@
 import { join } from "path";
 import { reaction } from "mobx";
 
-import { getFS } from "./localFilesystemService";
-
-import materialsStore from "stores/materialsStore";
-
-import { PERSISTENT_FILESYSTEM_DIR, PROJECT_ROOT_DIR, BOROGOVE_SETTINGS_FILE } from "./filesystemConstants";
 import editorStateStore from "stores/editorStateStore";
+import materialsStore from "stores/materialsStore";
 import projectStore from "stores/projectStore";
+
+import { getFS } from "./localFilesystemService";
+import { PERSISTENT_FILESYSTEM_DIR, PROJECT_ROOT_DIR, BOROGOVE_SETTINGS_FILE } from "./filesystemConstants";
+
 
 const DEBOUNCE_DURATION = 1000; // how often to start the persist operation, maximum
 
