@@ -81,9 +81,15 @@ export function readFileAsBase64( file: string ): string {
 }
 
 export function recursiveRm( filepath: string ): void {
-    if( !fs.statSync( filepath ).isDirectory() ) {
-        // normal file - just delete and return
-        fs.unlinkSync( filepath );
+    try {
+        if( !fs.statSync( filepath ).isDirectory() ) {
+            // normal file - just delete and return
+            fs.unlinkSync( filepath );
+            return;
+        }
+    }
+    catch( e ) {
+        // file not found - do nothing
         return;
     }
 
