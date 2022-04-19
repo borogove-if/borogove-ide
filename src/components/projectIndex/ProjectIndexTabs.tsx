@@ -1,8 +1,8 @@
 import React from "react";
 import { Tabs, TabList, TabLink, Tab } from "bloomer";
 
-import { I7CompilerVersion, DEFAULT_I7_COMPILER_VERSION } from "services/projects/inform7/inform7ProjectService";
-import settingsStore from "stores/settingsStore";
+import { I7CompilerVersion } from "services/projects/inform7/inform7ProjectService";
+import projectStore from "stores/projectStore";
 
 interface ProjectIndexTabsElementProps extends ProjectIndexTabsProps {
     compilerVersion: I7CompilerVersion;
@@ -37,7 +37,7 @@ interface ProjectIndexTabsProps {
  * Tabs for navigating the index
  */
 const ProjectIndexTabs: React.FC<ProjectIndexTabsProps> = ( props ) => {
-    const compilerVersion = settingsStore.getSetting( "language", "compilerVersion", DEFAULT_I7_COMPILER_VERSION ) as I7CompilerVersion;
+    const compilerVersion = projectStore.compilerVersion as I7CompilerVersion;
 
     return <ProjectIndexTabsElement {...props} compilerVersion={compilerVersion} />;
 };

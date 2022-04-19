@@ -5,6 +5,7 @@ import { Message, MessageBody, Container } from "bloomer";
 import ProjectIndexTabs from "./ProjectIndexTabs";
 
 import compilationResultStore from "stores/compilationResultStore";
+import projectStore from "stores/projectStore";
 
 import "./ProjectIndex.scss";
 
@@ -13,7 +14,7 @@ import "./ProjectIndex.scss";
  */
 const ProjectIndex: React.FC = observer( () => {
     const url = compilationResultStore.indexUrl;
-    const [ page, setPage ] = useState( "Welcome" );
+    const [ page, setPage ] = useState( projectStore.compilerVersion === "6G60" ? "Contents" : "Welcome" );
 
     if( !url ) {
         return <Container>

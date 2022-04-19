@@ -45,6 +45,9 @@ class ProjectStore {
     // The main file passed to the compiler
     entryFile: MaterialsFile | null;
 
+    // Which compiler version the project uses (if there are several to choose from)
+    compilerVersion?: string;
+
     // UUID (IFID) for the current project
     public uuid = uuid();
 

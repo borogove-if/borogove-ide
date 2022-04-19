@@ -3,11 +3,13 @@ import { child, get, getDatabase, ref } from "firebase/database";
 import { getSnippetsFirebaseApp } from "services/firebase/setup";
 import projectServiceList from "services/projects/projectServiceList";
 
-import snippetStore from "stores/snippetStore";
 import editorStateStore from "stores/editorStateStore";
 import projectStore from "stores/projectStore";
+import settingsStore from "stores/settingsStore";
+import snippetStore from "stores/snippetStore";
 
-import { FirebaseSnippetData } from "types/snippets";
+import type { FirebaseSnippetData } from "types/snippets";
+import { SNIPPET_DEFAULT_I7_VERSION } from "./constants";
 
 const SNIPPET_ID_MIN_LENGTH = 6;
 
@@ -16,7 +18,6 @@ const SNIPPET_ID_MIN_LENGTH = 6;
  * Retrieves snippet data from Firebase by the snippet id
  */
 export const getSnippet = async( snippetId: string ): Promise<FirebaseSnippetData | null> => {
-    console.log( "getSnippet " + snippetId );
     try {
         const firebaseApp = getSnippetsFirebaseApp();
         const db = getDatabase( firebaseApp );
@@ -53,7 +54,7 @@ export const parseUrlForSnippetId = (): string | null => {
  * Starts a project with the snippet data
  */
 export const prepareSnippetProject = async( id: string, snippetData: FirebaseSnippetData ): Promise<void> => {
-    const { code } = snippetData;
+    const { code, compiler, language, template } = snippetData;
 
     // Store the data in the snippet store
     snippetStore.setId( id );
@@ -63,8 +64,8 @@ export const prepareSnippetProject = async( id: string, snippetData: FirebaseSni
     let projectIndex: number | null = null;
     let templateIndex: number | null = null;
 
-    projectServiceList.forEach( ( projectService, li ) => projectService.templates.forEach( ( template, ti ) => {
-        if( template.id === snippetData.template ) {
+    projectServiceList.forEach( ( projectService, li ) => projectService.templates.forEach( ( t, ti ) => {
+        if( t.id === template ) {
             projectIndex = li;
             templateIndex = ti;
         }
@@ -77,6 +78,18 @@ export const prepareSnippetProject = async( id: string, snippetData: FirebaseSni
     }
 
     await projectServiceList[ projectIndex ].initProject( projectServiceList[ projectIndex ].templates[ templateIndex ] );
+
+    let compilerVersion = compiler;
+
+    if( !compilerVersion && language === "inform7" ) {
+        compilerVersion = SNIPPET_DEFAULT_I7_VERSION;
+    }
+
+    // Set the correct compiler
+    if( compilerVersion ) {
+        projectStore.compilerVersion = compilerVersion;
+        settingsStore.saveSetting( "language", "compilerVersion", compilerVersion );
+    }
 
     editorStateStore.setContents( code, true );
     projectStore.compile( "debug" );

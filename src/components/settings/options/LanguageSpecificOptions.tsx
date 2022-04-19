@@ -22,6 +22,11 @@ const LanguageSpecificOptions: React.FC = observer( () => {
         settingsStore.saveSetting( "language", variant + "CompilerOptions", newValue.split( "\n" ) );
     };
 
+    const onChangeCompilerVersion = ( newValue: string ): void => {
+        onChange( "compilerVersion" )( newValue );
+        projectStore.compilerVersion = newValue;
+    };
+
     const getValue = ( value: string, defaultValue?: boolean | string | string[] ): boolean | string | number | string[] => settingsStore.getSetting( "language", value, defaultValue );
 
     const { hasSyntaxHighlighting, compilerOptions, compilerVersions } = projectStore.manager;
@@ -41,7 +46,7 @@ const LanguageSpecificOptions: React.FC = observer( () => {
         {hasCompilerVersions && <DropdownControl label="Compiler version"
                                                  options={compilerVersions.map( version => ({ label: version, value: version }) )}
                                                  value={getValue( "compilerVersion" ) as string}
-                                                 onChange={onChange( "compilerVersion" )} />}
+                                                 onChange={onChangeCompilerVersion} />}
 
         {hasSyntaxHighlighting && <CheckboxControl label="Syntax highlighting"
                                                    description="Add colors to syntactic elements of the code"

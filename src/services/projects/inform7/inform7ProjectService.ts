@@ -1,7 +1,8 @@
 import { compileI7 } from "services/compilers/inform7CompilerService";
 
-import projectStore, { ProjectStoreState } from "stores/projectStore";
 import materialsStore, { MaterialsFileType } from "stores/materialsStore";
+import projectStore, { ProjectStoreState } from "stores/projectStore";
+import settingsStore from "stores/settingsStore";
 
 import ProjectService from "../ProjectService.class";
 import ProjectTemplate from "../ProjectTemplate.class";
@@ -45,6 +46,7 @@ export default abstract class Inform7ProjectService extends ProjectService {
 
         if( initSuccess ) {
             this.generateUUIDFile();
+            projectStore.compilerVersion = settingsStore.getSetting( "language", "compilerVersion", DEFAULT_I7_COMPILER_VERSION );
             projectStore.setReady();
         }
         else {

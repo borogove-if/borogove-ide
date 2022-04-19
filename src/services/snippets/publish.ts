@@ -34,6 +34,7 @@ export const publishSnippet = async(): Promise<void> => {
             method: "POST",
             data: {
                 code,
+                compiler: projectStore.compilerVersion,
                 revision: 1,
                 template: projectStore.manager.template
             }

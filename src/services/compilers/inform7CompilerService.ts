@@ -4,7 +4,6 @@ import compilationResultStore, { CompilationStage, RemoteCompilationResultRespon
 import ideStateStore from "stores/ideStateStore";
 import materialsStore from "stores/materialsStore";
 import projectStore from "stores/projectStore";
-import settingsStore from "stores/settingsStore";
 
 import { logErrorMessage } from "services/app/loggers";
 import { DEFAULT_I7_COMPILER_VERSION, I7CompilerVersion } from "services/projects/inform7/inform7ProjectService";
@@ -97,7 +96,7 @@ There was a problem reading the UUID from the file but you can create a new UUID
 
     // Tell the service to start the actual compilation job
     const compilationResults = await compile(
-        settingsStore.getSetting( "language", "compilerVersion", DEFAULT_I7_COMPILER_VERSION ),
+        projectStore.compilerVersion as I7CompilerVersion || DEFAULT_I7_COMPILER_VERSION,
         jobId,
         variant
     );
@@ -185,7 +184,7 @@ async function prepare(): Promise<string|null> {
             data: {
                 sessionId: ideStateStore.sessionId,
                 language: "Inform 7",
-                compilerVersion: "6M62",
+                compilerVersion: projectStore.compilerVersion,
                 uuid: projectStore.uuid
             },
             included: [
