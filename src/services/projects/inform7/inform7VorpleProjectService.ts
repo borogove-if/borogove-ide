@@ -1,6 +1,6 @@
 import { InterpreterIdentifier } from "services/interpreters/interpreterService";
 
-import Inform7ProjectService from "./inform7ProjectService";
+import Inform7ProjectService, { I7CompilerVersion } from "./inform7ProjectService";
 
 import minimalI7VorpleProject from "./templates/vorple/minimalI7VorpleProject";
 import smallI7VorpleProject from "./templates/vorple/smallI7VorpleProject";
@@ -10,6 +10,7 @@ import smallI7VorpleProject from "./templates/vorple/smallI7VorpleProject";
  */
 class Inform7VorpleProjectService extends Inform7ProjectService {
     public id = "inform7-vorple";
+    public compilerVersions: I7CompilerVersion[] = [ "6M62" ];
     public interpreter: InterpreterIdentifier = "vorple";
     public name = "Inform 7";
     public subtitle = "with Vorple";

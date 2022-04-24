@@ -104,7 +104,7 @@ export function getStandaloneInterpreterMeta( interpreter: InterpreterIdentifier
         {
             return {
                 storyfileName: "story.ulx",
-                templateZipUrl: `${interpreterServiceUrl}/parchment/${process.env.REACT_APP_PARCHMENT_VERSION}/release.glulx.zip`
+                templateZipUrl: `${interpreterServiceUrl}/parchment/${process.env.REACT_APP_PARCHMENT_VERSION}/release.ulx.zip`
             };
         }
 
