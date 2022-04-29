@@ -7,7 +7,7 @@ import settingsStore from "stores/settingsStore";
 import ProjectService from "../ProjectService.class";
 import ProjectTemplate from "../ProjectTemplate.class";
 
-export type I7CompilerVersion = "6M62" | "6G60";
+export type I7CompilerVersion = "10.1.0" | "6M62" | "6G60";
 export const DEFAULT_I7_COMPILER_VERSION = process.env.REACT_APP_DEFAULT_I7_COMPILER_VERSION as I7CompilerVersion;
 
 /**

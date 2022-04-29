@@ -10,6 +10,11 @@ import projectStore from "stores/projectStore";
 import settingsStore from "stores/settingsStore";
 
 
+// Temporary solution to get the new I7 compiler working – this shouldn't be tied to I7
+import type { I7CompilerVersion } from "services/projects/inform7/inform7ProjectService";
+export const DEFAULT_I7_COMPILER_VERSION = process.env.REACT_APP_DEFAULT_I7_COMPILER_VERSION as I7CompilerVersion;
+
+
 /**
  * Options that are specific to certain systems
  */
@@ -45,7 +50,7 @@ const LanguageSpecificOptions: React.FC = observer( () => {
 
         {hasCompilerVersions && <DropdownControl label="Compiler version"
                                                  options={compilerVersions.map( version => ({ label: version, value: version }) )}
-                                                 value={getValue( "compilerVersion" ) as string}
+                                                 value={getValue( "compilerVersion", DEFAULT_I7_COMPILER_VERSION ) as string}
                                                  onChange={onChangeCompilerVersion} />}
 
         {hasSyntaxHighlighting && <CheckboxControl label="Syntax highlighting"
