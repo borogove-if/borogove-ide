@@ -80,7 +80,7 @@ export async function compileInk(): Promise<boolean> {
     }
     catch( e ) {
         const axiosError = e as AxiosError;
-        const response: AxiosResponse<RemoteCompilationResultResponse> | undefined = axiosError.response;
+        const response: AxiosResponse | undefined = axiosError.response;
         let errorMessage = "";
 
         if( !response?.data?.data?.attributes?.output ) {
