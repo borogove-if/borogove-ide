@@ -126,7 +126,7 @@ export async function restoreFS( projectId: string ): Promise<void> {
         fs.readFile(
             join( persistentRoot, BOROGOVE_SETTINGS_FILE ),
             { encoding: "utf8" },
-            ( err: void, contents: string ) => {
+            ( err: Error | null, contents: string ) => {
                 if( !contents || err ) {
                     reject();
                     return;
