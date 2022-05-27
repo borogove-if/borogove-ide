@@ -98,10 +98,12 @@ There was a problem reading the UUID from the file but you can create a new UUID
 
     compilationResultStore.setStage( CompilationStage.firstPass );
 
+    const isVorple = projectStore.manager.interpreter === "vorple";
+
     // Tell the service to start the actual compilation job
     const compilationResults = await compile(
         projectStore.compilerVersion as I7CompilerVersion || DEFAULT_I7_COMPILER_VERSION,
-        settingsStore.getSetting( "language", "libraryVersion" ),
+        isVorple ? settingsStore.getSetting( "language", "libraryVersion", process.env.REACT_APP_DEFAULT_VORPLE_VERSION ) : undefined,
         jobId,
         variant
     );
@@ -180,20 +182,29 @@ function getResults( jobId: string ): AxiosPromise<RemoteCompilationResultRespon
 async function prepare(): Promise<string|null> {
     const source = materialsStore.findByFullPath( "/story.ni" );
     const vorpleVersion: VorpleLibraryVersion = settingsStore.getSetting( "language", "libraryVersion", process.env.REACT_APP_DEFAULT_VORPLE_VERSION );
+    const isVorple = projectStore.manager.interpreter === "vorple";
 
     if( !source ) {
         throw new Error( "Source text file (story.ni) not found" );
     }
 
+    const partialData = {
+        language: "inform7",
+        sessionId: ideStateStore.sessionId,
+        uuid: projectStore.uuid
+    };
+
+    const data = isVorple ? {
+        ...partialData,
+        vorpleVersion: vorpleVersion
+    } : {
+        ...partialData,
+        compilerVersion: projectStore.compilerVersion
+    };
+
     try {
         const result: AxiosResponse<RemoteCompilationResultResponse> = await axios.post( API_URL + "/prepare", {
-            data: {
-                compilerVersion: projectStore.compilerVersion,
-                language: "Inform 7",
-                sessionId: ideStateStore.sessionId,
-                uuid: projectStore.uuid,
-                vorpleVersion
-            },
+            data,
             included: [
                 {
                     type: "file",
