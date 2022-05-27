@@ -16,6 +16,7 @@ export interface RemoteCompilationResultResponse {
     data: {
         action?: SpecialCompilationAction;
         attributes?: {
+            compilerVersion?: string;
             jobId?: string;
             output?: string;
             storyfile?: string;

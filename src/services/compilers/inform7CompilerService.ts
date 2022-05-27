@@ -7,6 +7,9 @@ import projectStore from "stores/projectStore";
 
 import { logErrorMessage } from "services/app/loggers";
 import { DEFAULT_I7_COMPILER_VERSION, I7CompilerVersion } from "services/projects/inform7/inform7ProjectService";
+import settingsStore from "stores/settingsStore";
+
+import type { VorpleLibraryVersion } from "services/projects/inform7/inform7VorpleProjectService";
 
 const API_URL = process.env.REACT_APP_I7_COMPILER_SERVICE_URL;
 
@@ -16,11 +19,12 @@ const API_URL = process.env.REACT_APP_I7_COMPILER_SERVICE_URL;
  * errors, so this doesn't do anything else – we'll make another request for the
  * compilation results after this.
  */
-function compile( compilerVersion: I7CompilerVersion, jobId: string, variant: CompilationVariant ): AxiosPromise | null {
+function compile( compilerVersion: I7CompilerVersion, vorpleVersion: string | undefined, jobId: string, variant: CompilationVariant ): AxiosPromise | null {
     try {
         return axios({
             method: "get",
             url: `${API_URL}/compile/${compilerVersion}/${jobId}/${variant}`,
+            params: { vorpleVersion },
             onDownloadProgress: ( event: ProgressEvent ) => {
                 // Typescript doesn't recognize the responseText member so we have to do this song and dance
                 const target: unknown = event.currentTarget;
@@ -97,6 +101,7 @@ There was a problem reading the UUID from the file but you can create a new UUID
     // Tell the service to start the actual compilation job
     const compilationResults = await compile(
         projectStore.compilerVersion as I7CompilerVersion || DEFAULT_I7_COMPILER_VERSION,
+        settingsStore.getSetting( "language", "libraryVersion" ),
         jobId,
         variant
     );
@@ -174,6 +179,7 @@ function getResults( jobId: string ): AxiosPromise<RemoteCompilationResultRespon
  */
 async function prepare(): Promise<string|null> {
     const source = materialsStore.findByFullPath( "/story.ni" );
+    const vorpleVersion: VorpleLibraryVersion = settingsStore.getSetting( "language", "libraryVersion", process.env.REACT_APP_DEFAULT_VORPLE_VERSION );
 
     if( !source ) {
         throw new Error( "Source text file (story.ni) not found" );
@@ -182,10 +188,11 @@ async function prepare(): Promise<string|null> {
     try {
         const result: AxiosResponse<RemoteCompilationResultResponse> = await axios.post( API_URL + "/prepare", {
             data: {
-                sessionId: ideStateStore.sessionId,
-                language: "Inform 7",
                 compilerVersion: projectStore.compilerVersion,
-                uuid: projectStore.uuid
+                language: "Inform 7",
+                sessionId: ideStateStore.sessionId,
+                uuid: projectStore.uuid,
+                vorpleVersion
             },
             included: [
                 {
@@ -199,7 +206,21 @@ async function prepare(): Promise<string|null> {
             ]
         });
 
-        return result?.data?.data?.attributes?.jobId || null;
+        const attributes = result?.data?.data?.attributes;
+
+        if( !attributes ) {
+            return null;
+        }
+
+        const { compilerVersion, jobId } = attributes;
+
+        // The compiler service tells us what compiler version it will use (for Vorple, but potentially otherwise as well)
+        // so we'll change the project's compiler version to that on our side as well
+        if( compilerVersion && compilerVersion !== projectStore.compilerVersion ) {
+            projectStore.compilerVersion = compilerVersion;
+        }
+
+        return jobId || null;
     }
     catch( e ) {
         return null;

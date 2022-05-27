@@ -10,9 +10,12 @@ import projectStore from "stores/projectStore";
 import settingsStore from "stores/settingsStore";
 
 
-// Temporary solution to get the new I7 compiler working – this shouldn't be tied to I7
+// Temporary solution to get the new I7 compiler working – this shouldn't be tied to I7. Same goes for Vorple.
 import type { I7CompilerVersion } from "services/projects/inform7/inform7ProjectService";
-export const DEFAULT_I7_COMPILER_VERSION = process.env.REACT_APP_DEFAULT_I7_COMPILER_VERSION as I7CompilerVersion;
+import type { VorpleLibraryVersion } from "services/projects/inform7/inform7VorpleProjectService";
+
+const DEFAULT_I7_COMPILER_VERSION = process.env.REACT_APP_DEFAULT_I7_COMPILER_VERSION as I7CompilerVersion;
+const DEFAULT_VORPLE_VERSION = process.env.REACT_APP_DEFAULT_VORPLE_VERSION as VorpleLibraryVersion;
 
 
 /**
@@ -27,19 +30,23 @@ const LanguageSpecificOptions: React.FC = observer( () => {
         settingsStore.saveSetting( "language", variant + "CompilerOptions", newValue.split( "\n" ) );
     };
 
-    const onChangeCompilerVersion = ( newValue: string ): void => {
-        onChange( "compilerVersion" )( newValue );
-        projectStore.compilerVersion = newValue;
+    const onChangeVersion = ( type: "compiler" | "library" ) => ( newValue: string ): void => {
+        onChange( type + "Version" )( newValue );
+
+        if( type === "compiler" ) {
+            projectStore.compilerVersion = newValue;
+        }
     };
 
     const getValue = ( value: string, defaultValue?: boolean | string | string[] ): boolean | string | number | string[] => settingsStore.getSetting( "language", value, defaultValue );
 
-    const { hasSyntaxHighlighting, compilerOptions, compilerVersions } = projectStore.manager;
+    const { hasSyntaxHighlighting, compilerOptions, compilerVersions, libraryVersions } = projectStore.manager;
     const hasCompilerOptions = Boolean( compilerOptions );
     const hasCompilerVersions = compilerVersions && compilerVersions.length > 1;
+    const hasLibraryVersions = libraryVersions && libraryVersions.length > 1;
 
     // if the language has no options, do nothing
-    if( !hasSyntaxHighlighting && !hasCompilerOptions && !hasCompilerVersions ) {
+    if( !hasSyntaxHighlighting && !hasCompilerOptions && !hasCompilerVersions && !hasLibraryVersions ) {
         return null;
     }
 
@@ -51,7 +58,12 @@ const LanguageSpecificOptions: React.FC = observer( () => {
         {hasCompilerVersions && <DropdownControl label="Compiler version"
                                                  options={compilerVersions.map( version => ({ label: version, value: version }) )}
                                                  value={getValue( "compilerVersion", DEFAULT_I7_COMPILER_VERSION ) as string}
-                                                 onChange={onChangeCompilerVersion} />}
+                                                 onChange={onChangeVersion( "compiler" )} />}
+
+        {hasLibraryVersions && <DropdownControl label="Library version"
+                                                options={libraryVersions.map( version => ({ label: version, value: version }) )}
+                                                value={getValue( "libraryVersion", DEFAULT_VORPLE_VERSION ) as string}
+                                                onChange={onChangeVersion( "library" )} />}
 
         {hasSyntaxHighlighting && <CheckboxControl label="Syntax highlighting"
                                                    description="Add colors to syntactic elements of the code"

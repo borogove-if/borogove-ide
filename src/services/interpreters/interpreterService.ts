@@ -1,4 +1,5 @@
 import ideStateStore from "stores/ideStateStore";
+import settingsStore from "stores/settingsStore";
 import snippetStore from "stores/snippetStore";
 
 export type InterpreterIdentifier = "aamachine" | "hugojs" | "inkjs" | "parchment" | "quixe" | "vorple";
@@ -51,7 +52,9 @@ export function getInterpreterUrl( interpreter: InterpreterIdentifier, storyfile
         case "vorple":
         {
             const storyParameter = storyfileUrl ? `?storyfile=${storyfileUrl}` : "";
-            return `${interpreterServiceUrl}/vorple/${process.env.REACT_APP_VORPLE_VERSION}/${storyParameter}`;
+            const vorpleVersion = settingsStore.getSetting( "language", "libraryVersion", process.env.REACT_APP_DEFAULT_VORPLE_VERSION );
+
+            return `${interpreterServiceUrl}/vorple/${vorpleVersion}/${storyParameter}`;
         }
 
         default:
@@ -110,9 +113,11 @@ export function getStandaloneInterpreterMeta( interpreter: InterpreterIdentifier
 
         case "vorple":
         {
+            const vorpleVersion = settingsStore.getSetting( "language", "libraryVersion", process.env.REACT_APP_DEFAULT_VORPLE_VERSION );
+
             return {
                 storyfileName: "story.ulx",
-                templateZipUrl: `${interpreterServiceUrl}/vorple/${process.env.REACT_APP_VORPLE_VERSION}/release.zip`
+                templateZipUrl: `${interpreterServiceUrl}/vorple/${vorpleVersion}/release.zip`
             };
         }
 

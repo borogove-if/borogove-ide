@@ -59,6 +59,9 @@ export default abstract class ProjectService {
     // Virtual paths to pass to the compiler as search paths
     public includePaths?: string[];
 
+    // Which library version the project uses (for now only for Vorple)
+    public libraryVersions?: string[];
+
     // Does the order of source files matter?
     public orderedFiles = false;
 
