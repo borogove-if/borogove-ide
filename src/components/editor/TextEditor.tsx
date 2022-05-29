@@ -2,19 +2,12 @@ import React, { useEffect, useRef } from "react";
 import { observer } from "mobx-react";
 import { EditorView, keymap, highlightSpecialChars, drawSelection, dropCursor, useCodeMirror } from "@uiw/react-codemirror";
 
-import { autocompletion, completionKeymap } from "@codemirror/autocomplete";
-import { closeBrackets, closeBracketsKeymap } from "@codemirror/closebrackets";
-import { defaultKeymap } from "@codemirror/commands";
-import { commentKeymap } from "@codemirror/comment";
-import { foldGutter, foldKeymap } from "@codemirror/fold";
-import { lineNumbers, highlightActiveLineGutter } from "@codemirror/gutter";
-import { defaultHighlightStyle } from "@codemirror/highlight";
-import { history, historyKeymap } from "@codemirror/history";
-import { indentOnInput, indentService, indentUnit } from "@codemirror/language";
-import { bracketMatching } from "@codemirror/matchbrackets";
-import { rectangularSelection } from "@codemirror/rectangular-selection";
+import { autocompletion, closeBrackets, closeBracketsKeymap, completionKeymap } from "@codemirror/autocomplete";
+import { defaultKeymap, history, historyKeymap } from "@codemirror/commands";
+import { bracketMatching, defaultHighlightStyle, foldGutter, foldKeymap, indentOnInput, indentService, indentUnit, syntaxHighlighting } from "@codemirror/language";
 import { searchKeymap, highlightSelectionMatches } from "@codemirror/search";
 import { EditorState, Extension } from "@codemirror/state"; // This package isn't listed in package.json because it then conflicts with @uiw/react-codemirror for some reason. It's included through that package instead. Can try installing it as a first-class package if either of them get updates later.
+import { highlightActiveLineGutter, lineNumbers, rectangularSelection } from "@codemirror/view";
 
 import { languages } from "@codemirror/language-data";
 import { inform7 } from "codemirror-lang-inform7";
@@ -68,7 +61,7 @@ export const TextEditorElement: React.FC<TextEditorElementProps> = ({ onChange, 
         autocompletion(),
         bracketMatching(),
         closeBrackets(),
-        defaultHighlightStyle.fallback,
+        syntaxHighlighting( defaultHighlightStyle, { fallback: true }),
         drawSelection(),
         dropCursor(),
         EditorState.allowMultipleSelections.of( true ),
@@ -80,7 +73,6 @@ export const TextEditorElement: React.FC<TextEditorElementProps> = ({ onChange, 
         rectangularSelection(),
         keymap.of( [
             ...closeBracketsKeymap,
-            ...commentKeymap,
             ...completionKeymap,
             ...defaultKeymap,
             ...foldKeymap,
