@@ -54,7 +54,7 @@ export const parseUrlForSnippetId = (): string | null => {
  * Starts a project with the snippet data
  */
 export const prepareSnippetProject = async( id: string, snippetData: FirebaseSnippetData ): Promise<void> => {
-    const { code, compiler, language, template } = snippetData;
+    const { code, compiler, language, library, template } = snippetData;
 
     // Store the data in the snippet store
     snippetStore.setId( id );
@@ -85,10 +85,18 @@ export const prepareSnippetProject = async( id: string, snippetData: FirebaseSni
         compilerVersion = SNIPPET_DEFAULT_I7_VERSION;
     }
 
-    // Set the correct compiler
+    // Set the correct compiler and library versions
     if( compilerVersion ) {
         projectStore.compilerVersion = compilerVersion;
         settingsStore.saveSetting( "language", "compilerVersion", compilerVersion );
+    }
+
+    if( library ) {
+        settingsStore.saveSetting( "language", "libraryVersion", library );
+    }
+    else if( language === "inform7" && template.indexOf( "vorple" ) === 0 ) {
+        // legacy: old Vorple snippets didn't save the library version, use 3.2.8 for them
+        settingsStore.saveSetting( "language", "libraryVersion", "3.2.8" );
     }
 
     editorStateStore.setContents( code, true );

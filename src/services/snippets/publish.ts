@@ -2,7 +2,10 @@ import Axios, { AxiosError, AxiosResponse } from "axios";
 
 import materialsStore from "stores/materialsStore";
 import projectStore from "stores/projectStore";
+import settingsStore from "stores/settingsStore";
 import snippetStore, { SnippetLoadState } from "stores/snippetStore";
+
+import type { VorpleLibraryVersion } from "services/projects/inform7/inform7VorpleProjectService";
 
 const GENERIC_ERROR_MESSAGE = "Cannot connect to snippet service";
 
@@ -28,16 +31,29 @@ export const publishSnippet = async(): Promise<void> => {
 
     snippetStore.setDirty( false );
 
+    // On Vorple projects send the version number
+    const isVorple = projectStore.manager.interpreter === "vorple";
+    const getVorpleVersion = (): VorpleLibraryVersion => settingsStore.getSetting( "language", "libraryVersion", process.env.REACT_APP_DEFAULT_VORPLE_VERSION );
+
+    const partialData = {
+        code,
+        revision: 1,
+        template: projectStore.manager.template
+    };
+
+    const data = isVorple ? {
+        ...partialData,
+        library: getVorpleVersion()
+    } : {
+        ...partialData,
+        compiler: projectStore.compilerVersion
+    };
+
     try {
         request = await Axios({
             url: process.env.REACT_APP_SNIPPETS_API_URL + "/snippet",
             method: "POST",
-            data: {
-                code,
-                compiler: projectStore.compilerVersion,
-                revision: 1,
-                template: projectStore.manager.template
-            }
+            data
         });
     }
     catch( e ) {
