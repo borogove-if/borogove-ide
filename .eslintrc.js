@@ -31,6 +31,7 @@ module.exports = {
         // allows unused parameters if they're prefixed with underscore
         "@typescript-eslint/no-use-before-define": 0,
         "@typescript-eslint/no-var-requires": 0,
+        "@typescript-eslint/no-explicit-any": 0,
         "react/jsx-indent": 1,
         "react/jsx-indent-props": [ 1, "first" ],
         "react/prop-types": 0,
