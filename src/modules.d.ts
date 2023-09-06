@@ -10,10 +10,3 @@ declare module "*.txt";
 
 // istextorbinary doesn't play nicely with Webpack/VSCode
 declare module "istextorbinary/edition-es2019/index";
-
-
-declare module "dendry/lib/parsers/info";
-declare module "dendry/lib/parsers/scene";
-declare module "dendry/lib/parsers/quality";
-declare module "dendry/lib/parsers/qdisplay";
-declare module "dendry/lib/parsers/compiler";
