@@ -28,7 +28,7 @@ export function getInterpreterUrl( interpreter: InterpreterIdentifier, storyfile
 
         case "dendry":
         {
-            return `${interpreterServiceUrl}/dendry/${process.env.REACT_APP_DENDRY_VERSION}/index.html`;
+            return `${interpreterServiceUrl}/dendry/index.html`;
         }
 
         case "hugojs":
