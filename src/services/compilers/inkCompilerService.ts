@@ -82,7 +82,8 @@ export async function compileInk(): Promise<boolean> {
         const jsonStory = rstory.ToJson();
 
         if( jsonStory ){
-            compilationResultStore.setCompilerOutput( "Successfully compiled." );
+            const warningMessages = errors.length > 0 ? " with warnings :\n\n" + errors.join( "\n" ) : ".";
+            compilationResultStore.setCompilerOutput( "Successfully compiled" + warningMessages );
             const localFilename = join( OUTPUT_TMP_PATH, "story.json" );
             saveFile( localFilename, jsonStory, false );
 
