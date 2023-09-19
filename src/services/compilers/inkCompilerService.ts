@@ -9,9 +9,10 @@ import { saveFile, saveFolder } from "../filesystem/localFilesystemService";
 import { OUTPUT_TMP_PATH } from "../filesystem/filesystemConstants";
 
 import { JsonFileHandler } from "inkjs/compiler/FileHandler/JsonFileHandler";
-import { ErrorHandler } from "inkjs//engine/Error";
 import { Compiler } from "inkjs/compiler/Compiler";
 import { CompilerOptions } from "inkjs/compiler/CompilerOptions";
+
+import type { ErrorHandler } from "inkjs/engine/Error";
 
 interface SourceFilePayload {
     type: "file";
@@ -109,7 +110,6 @@ export async function compileInk(): Promise<boolean> {
             storyfilePath: null,
             success: false
         });
-        return false;
         return false;
     }
 }
