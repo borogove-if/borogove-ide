@@ -78,6 +78,7 @@
     "fs-extra": "10.1.0",
     "html-webpack-plugin": "5.5.0",
     "identity-obj-proxy": "3.0.0",
+    "inkjs": "^2.2.2",
     "is-wsl": "2.2.0",
     "istextorbinary": "6.0.0",
     "jszip": "3.10.0",
