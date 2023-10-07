@@ -6667,9 +6667,9 @@ delegates@^1.0.0:
   resolved "https://registry.yarnpkg.com/delegates/-/delegates-1.0.0.tgz#84c6e159b81904fdca59a0ef44cd870d31250f9a"
   integrity sha512-bd2L678uiWATM6m5Z1VzNCErI3jiGzt6HGY8OVICs40JQq/HALfbyNJmp0UDakEY4pMMaN0Ly5om/B1VI/+xfQ==
 
-dendry@aucchen/dendry#d5cf611cef4104fa26c5ea38b2b70c4bf9beda37:
+dendry@aucchen/dendry#27603f722d6b81a8310e2ebf0e3c56dd223104d7:
   version "0.0.1"
-  resolved "https://codeload.github.com/aucchen/dendry/tar.gz/d5cf611cef4104fa26c5ea38b2b70c4bf9beda37"
+  resolved "https://codeload.github.com/aucchen/dendry/tar.gz/27603f722d6b81a8310e2ebf0e3c56dd223104d7"
   dependencies:
     argparse "1.0.x"
     async "1.x.x"

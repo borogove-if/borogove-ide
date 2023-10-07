@@ -60,7 +60,7 @@
     "crypto-browserify": "3.12.0",
     "css-loader": "6.7.1",
     "css-minimizer-webpack-plugin": "4.0.0",
-    "dendry": "aucchen/dendry#d5cf611cef4104fa26c5ea38b2b70c4bf9beda37",
+    "dendry": "aucchen/dendry#27603f722d6b81a8310e2ebf0e3c56dd223104d7",
     "dotenv": "16.0.1",
     "dotenv-expand": "8.0.3",
     "eslint": "8.21.0",

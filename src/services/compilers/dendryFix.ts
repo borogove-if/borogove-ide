@@ -3,7 +3,7 @@
 if( !window["process"] ) {
     window["process"] = {
         browser: true,
-        cwd: () => "/input",
+        cwd: () => ".",
         // eslint-disable-next-line @typescript-eslint/ban-types
         nextTick: ( func: Function ) => setTimeout( func, 1 )
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
