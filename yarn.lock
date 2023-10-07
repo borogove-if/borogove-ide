@@ -5624,9 +5624,9 @@ caniuse-api@^3.0.0:
     lodash.uniq "^4.5.0"
 
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001370, caniuse-lite@^1.0.30001373:
-  version "1.0.30001373"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001373.tgz#2dc3bc3bfcb5d5a929bec11300883040d7b4b4be"
-  integrity sha512-pJYArGHrPp3TUqQzFYRmP/lwJlj8RCbVe3Gd3eJQkAV8SAC6b19XS9BjMvRdvaS8RMkaTN8ZhoHP6S1y8zzwEQ==
+  version "1.0.30001546"
+  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001546.tgz"
+  integrity sha512-zvtSJwuQFpewSyRrI3AsftF6rM0X80mZkChIt1spBGEvRglCrjTniXvinc8JKRoqTwXAgvqTImaN9igfSMtUBw==
 
 case-sensitive-paths-webpack-plugin@2.4.0, case-sensitive-paths-webpack-plugin@^2.3.0:
   version "2.4.0"
@@ -6667,9 +6667,9 @@ delegates@^1.0.0:
   resolved "https://registry.yarnpkg.com/delegates/-/delegates-1.0.0.tgz#84c6e159b81904fdca59a0ef44cd870d31250f9a"
   integrity sha512-bd2L678uiWATM6m5Z1VzNCErI3jiGzt6HGY8OVICs40JQq/HALfbyNJmp0UDakEY4pMMaN0Ly5om/B1VI/+xfQ==
 
-dendry@aucchen/dendry:
+dendry@aucchen/dendry#d5cf611cef4104fa26c5ea38b2b70c4bf9beda37:
   version "0.0.1"
-  resolved "https://codeload.github.com/aucchen/dendry/tar.gz/7796279cb986a0ca04312cadae43bf227b366153"
+  resolved "https://codeload.github.com/aucchen/dendry/tar.gz/d5cf611cef4104fa26c5ea38b2b70c4bf9beda37"
   dependencies:
     argparse "1.0.x"
     async "1.x.x"
@@ -8972,17 +8972,17 @@ ini@^1.3.5:
   resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.8.tgz#a29da425b48806f34767a4efce397269af28432c"
   integrity sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew==
 
+inkjs@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/inkjs/-/inkjs-2.2.2.tgz#a50df426badc564b526d9f91def9b0ec16938e43"
+  integrity sha512-SSI054diwSr7rwe6cIMAR8eJu3WVhrwhLEYVsgR0OjqE2Jt22mG1zej236fXSM7ofzQWsQfFfvfeDa881RjKpQ==
+
 inline-source-map@~0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/inline-source-map/-/inline-source-map-0.5.0.tgz#4a4c5dd8e4fb5e9b3cda60c822dfadcaee66e0af"
   integrity sha512-2WtHG0qX9OH9TVcxsLVfq3Tzr+qtL6PtWgoh0XAAKe4KkdA/57Q+OGJuRJHA4mZ2OZnkJ/ZAaXf9krLB12/nIg==
   dependencies:
     source-map "~0.4.0"
-    
-inkjs@^2.2.2:
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/inkjs/-/inkjs-2.2.2.tgz#a50df426badc564b526d9f91def9b0ec16938e43"
-  integrity sha512-SSI054diwSr7rwe6cIMAR8eJu3WVhrwhLEYVsgR0OjqE2Jt22mG1zej236fXSM7ofzQWsQfFfvfeDa881RjKpQ==
 
 inline-style-parser@0.1.1:
   version "0.1.1"

@@ -1,3 +1,5 @@
+import "./dendryFix";
+
 import { join } from "path";
 
 import compilationResultStore, { CompilationStage } from "stores/compilationResultStore";
