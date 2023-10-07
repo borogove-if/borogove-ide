@@ -8978,6 +8978,11 @@ inline-source-map@~0.5.0:
   integrity sha512-2WtHG0qX9OH9TVcxsLVfq3Tzr+qtL6PtWgoh0XAAKe4KkdA/57Q+OGJuRJHA4mZ2OZnkJ/ZAaXf9krLB12/nIg==
   dependencies:
     source-map "~0.4.0"
+    
+inkjs@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/inkjs/-/inkjs-2.2.2.tgz#a50df426badc564b526d9f91def9b0ec16938e43"
+  integrity sha512-SSI054diwSr7rwe6cIMAR8eJu3WVhrwhLEYVsgR0OjqE2Jt22mG1zej236fXSM7ofzQWsQfFfvfeDa881RjKpQ==
 
 inline-style-parser@0.1.1:
   version "0.1.1"
