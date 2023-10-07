@@ -2,7 +2,7 @@ import ideStateStore from "stores/ideStateStore";
 import settingsStore from "stores/settingsStore";
 import snippetStore from "stores/snippetStore";
 
-export type InterpreterIdentifier = "aamachine" | "hugojs" | "inkjs" | "parchment" | "quixe" | "vorple";
+export type InterpreterIdentifier = "aamachine" | "dendry" | "hugojs" | "inkjs" | "parchment" | "quixe" | "vorple";
 
 
 /**
@@ -24,6 +24,11 @@ export function getInterpreterUrl( interpreter: InterpreterIdentifier, storyfile
         {
             const storyParameter = storyfileUrl ? `?story=${storyfileUrl}` : "";
             return `${interpreterServiceUrl}/aamachine/${process.env.REACT_APP_AAMACHINE_VERSION}/index.html${storyParameter}`;
+        }
+
+        case "dendry":
+        {
+            return `${interpreterServiceUrl}/dendry/index.html`;
         }
 
         case "hugojs":
