@@ -125,7 +125,7 @@ export default abstract class ProjectService {
      */
     public filterReleaseFiles = ( _files: MaterialsFile[] ): MaterialsFile[] => [];
 
-    protected async init( template?: ProjectTemplate ): Promise<boolean> {
+    protected async init( template?: ProjectTemplate, preferRestore = false ): Promise<boolean> {
         projectStore.setState( ProjectStoreState.loading );
         projectStore.setManager( this );
 
@@ -139,6 +139,14 @@ export default abstract class ProjectService {
         // either because the project setting says so or we're in snippets mode
         if( !this.fileManagerStartsOpen || isSnippetsVariant ) {
             ideStateStore.toggleFileManager( false );
+        }
+
+        if( preferRestore ) {
+            const restoreSuccess = await this.restoreProject();
+
+            if( restoreSuccess ) {
+                return true;
+            }
         }
 
         if( template ) {
@@ -180,10 +188,12 @@ export default abstract class ProjectService {
 
 
     /**
-     * The function that initializes the project when the user has chosen it
+     * The function that initializes the project when the user has chosen it.
+     * If a project template is given, starts with that template instead of loading an existing project.
+     * If preferRestore is set, tries to restore a project if it exists even if template was given and loads the template only if that failed.
      */
-    public initProject = async( template?: ProjectTemplate ): Promise<void> => {
-        const status = await this.init( template );
+    public initProject = async( template?: ProjectTemplate, preferRestore = false ): Promise<void> => {
+        const status = await this.init( template, preferRestore );
 
         if( status ) {
             // on mobile sizes always start with the file manager closed

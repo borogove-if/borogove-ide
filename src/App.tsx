@@ -75,7 +75,7 @@ const App: React.FC = observer( () => {
                 // If there's only one project type which has only one template option,
                 // start that automatically
                 if( projectServiceList.length === 1 && projectServiceList[ 0 ].templates.length === 1 ) {
-                    projectServiceList[ 0 ].initProject( projectServiceList[ 0 ].templates[ 0 ] );
+                    projectServiceList[ 0 ].initProject( projectServiceList[ 0 ].templates[ 0 ], true );
                     return null;
                 }
 
