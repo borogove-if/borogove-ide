@@ -1,18 +1,14 @@
-
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { join } from "path";
 
-import compilationResultStore, { CompilationStage } from "stores/compilationResultStore";
+import compilationResultStore, { CompilationStage, RemoteCompilationResultResponse } from "stores/compilationResultStore";
 import projectStore from "stores/projectStore";
 import materialsStore from "stores/materialsStore";
-
+import ideStateStore from "stores/ideStateStore";
 import { saveFile, saveFolder } from "../filesystem/localFilesystemService";
 import { OUTPUT_TMP_PATH } from "../filesystem/filesystemConstants";
 
-import { JsonFileHandler } from "inkjs/compiler/FileHandler/JsonFileHandler";
-import { Compiler } from "inkjs/compiler/Compiler";
-import { CompilerOptions } from "inkjs/compiler/CompilerOptions";
-
-import type { ErrorHandler } from "inkjs/engine/Error";
+const API_URL = process.env.REACT_APP_INK_COMPILER_SERVICE_URL;
 
 interface SourceFilePayload {
     type: "file";
@@ -52,58 +48,47 @@ export async function compileInk(): Promise<boolean> {
 
     saveFolder( OUTPUT_TMP_PATH );
 
-    const fileHandler = new JsonFileHandler(
-        Object.fromEntries(
-            getSourceFiles().map( file => ( [ file.attributes.name, file.attributes.contents ] ) )
-        )
-    );
-    const mainInkFile = getSourceFiles().find( file => file.attributes.isEntryFile );
-    const mainInkFileName = mainInkFile?.attributes.name || "main.ink";
-    const mainInk = fileHandler.LoadInkFileContents( mainInkFileName );
-
-    const errors: string[] = [];
-    const errorHandler: ErrorHandler = ( message, _ ) => {
-        errors.push( message );
-        console.error( message );
-    };
-    const options = new CompilerOptions(
-        mainInkFileName, [], false, errorHandler, fileHandler
-    );
-
-    const c = new Compiler( mainInk, options );
-
     try {
+        const response: AxiosResponse<RemoteCompilationResultResponse> = await axios.post(
+            `${API_URL}/compile`,
+            {
+                data: {
+                    language: "Ink",
+                    sessionId: ideStateStore.sessionId,
+                    uuid: projectStore.uuid
+                },
+                included: getSourceFiles()
+            }
+        );
 
-        const rstory = c.Compile();
+        compilationResultStore.setCompilerOutput( response.data.data?.attributes?.output || "" );
 
-        if( !rstory ) {
-            throw new Error( "*** Compilation failed ***\n" );
+        const localFilename = join( OUTPUT_TMP_PATH, "story.json" );
+
+        if( !response.data?.data?.attributes?.storyfile ) {
+            throw new Error( "Invalid Ink compiler response" );
         }
 
-        const jsonStory = rstory.ToJson();
+        saveFile( localFilename, response.data.data.attributes.storyfile, false );
 
-        if( jsonStory ){
-            const warningMessages = errors.length > 0 ? " with warnings :\n\n" + errors.join( "\n" ) : ".";
-            compilationResultStore.setCompilerOutput( "Successfully compiled" + warningMessages );
-            const localFilename = join( OUTPUT_TMP_PATH, "story.json" );
-            saveFile( localFilename, jsonStory, false );
+        compilationResultStore.setLocalResults({
+            storyfilePath: localFilename,
+            success: true
+        });
 
-            compilationResultStore.setLocalResults({
-                storyfilePath: localFilename,
-                success: true
-            });
-
-            return true;
-        } else {
-            throw new Error( "*** JSON Export failed ***" );
-        }
-
+        return true;
     }
     catch( e ) {
-        const errorMessage = ( `${e}\n`
-            + "*".repeat( `${e}`.length ) + "\n\n"
-            + errors.join( "\n" )
-        );
+        const axiosError = e as AxiosError;
+        const response: AxiosResponse | undefined = axiosError.response;
+        let errorMessage = "";
+
+        if( !response?.data?.data?.attributes?.output ) {
+            errorMessage = "Unknown error: " + axiosError.message;
+        }
+        else {
+            errorMessage = response.data.data.attributes.output;
+        }
 
         compilationResultStore.setCompilerOutput( errorMessage );
         compilationResultStore.setLocalResults({
