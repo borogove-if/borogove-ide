@@ -45,13 +45,13 @@ export function getInterpreterUrl( interpreter: InterpreterIdentifier, storyfile
         case "parchment":
         {
             const storyParameter = storyfileUrl ? `&story=${storyfileUrl}` : "";
-            return `${interpreterServiceUrl}/parchment/${process.env.REACT_APP_PARCHMENT_VERSION}/index.html?vm=zvm${storyParameter}`;
+            return `${interpreterServiceUrl}/parchment/z-machine/index.html?vm=zvm${storyParameter}`;
         }
 
         case "quixe":
         {
-            const storyParameter = storyfileUrl ? `&story=${storyfileUrl}%3F${Date.now()}` : "";    // timestamp added to disable caching
-            return `${interpreterServiceUrl}/parchment/${process.env.REACT_APP_PARCHMENT_VERSION}/index.html?vm=quixe${storyParameter}`;
+            const storyParameter = storyfileUrl ? `story=${storyfileUrl}%3F${Date.now()}` : "";    // timestamp added to disable caching
+            return `${interpreterServiceUrl}/parchment/${process.env.REACT_APP_PARCHMENT_VERSION}/index.html?${storyParameter}`;
         }
 
         case "vorple":
