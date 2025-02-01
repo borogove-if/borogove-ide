@@ -40,7 +40,7 @@ class ProjectStore {
 
     // The load state of the project: "waiting" for the user to pick a project,
     // "loading" a chosen project and "ready" when everything's loaded and set up
-    loadState = ProjectStoreState.waiting;
+    loadState = ProjectStoreState.loading;
 
     // The main file passed to the compiler
     entryFile: MaterialsFile | null;
@@ -233,6 +233,7 @@ class ProjectStore {
             loadState: observable,
             entryFile: observable,
             setEntryFile: action,
+            setManager: action,
             setReady: action,
             setState: action,
             setUUID: action

@@ -17,6 +17,7 @@ import { getSnippet, parseUrlForSnippetId, prepareSnippetProject as initSnippetP
 import materialsStore, { FSLoadState } from "stores/materialsStore";
 import projectStore, { ProjectStoreState } from "stores/projectStore";
 import settingsStore from "stores/settingsStore";
+import routeStore from "stores/routeStore";
 
 
 /**
@@ -25,6 +26,26 @@ import settingsStore from "stores/settingsStore";
  */
 const App: React.FC = observer( () => {
     const [ isLoadingSnippet, setIsLoadingSnippet ] = useState( isSnippetsVariant );
+    const { project } = routeStore;
+
+    useEffect( () => {
+        if( materialsStore.fsState !== FSLoadState.ready ) {
+            return;
+        }
+
+        if( project ) {
+            const projectService = projectServiceList.find( service => service.id.toLowerCase() === project.toLowerCase() );
+
+            if( projectService ) {
+                projectService.initProject( projectService.templates[0], true );
+                projectStore.setState( ProjectStoreState.loading );
+                return;
+            }
+        }
+
+        projectStore.setState( ProjectStoreState.waiting );
+    },[ materialsStore.fsState, project ] );
+
 
     if( isSnippetsVariant ) {
         useEffect( () => {

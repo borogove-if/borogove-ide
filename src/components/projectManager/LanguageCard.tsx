@@ -11,6 +11,7 @@ import { getFS } from "services/filesystem/localFilesystemService";
 import { PERSISTENT_FILESYSTEM_DIR, BOROGOVE_SETTINGS_FILE } from "services/filesystem/filesystemConstants";
 
 import materialsStore, { FSLoadState } from "stores/materialsStore";
+import routeStore from "stores/routeStore";
 
 import "./LanguageCard.scss";
 
@@ -136,14 +137,16 @@ const LanguageCard: React.FC<LanguageCardProps> = observer( ({ projectService })
         return true;
     });
 
-    const continueProject = ( e: React.MouseEvent ): void => {
+    const continueProject = async( e: React.MouseEvent ): Promise<void> => {
         e.preventDefault();
-        projectService.initProject();
+        await projectService.initProject();
+        routeStore.setProject( projectService.id );
     };
 
-    const startProject = ( e: React.MouseEvent, template?: ProjectTemplate ): void => {
+    const startProject =async( e: React.MouseEvent, template?: ProjectTemplate ): Promise<void> => {
         e.preventDefault();
-        projectService.initProject( template || templates[0] );
+        await projectService.initProject( template || templates[0] );
+        routeStore.setProject( projectService.id );
     };
 
     return <LanguageCardElement name={projectService.name}

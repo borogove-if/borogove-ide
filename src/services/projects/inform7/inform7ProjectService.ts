@@ -41,8 +41,8 @@ export default abstract class Inform7ProjectService extends ProjectService {
         );
     }
 
-    public initProject = async( template?: ProjectTemplate ): Promise<void> => {
-        const initSuccess = await this.init( template );
+    public initProject = async( template?: ProjectTemplate, preferRestore = false ): Promise<void> => {
+        const initSuccess = await this.init( template, preferRestore );
 
         if( initSuccess ) {
             this.generateUUIDFile();

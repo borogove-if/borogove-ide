@@ -12,6 +12,7 @@ import { TabContentType } from "./tabStore";
 import { initFS, moveFile, recursiveRm, renameFile, saveFile, saveFolder, downloadFile, downloadFolder, readFile } from "services/filesystem/localFilesystemService";
 import { closeTabsByType, openTab } from "services/ide/tabService";
 import { PROJECT_ROOT_DIR } from "services/filesystem/filesystemConstants";
+import routeStore from "./routeStore";
 
 export enum FSLoadState {
     initializing,
@@ -487,6 +488,7 @@ class MaterialsStore {
         }
         else {
             editorStateStore.openFile( file );
+            routeStore.setFile( this.getPath( file ).substring( 1 ) );
         }
 
         const parent = typeof file.parent === "string"
