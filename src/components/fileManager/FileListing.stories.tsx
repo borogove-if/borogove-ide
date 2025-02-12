@@ -6,7 +6,6 @@ import { MaterialsFileType } from "stores/materialsStore";
 
 import { FileListingElement } from "./FileListing";
 
-
 const folder1: MaterialsFile = {
     name: "Folder 1",
     id: "folder1",
@@ -60,7 +59,7 @@ const folder2: MaterialsFile = {
     ]
 };
 
-folder1.children && folder1.children.forEach( child => child.parent = folder1 );
+folder1.children && folder1.children.forEach(child => (child.parent = folder1));
 
 const files: MaterialsFile[] = [
     {
@@ -73,7 +72,11 @@ const files: MaterialsFile[] = [
     folder2
 ];
 
-storiesOf( "FileListing", module )
-    .addDecorator( storyFn => <Menu className="filelisting">{storyFn()}</Menu> )
-    .add( "File listing", () => <FileListingElement files={files} selected="file2a1" /> )
-    .add( "Read only mode", () => <FileListingElement files={files} selected="file2a1" readonly /> );
+storiesOf("FileListing", module)
+    .addDecorator(storyFn => <Menu className="filelisting">{storyFn()}</Menu>)
+    .add("File listing", () => (
+        <FileListingElement files={files} selected="file2a1" />
+    ))
+    .add("Read only mode", () => (
+        <FileListingElement files={files} selected="file2a1" readonly />
+    ));

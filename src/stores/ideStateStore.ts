@@ -3,7 +3,6 @@ import { v4 as uuid } from "uuid";
 
 import { TabStore } from "./tabStore";
 
-
 /**
  * This store contains the UI state of the IDE.
  */
@@ -19,17 +18,17 @@ class IDEStateStore {
     // on the server (previous compilations can be removed faster if we know
     // that they were made with the same IDE instance.)
     // The id is regenerated every time the page reloads.
-    readonly sessionId = uuid().split( "-" ).join( "" );
+    readonly sessionId = uuid().split("-").join("");
 
     currentlyOpenModal: string | null = null;
-    modalProps: any;  // eslint-disable-line
+    modalProps: any;
 
     public closeModal = (): void => {
         this.currentlyOpenModal = null;
         this.modalProps = {};
     };
 
-    public openModal = ( name: string, props?: any ): void => {  // eslint-disable-line
+    public openModal = (name: string, props?: any): void => {
         this.modalProps = props;
         this.currentlyOpenModal = name;
     };
@@ -38,21 +37,20 @@ class IDEStateStore {
         return this.activePane?.activeTab || null;
     };
 
-    public setActivePane = ( pane: TabStore ): void => {
+    public setActivePane = (pane: TabStore): void => {
         this.activePane = pane;
     };
 
-    public toggleFileManager = ( isOpen?: boolean ): void => {
-        if( typeof isOpen === "boolean" ) {
+    public toggleFileManager = (isOpen?: boolean): void => {
+        if (typeof isOpen === "boolean") {
             this.fileManagerOpen = isOpen;
-        }
-        else {
+        } else {
             this.fileManagerOpen = !this.fileManagerOpen;
         }
     };
 
     constructor() {
-        makeObservable( this, {
+        makeObservable(this, {
             activePane: observable,
             fileManagerOpen: observable,
             currentlyOpenModal: observable,

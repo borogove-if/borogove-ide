@@ -5,6 +5,12 @@ import { action } from "@storybook/addon-actions";
 
 import { FileManagerToggleButtonElement } from "./FileManagerToggleButton";
 
-storiesOf( "FileManagerToggleButton", module )
-    .addDecorator( storyFn => <Tabs><TabList>{storyFn()}</TabList></Tabs> )
-    .add( "Inactive", () => <FileManagerToggleButtonElement onClick={action( "toggle" )} /> );
+storiesOf("FileManagerToggleButton", module)
+    .addDecorator(storyFn => (
+        <Tabs>
+            <TabList>{storyFn()}</TabList>
+        </Tabs>
+    ))
+    .add("Inactive", () => (
+        <FileManagerToggleButtonElement onClick={action("toggle")} />
+    ));

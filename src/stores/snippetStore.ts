@@ -20,21 +20,24 @@ class SnippetStore {
     // Current state of saving the snippet
     state = SnippetLoadState.idle;
 
-    setDirty = ( state: boolean ): void => {
+    setDirty = (state: boolean): void => {
         this.isDirty = state;
     };
 
-    setId = ( id: string | null ): void => {
+    setId = (id: string | null): void => {
         this.id = id;
     };
 
-    setState = ( state: SnippetLoadState, errorMessage: string | null = null ): void => {
+    setState = (
+        state: SnippetLoadState,
+        errorMessage: string | null = null
+    ): void => {
         this.state = state;
         this.saveError = errorMessage;
     };
 
     constructor() {
-        makeObservable( this, {
+        makeObservable(this, {
             id: observable,
             isDirty: observable,
             saveError: observable,

@@ -9,7 +9,6 @@ import inform7VorpleProjectService from "./inform7/inform7VorpleProjectService";
 import inkProjectService from "./ink/inkProjectService";
 import dendryProjectService from "./dendry/dendryProjectService";
 
-
 /**
  * This is the list of all project options available in the New Project page.
  *

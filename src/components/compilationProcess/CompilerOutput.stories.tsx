@@ -92,6 +92,17 @@ Out:   Glulx story file 1.190907 (701K long):
 Compiled with 1851 suppressed warnings
 Completed in 2 seconds`;
 
-storiesOf( "CompilerOutput", module )
-    .add( "I7 output", () => <CompilerOutputElement text={compilerOutputText} isOpen toggleOpen={action( "toggleOpen" )} /> )
-    .add( "Closed", () => <CompilerOutputElement text={compilerOutputText} toggleOpen={action( "toggleOpen" )} /> );
+storiesOf("CompilerOutput", module)
+    .add("I7 output", () => (
+        <CompilerOutputElement
+            text={compilerOutputText}
+            isOpen
+            toggleOpen={action("toggleOpen")}
+        />
+    ))
+    .add("Closed", () => (
+        <CompilerOutputElement
+            text={compilerOutputText}
+            toggleOpen={action("toggleOpen")}
+        />
+    ));

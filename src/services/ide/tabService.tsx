@@ -17,7 +17,6 @@ import TextEditor from "components/editor/TextEditor";
 import projectStore from "stores/projectStore";
 import { leftTabStore, rightTabStore, TabContentType } from "stores/tabStore";
 
-
 interface TabOptions {
     closable?: boolean;
     label?: string;
@@ -41,43 +40,40 @@ const tabOrder = [
 /**
  * Close all tabs that are of certain type.
  */
-export function closeTabsByType( type: TabContentType ): void {
+export function closeTabsByType(type: TabContentType): void {
     let tab;
 
-    // eslint-disable-next-line
-    while( tab = leftTabStore.findByType( type ) ) {
-        leftTabStore.removeTab( tab.id );
+    while ((tab = leftTabStore.findByType(type))) {
+        leftTabStore.removeTab(tab.id);
     }
 
-    // eslint-disable-next-line
-    while( tab = rightTabStore.findByType( type ) ) {
-        leftTabStore.removeTab( tab.id );
+    while ((tab = rightTabStore.findByType(type))) {
+        leftTabStore.removeTab(tab.id);
     }
 }
-
 
 /**
  * Opens a tab.
  */
-export function openTab( type: TabContentType, options: TabOptions = {}): void {
+export function openTab(type: TabContentType, options: TabOptions = {}): void {
     const oldTab = {
-        left: leftTabStore.findByType( type ),
-        right: rightTabStore.findByType( type )
+        left: leftTabStore.findByType(type),
+        right: rightTabStore.findByType(type)
     };
 
     const { closable = false, label, props } = options;
 
     const addTabOptions = {
         closable,
-        index: tabOrder.indexOf( type ),
+        index: tabOrder.indexOf(type),
         type
     };
 
-    switch( type ) {
+    switch (type) {
         case TabContentType.editor:
-            if( oldTab.left ) {
+            if (oldTab.left) {
                 // must remove the old tab so that Monaco editor refreshes completely
-                leftTabStore.removeTab( oldTab.left.id );
+                leftTabStore.removeTab(oldTab.left.id);
             }
 
             leftTabStore.addTab({
@@ -88,40 +84,45 @@ export function openTab( type: TabContentType, options: TabOptions = {}): void {
             break;
 
         case TabContentType.compiler:
-            if( oldTab.right ) {
-                rightTabStore.setActiveTab( oldTab.right.id );
+            if (oldTab.right) {
+                rightTabStore.setActiveTab(oldTab.right.id);
                 break;
             }
 
             rightTabStore.addTab({
                 ...addTabOptions,
-                component: projectStore.manager.compilerReportType === "staged" ? <StagedCompilationProcess /> : <SimpleCompilationProcess />,
+                component:
+                    projectStore.manager.compilerReportType === "staged" ? (
+                        <StagedCompilationProcess />
+                    ) : (
+                        <SimpleCompilationProcess />
+                    ),
                 label: "Compiler"
             });
             break;
 
         case TabContentType.fileViewer:
             {
-                const file = ( props as { file: MaterialsFile }).file;
+                const file = (props as { file: MaterialsFile }).file;
 
-                if( leftTabStore.findById( file.id ) ) {
+                if (leftTabStore.findById(file.id)) {
                     // this file is already open in a tab, select it
-                    leftTabStore.setActiveTab( file.id );
+                    leftTabStore.setActiveTab(file.id);
                     break;
                 }
 
                 leftTabStore.addTab({
                     ...addTabOptions,
                     component: <FileViewer file={file} />,
-                    id: file.id,    // we'll reuse file ids to identify which tab contains it
+                    id: file.id, // we'll reuse file ids to identify which tab contains it
                     label: label || "File"
                 });
             }
             break;
 
         case TabContentType.interpreter:
-            if( oldTab.right ) {
-                rightTabStore.removeTab( oldTab.right.id );
+            if (oldTab.right) {
+                rightTabStore.removeTab(oldTab.right.id);
             }
 
             rightTabStore.addTab({
@@ -132,8 +133,8 @@ export function openTab( type: TabContentType, options: TabOptions = {}): void {
             break;
 
         case TabContentType.projectIndex:
-            if( oldTab.right ) {
-                rightTabStore.removeTab( oldTab.right.id );
+            if (oldTab.right) {
+                rightTabStore.removeTab(oldTab.right.id);
             }
 
             rightTabStore.addTab({
@@ -145,8 +146,8 @@ export function openTab( type: TabContentType, options: TabOptions = {}): void {
             break;
 
         case TabContentType.publish:
-            if( oldTab.right ) {
-                rightTabStore.removeTab( oldTab.right.id );
+            if (oldTab.right) {
+                rightTabStore.removeTab(oldTab.right.id);
             }
 
             rightTabStore.addTab({
@@ -155,12 +156,12 @@ export function openTab( type: TabContentType, options: TabOptions = {}): void {
                 label: "Publish"
             });
 
-            rightTabStore.removeTabType( TabContentType.release );
+            rightTabStore.removeTabType(TabContentType.release);
             break;
 
         case TabContentType.release:
-            if( oldTab.right ) {
-                rightTabStore.removeTab( oldTab.right.id );
+            if (oldTab.right) {
+                rightTabStore.removeTab(oldTab.right.id);
             }
 
             rightTabStore.addTab({
@@ -169,12 +170,12 @@ export function openTab( type: TabContentType, options: TabOptions = {}): void {
                 label: "Share"
             });
 
-            rightTabStore.removeTabType( TabContentType.publish );
+            rightTabStore.removeTabType(TabContentType.publish);
             break;
 
         case TabContentType.settings:
-            if( oldTab.right ) {
-                rightTabStore.removeTab( oldTab.right.id );
+            if (oldTab.right) {
+                rightTabStore.removeTab(oldTab.right.id);
             }
 
             rightTabStore.addTab({
@@ -193,10 +194,10 @@ export function openTab( type: TabContentType, options: TabOptions = {}): void {
             break;
 
         case TabContentType.welcome:
-            if( projectStore.manager.welcomePage ) {
+            if (projectStore.manager.welcomePage) {
                 rightTabStore.addTab({
                     ...addTabOptions,
-                    component: createElement( projectStore.manager.welcomePage ),
+                    component: createElement(projectStore.manager.welcomePage),
                     label: "Welcome"
                 });
             }

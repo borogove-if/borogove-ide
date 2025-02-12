@@ -16,11 +16,11 @@ initLoggers();
 initFirebase();
 
 // Mount the React app
-const container = document.getElementById( "root" );
+const container = document.getElementById("root");
 
-if( !container ) {
-    throw new Error( "Root element (#root) not found" );
+if (!container) {
+    throw new Error("Root element (#root) not found");
 }
 
-const root = createRoot( container );
-root.render( <App /> );
+const root = createRoot(container);
+root.render(<App />);

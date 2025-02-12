@@ -12,13 +12,18 @@ import Inform6ProjectService from "./Inform6ProjectService.class";
  */
 class Inform6VanillaProjectService extends Inform6ProjectService {
     public compilerOptions = {
-        debug: [ "-v8efsCuD" ],
-        release: [ "-v8efsCu" ]
+        debug: ["-v8efsCuD"],
+        release: ["-v8efsCu"]
     };
     public id = "inform6";
     public interpreter: InterpreterIdentifier = "parchment";
     public name = "Inform 6";
-    public templates = [ basicI6Project, minimalPunyinformProject, smallPunyinformProject, emptyI6Project  ];
+    public templates = [
+        basicI6Project,
+        minimalPunyinformProject,
+        smallPunyinformProject,
+        emptyI6Project
+    ];
 }
 
 export default new Inform6VanillaProjectService();

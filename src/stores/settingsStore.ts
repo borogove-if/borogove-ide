@@ -11,26 +11,25 @@ class SettingsStore {
     settings: AppSettings;
 
     constructor() {
-        makeObservable( this, {
+        makeObservable(this, {
             compilerOptions: observable,
             settings: observable,
             saveSetting: action
         });
 
-        let settings: any = {}; // eslint-disable-line
+        let settings: any = {};
 
         try {
-            const storageContents = localStorage?.getItem( SETTINGS_KEY );
+            const storageContents = localStorage?.getItem(SETTINGS_KEY);
 
-            if( storageContents ) {
-                settings = JSON.parse( storageContents ) || {};
+            if (storageContents) {
+                settings = JSON.parse(storageContents) || {};
             }
 
-            if( typeof settings !== "object" ) {
+            if (typeof settings !== "object") {
                 settings = {};
             }
-        }
-        catch( e ) {
+        } catch (e) {
             // do nothing
         }
 
@@ -53,7 +52,8 @@ class SettingsStore {
                 errors: !this.hasDoNotTrack(),
                 ...settings.logging
             },
-            language: {     // language-specific settings
+            language: {
+                // language-specific settings
                 ...settings.language
             },
             transient: {
@@ -66,16 +66,26 @@ class SettingsStore {
     /**
      * Gets the current value of a setting
      */
-    public getSetting = ( scope: keyof AppSettings, setting: string, defaultValue?: any ): any => {    // eslint-disable-line
-        if( scope === "language" ) {
-            if( this.settings.language[projectStore.manager.language]?.[setting] !== undefined ) {
-                return this.settings.language[projectStore.manager.language][setting];
+    public getSetting = (
+        scope: keyof AppSettings,
+        setting: string,
+        defaultValue?: any
+    ): any => {
+        if (scope === "language") {
+            if (
+                this.settings.language[projectStore.manager.language]?.[
+                    setting
+                ] !== undefined
+            ) {
+                return this.settings.language[projectStore.manager.language][
+                    setting
+                ];
             }
 
             return defaultValue;
         }
 
-        if( this.settings[scope][setting] === undefined ) {
+        if (this.settings[scope][setting] === undefined) {
             return defaultValue;
         }
 
@@ -93,21 +103,25 @@ class SettingsStore {
      * Save settings to localstorage
      */
     private persistSettings = (): void => {
-        localStorage?.setItem( SETTINGS_KEY, JSON.stringify( this.settings ) );
+        localStorage?.setItem(SETTINGS_KEY, JSON.stringify(this.settings));
     };
 
     /**
      * Sets and saves a setting
      */
-    public saveSetting = ( scope: keyof AppSettings, setting: string, value: any ): void => {    // eslint-disable-line
-        if( scope === "language" ) {
-            if( !this.settings.language[projectStore.manager.language] ) {
+    public saveSetting = (
+        scope: keyof AppSettings,
+        setting: string,
+        value: any
+    ): void => {
+        if (scope === "language") {
+            if (!this.settings.language[projectStore.manager.language]) {
                 this.settings.language[projectStore.manager.language] = {};
             }
 
-            this.settings.language[projectStore.manager.language][setting] = value;
-        }
-        else {
+            this.settings.language[projectStore.manager.language][setting] =
+                value;
+        } else {
             this.settings[scope][setting] = value;
         }
 

@@ -50,7 +50,3 @@ The `npm run deploy:prod` and `npm run deploy:dev` commands (or `yarn deploy:pro
 
 The .firebaserc file contains two separate projects, one for development or testing releases, and the other for production releases. If you only have one Firebase project you can use the production variant (`npm run deploy:prod`) and ignore the development variant.
 
-
-## Troubleshooting
-
-If starting the dev server shows errors like "Plugin "react" was conflicted between ".eslintrc.js » plugin:react/recommended" and BaseConfig" or "The requested module '@codemirror/xxx' contains conflicting star exports" delete yarn.lock (or package-lock.json) and/or node_modules and install packages again.

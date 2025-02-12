@@ -48,9 +48,9 @@ Test me with "look / take inventory / examine the ball / drop the ball / west / 
 const defaultProps = {
     value: i7code,
     options: defaultOptions,
-    onChange: action( "Text editor onChange" )
+    onChange: action("Text editor onChange")
 };
 
-storiesOf( "TextEditor", module )
-    .addDecorator( storyFn => <div style={{ height: "500px" }}>{storyFn()}</div> )
-    .add( "Default options", () => <TextEditorElement {...defaultProps} /> );
+storiesOf("TextEditor", module)
+    .addDecorator(storyFn => <div style={{ height: "500px" }}>{storyFn()}</div>)
+    .add("Default options", () => <TextEditorElement {...defaultProps} />);

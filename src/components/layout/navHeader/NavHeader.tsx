@@ -9,25 +9,25 @@ interface NavHeaderElementProps {
     title: string;
 }
 
-export const NavHeaderElement: React.FC<NavHeaderElementProps> = ({ title }) => <Navbar id="pm-nav-header" className="is-white">
-    <NavbarBrand>
-        <NavbarItem>
-            <Title id="borogove-main-logo">
-                Borogove
-            </Title>
-        </NavbarItem>
-        <NavbarItem>
-            <Title>
-                {title}
-            </Title>
-        </NavbarItem>
-    </NavbarBrand>
-    <NavbarEnd>
-        <NavbarItem>
-            <BrandNav />
-        </NavbarItem>
-    </NavbarEnd>
-</Navbar>;
+export const NavHeaderElement: React.FC<NavHeaderElementProps> = ({
+    title
+}) => (
+    <Navbar id="pm-nav-header" className="is-white">
+        <NavbarBrand>
+            <NavbarItem>
+                <Title id="borogove-main-logo">Borogove</Title>
+            </NavbarItem>
+            <NavbarItem>
+                <Title>{title}</Title>
+            </NavbarItem>
+        </NavbarBrand>
+        <NavbarEnd>
+            <NavbarItem>
+                <BrandNav />
+            </NavbarItem>
+        </NavbarEnd>
+    </Navbar>
+);
 
 /**
  * Header for navigation outside the IDE

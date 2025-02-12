@@ -5,7 +5,9 @@ import { Title } from "bloomer";
 import ideStateStore from "stores/ideStateStore";
 import settingsStore from "stores/settingsStore";
 
-import ModalTemplate, { okButton } from "components/layout/modals/ModalTemplate";
+import ModalTemplate, {
+    okButton
+} from "components/layout/modals/ModalTemplate";
 import OptOutOption from "components/settings/options/DataCollectionOptions";
 
 const LAST_UPDATED = "October 7th 2021";
@@ -14,276 +16,262 @@ interface PrivacyPolicyElementProps {
     onClose: () => void;
 }
 
-export const PrivacyPolicyElement: React.FC<PrivacyPolicyElementProps> = ({ onClose }) => {
-    const buttons: ModalButton[] = [ okButton ];
+export const PrivacyPolicyElement: React.FC<PrivacyPolicyElementProps> = ({
+    onClose
+}) => {
+    const buttons: ModalButton[] = [okButton];
 
-    return <ModalTemplate buttons={buttons} header="Privacy Policy" okCallback={onClose} wide>
-        <Title isSize={3}>
-            TL;DR
-        </Title>
+    return (
+        <ModalTemplate
+            buttons={buttons}
+            header="Privacy Policy"
+            okCallback={onClose}
+            wide>
+            <Title isSize={3}>TL;DR</Title>
 
-        <p>
-            Here's the short version of what we collect and for what purposes:
-        </p>
+            <p>
+                Here's the short version of what we collect and for what
+                purposes:
+            </p>
 
-        <ul className="bulleted-list">
-            <li>
-                The <strong>Inform 7</strong> and <strong>Ink</strong> compilers
-                run on our own servers, and count the number of times it's being
-                used and general statistics (compiler options, source text size
-                etc.) Compilation results are stored on the server while they're
-                being used and automatically deleted after a reasonable period
-                of time.
-            </li>
-            <li>
-                When saving snippets, <a href="https://firebase.google.com" target="_blank" rel="noopener noreferrer"><strong>Google Firebase</strong></a> is
-                used to store snippet data and collect statistics.
-            </li>
-            <li>
-                <a href="https://support.google.com/analytics" target="_blank" rel="noopener noreferrer"><strong>Google Analytics</strong></a> is
-                used to collect anonymous usage statistics, which consists
-                mainly of counting page views and how often different project
-                types (Inform, Hugo etc.) are being selected.
-            </li>
-            <li>
-                <a href="https://sentry.io" target="_blank" rel="noopener noreferrer"><strong>Sentry</strong></a> is
-                used to automatically collect anonymous error reports.
-            </li>
-        </ul>
+            <ul className="bulleted-list">
+                <li>
+                    The <strong>Inform 7</strong> and <strong>Ink</strong>{" "}
+                    compilers run on our own servers, and count the number of
+                    times it's being used and general statistics (compiler
+                    options, source text size etc.) Compilation results are
+                    stored on the server while they're being used and
+                    automatically deleted after a reasonable period of time.
+                </li>
+                <li>
+                    When saving snippets,{" "}
+                    <a
+                        href="https://firebase.google.com"
+                        target="_blank"
+                        rel="noopener noreferrer">
+                        <strong>Google Firebase</strong>
+                    </a>{" "}
+                    is used to store snippet data and collect statistics.
+                </li>
+                <li>
+                    <a
+                        href="https://support.google.com/analytics"
+                        target="_blank"
+                        rel="noopener noreferrer">
+                        <strong>Google Analytics</strong>
+                    </a>{" "}
+                    is used to collect anonymous usage statistics, which
+                    consists mainly of counting page views and how often
+                    different project types (Inform, Hugo etc.) are being
+                    selected.
+                </li>
+                <li>
+                    <a
+                        href="https://sentry.io"
+                        target="_blank"
+                        rel="noopener noreferrer">
+                        <strong>Sentry</strong>
+                    </a>{" "}
+                    is used to automatically collect anonymous error reports.
+                </li>
+            </ul>
 
-        <p>
-            For more details read on, and for opting out of data collection
-            scroll to the bottom of the page.
-        </p>
+            <p>
+                For more details read on, and for opting out of data collection
+                scroll to the bottom of the page.
+            </p>
 
+            <Title isSize={3}>Data collection</Title>
 
-        <Title isSize={3}>
-            Data collection
-        </Title>
+            <p>
+                In general, everything you do in Borogove stays inside your own
+                browser and computer. The code you write is stored locally in
+                the browser and we won't have any access to it. The generated
+                game files are created locally inside the browser.
+            </p>
 
-        <p>
-            In general, everything you do in Borogove stays inside your own
-            browser and computer. The code you write is stored locally in the
-            browser and we won't have any access to it. The generated game files
-            are created locally inside the browser.
-        </p>
+            <p>The exceptions are:</p>
 
-        <p>
-            The exceptions are:
-        </p>
+            <ul>
+                <li>
+                    Inform 7 projects which can't be compiled purely inside the
+                    browser but must be passed to our server for compilation
+                </li>
+                <li>Snippets, which are saved to Google Firebase</li>
+            </ul>
 
-        <ul>
-            <li>
-                Inform 7 projects which can't be compiled purely inside the
-                browser but must be passed to our server for compilation
-            </li>
-            <li>
-                Snippets, which are saved to Google Firebase
-            </li>
-        </ul>
+            <p>See the next chapter for more information on these.</p>
 
-        <p>
-            See the next chapter for more information on these.
-        </p>
+            <p>
+                (If and when we add full publishing features and an option to
+                save projects in the cloud, the above information will change
+                and this document will be updated to reflect that. Even then
+                projects are saved to our servers only if you create an account
+                and log in.)
+            </p>
 
-        <p>
-            (If and when we add full publishing features and an option to save
-            projects in the cloud, the above information will change and this
-            document will be updated to reflect that. Even then projects are
-            saved to our servers only if you create an account and log in.)
-        </p>
+            <Title isSize={4}>Inform 7 and Ink compiler services</Title>
 
+            <p>
+                The services that compile Inform 7 and Ink projects run on our
+                own server.
+            </p>
 
-        <Title isSize={4}>
-            Inform 7 and Ink compiler services
-        </Title>
+            <p>
+                For <strong>Inform 7</strong>, compilation results and the
+                original source text are stored on the server for at most 48
+                hours and then automatically deleted. Compilation results
+                include the generated story file, dynamic documentation files
+                (the index) and miscellaneous compilation artifacts. The files
+                generated by the service are the same ones that the desktop
+                version of Inform 7 generates.
+            </p>
 
-        <p>
-            The services that compile Inform 7 and Ink projects run on our own server.
-        </p>
+            <p>
+                For <strong>Ink</strong>, all input and output files are deleted
+                immediately after compilation.
+            </p>
 
-        <p>
-            For <strong>Inform 7</strong>,
-            compilation results and the original source text are stored on the
-            server for at most 48 hours and then automatically deleted.
-            Compilation results include the generated story file, dynamic
-            documentation files (the index) and miscellaneous compilation
-            artifacts. The files generated by the service are the same ones
-            that the desktop version of Inform 7 generates.
-        </p>
+            <p>
+                The service stores permanently the following information about
+                compiled projects:
+            </p>
 
-        <p>
-            For <strong>Ink</strong>, all input and output files are deleted
-            immediately after compilation.
-        </p>
+            <ul className="bulleted-list">
+                <li>Project identification number</li>
+                <li>Time and date of compilation</li>
+                <li>Compilation status (failed or succeeded)</li>
+                <li>Number of words in the source text</li>
+                <li>
+                    Inform 7: Names of the standard extensions the project uses,
+                    excluding custom project-specific extensions
+                </li>
+            </ul>
 
-        <p>
-            The service stores permanently the following information about
-            compiled projects:
-        </p>
+            <p>
+                The project identification number is a random number generated
+                by the editor, and is used to count how many unique projects
+                have been compiled (as opposed to the same project compiled
+                multiple times.)
+            </p>
 
-        <ul className="bulleted-list">
-            <li>
-                Project identification number
-            </li>
-            <li>
-                Time and date of compilation
-            </li>
-            <li>
-                Compilation status (failed or succeeded)
-            </li>
-            <li>
-                Number of words in the source text
-            </li>
-            <li>
-                Inform 7: Names of the standard extensions the project uses,
-                excluding custom project-specific extensions
-            </li>
-        </ul>
+            <p>
+                It is not possible to opt-out of storing the above statistics.
+            </p>
 
-        <p>
-            The project identification number is a random number generated by
-            the editor, and is used to count how many unique projects have been
-            compiled (as opposed to the same project compiled multiple times.)
-        </p>
+            <Title isSize={4}>Snippets</Title>
 
-        <p>
-            It is not possible to opt-out of storing the above statistics.
-        </p>
+            <p>
+                Snippets are stored on Google Firebase and the data contains the
+                saved code, metadata (programming language, library versions,
+                template) and the time when the snippet was saved. No personal
+                information is saved.
+            </p>
 
+            <p>
+                Google Firebase collects statistical information which uses
+                Google Analytics under the hood (see the next chapter.) Google
+                Analytics data cannot be associated with individual snippets.
+            </p>
 
-        <Title isSize={4}>
-            Snippets
-        </Title>
+            <Title isSize={4}>Google Analytics</Title>
 
-        <p>
-            Snippets are stored on Google Firebase and the data contains the
-            saved code, metadata (programming language, library versions,
-            template) and the time when the snippet was saved. No personal
-            information is saved.
-        </p>
+            <p>
+                Google Analytics (GA) is used to collect general usage
+                statistics. GA counts how often the site is used and how often
+                different project types (Inform, Hugo etc.) are selected. We
+                also get collated statistics about other points of interest,
+                like the countries where the visitors are coming from.
+            </p>
 
-        <p>
-            Google Firebase collects statistical information which uses
-            Google Analytics under the hood (see the next chapter.)
-            Google Analytics data cannot be associated with individual snippets.
-        </p>
+            <p>Information about how Google uses the collected data:</p>
 
+            <ul className="bulleted-list">
+                <li>
+                    <a
+                        href="https://policies.google.com/technologies/partner-sites"
+                        target="_blank"
+                        rel="noopener noreferrer">
+                        How Google uses information
+                    </a>
+                </li>
+                <li>
+                    <a
+                        href="https://policies.google.com/privacy"
+                        target="_blank"
+                        rel="noopener noreferrer">
+                        Google Privacy Policy
+                    </a>
+                </li>
+            </ul>
 
-        <Title isSize={4}>
-            Google Analytics
-        </Title>
+            <Title isSize={4}>Sentry</Title>
 
-        <p>
-            Google Analytics (GA) is used to collect general usage statistics.
-            GA counts how often the site is used and how often different project
-            types (Inform, Hugo etc.) are selected. We also get collated
-            statistics about other points of interest, like the countries
-            where the visitors are coming from.
-        </p>
+            <p>
+                If the application throws an error, Sentry collects error
+                message for further analysis.
+            </p>
 
-        <p>
-            Information about how Google uses the collected data:
-        </p>
+            <p>
+                Along with the error message, some general information is
+                stored, including:
+            </p>
 
-        <ul className="bulleted-list">
-            <li>
-                <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer">
-                    How Google uses information
-                </a>
-            </li>
-            <li>
-                <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">
-                    Google Privacy Policy
-                </a>
-            </li>
-        </ul>
+            <ul className="bulleted-list">
+                <li>Project type (Inform, Hugo, Ink...)</li>
+                <li>IP address</li>
+                <li>
+                    Browser's{" "}
+                    <a
+                        href="https://en.wikipedia.org/wiki/User_agent"
+                        target="_blank"
+                        rel="noopener noreferrer">
+                        user-agent
+                    </a>
+                </li>
+                <li>Browser name and version</li>
+                <li>Operating system name and version</li>
+            </ul>
 
+            <Title isSize={4}>Third parties</Title>
 
-        <Title isSize={4}>
-            Sentry
-        </Title>
+            <p>Personal data is not shared with third parties, except:</p>
+            <ul className="bulleted-list">
+                <li>
+                    service providers who provide a supporting service, e.g.
+                    data passed to Google Analytics is stored and handled by
+                    Google, our server is contracted from Amazon Web Services
+                </li>
+                <li>
+                    as a part of larger statistical information, e.g. when
+                    sharing or publishing the total amount of users
+                </li>
+                <li>
+                    with courts and law enforcement agencies when required to do
+                    so to comply with the law, assist with criminal
+                    investigation or when compelled to do so by court order
+                </li>
+            </ul>
 
-        <p>
-            If the application throws an error, Sentry collects error message
-            for further analysis.
-        </p>
+            <Title isSize={4}>Data storage</Title>
 
-        <p>
-            Along with the error message, some general information is stored,
-            including:
-        </p>
+            <p>Data is stored outside the EU.</p>
 
-        <ul className="bulleted-list">
-            <li>
-                Project type (Inform, Hugo, Ink...)
-            </li>
-            <li>
-                IP address
-            </li>
-            <li>
-                Browser's <a href="https://en.wikipedia.org/wiki/User_agent" target="_blank" rel="noopener noreferrer">
-                    user-agent
-                </a>
-            </li>
-            <li>
-                Browser name and version
-            </li>
-            <li>
-                Operating system name and version
-            </li>
-        </ul>
+            <hr />
 
+            <p>This document was last updated on {LAST_UPDATED}.</p>
 
-        <Title isSize={4}>
-            Third parties
-        </Title>
-
-        <p>
-            Personal data is not shared with third parties, except:
-        </p>
-        <ul className="bulleted-list">
-            <li>
-                service providers who provide a supporting service,
-                e.g. data passed to Google Analytics is stored and handled by Google,
-                our server is contracted from Amazon Web Services
-            </li>
-            <li>
-                as a part of larger statistical information, e.g. when sharing
-                or publishing the total amount of users
-            </li>
-            <li>
-                with courts and law enforcement agencies when required to do so
-                to comply with the law, assist with criminal investigation or
-                when compelled to do so by court order
-            </li>
-        </ul>
-
-        <Title isSize={4}>
-            Data storage
-        </Title>
-
-        <p>
-            Data is stored outside the EU.
-        </p>
-
-        <hr />
-
-        <p>
-            This document was last updated on {LAST_UPDATED}.
-        </p>
-
-        <OptOutOption />
-    </ModalTemplate>;
+            <OptOutOption />
+        </ModalTemplate>
+    );
 };
-
 
 /**
  * Privacy Policy
  */
-const PrivacyPolicy: React.FC = observer( () => {
+const PrivacyPolicy: React.FC = observer(() => {
     // viewing this page hides the privacy policy notification
-    settingsStore.saveSetting( "transient", "showLoggingNotification", false );
+    settingsStore.saveSetting("transient", "showLoggingNotification", false);
 
     return <PrivacyPolicyElement onClose={ideStateStore.closeModal} />;
 });

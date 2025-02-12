@@ -1,13 +1,38 @@
 import React, { useEffect, useRef } from "react";
 import { observer } from "mobx-react";
-import { EditorView, keymap, highlightSpecialChars, drawSelection, dropCursor, useCodeMirror } from "@uiw/react-codemirror";
+import {
+    EditorView,
+    keymap,
+    highlightSpecialChars,
+    drawSelection,
+    dropCursor,
+    useCodeMirror
+} from "@uiw/react-codemirror";
 
-import { autocompletion, closeBrackets, closeBracketsKeymap, completionKeymap } from "@codemirror/autocomplete";
+import {
+    autocompletion,
+    closeBrackets,
+    closeBracketsKeymap,
+    completionKeymap
+} from "@codemirror/autocomplete";
 import { defaultKeymap, history, historyKeymap } from "@codemirror/commands";
-import { bracketMatching, defaultHighlightStyle, foldGutter, foldKeymap, indentOnInput, indentService, indentUnit, syntaxHighlighting } from "@codemirror/language";
+import {
+    bracketMatching,
+    defaultHighlightStyle,
+    foldGutter,
+    foldKeymap,
+    indentOnInput,
+    indentService,
+    indentUnit,
+    syntaxHighlighting
+} from "@codemirror/language";
 import { searchKeymap, highlightSelectionMatches } from "@codemirror/search";
 import { EditorState, Extension } from "@codemirror/state"; // This package isn't listed in package.json because it then conflicts with @uiw/react-codemirror for some reason. It's included through that package instead. Can try installing it as a first-class package if either of them get updates later.
-import { highlightActiveLineGutter, lineNumbers, rectangularSelection } from "@codemirror/view";
+import {
+    highlightActiveLineGutter,
+    lineNumbers,
+    rectangularSelection
+} from "@codemirror/view";
 
 import { languages } from "@codemirror/language-data";
 import { inform7 } from "codemirror-lang-inform7";
@@ -25,7 +50,7 @@ const TAB_SIZE = 4;
 
 interface TextEditorElementProps {
     language?: string;
-    onChange: ( newValue: string ) => void;
+    onChange: (newValue: string) => void;
     options: EditorOptions;
     value: string;
 }
@@ -56,76 +81,89 @@ export const defaultOptions: EditorOptions = {
 /**
  * The code editor itself. We're using CodeMirror 6, see https://codemirror.net/6/docs/ and https://github.com/uiwjs/react-codemirror/
  */
-export const TextEditorElement: React.FC<TextEditorElementProps> = ({ onChange, options, value }) => {
+export const TextEditorElement: React.FC<TextEditorElementProps> = ({
+    onChange,
+    options,
+    value
+}) => {
     let extensions: Extension[] = [
         autocompletion(),
         bracketMatching(),
         closeBrackets(),
-        syntaxHighlighting( defaultHighlightStyle, { fallback: true }),
+        syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
         drawSelection(),
         dropCursor(),
-        EditorState.allowMultipleSelections.of( true ),
-        EditorState.tabSize.of( TAB_SIZE ),
+        EditorState.allowMultipleSelections.of(true),
+        EditorState.tabSize.of(TAB_SIZE),
         highlightSelectionMatches(),
         highlightSpecialChars(),
         history(),
         indentOnInput(),
         rectangularSelection(),
-        keymap.of( [
+        keymap.of([
             ...closeBracketsKeymap,
             ...completionKeymap,
             ...defaultKeymap,
             ...foldKeymap,
             ...historyKeymap,
             ...searchKeymap
-        ] )
+        ])
     ];
 
     // Set code highlighting to the detected language.
-    if( options.syntaxHighlighting ) {
-        switch( editorStateStore.language ) {
+    if (options.syntaxHighlighting) {
+        switch (editorStateStore.language) {
             case "css":
-                extensions.push( css() );
+                extensions.push(css());
                 break;
 
             case "inform7":
-                extensions.push( inform7() );
+                extensions.push(inform7());
                 break;
 
             case "javascript":
-                extensions.push( javascript() );
+                extensions.push(javascript());
                 break;
 
             case "json":
-                extensions.push( json() );
+                extensions.push(json());
                 break;
 
             case "markdown":
-                extensions.push( markdown({ base: markdownLanguage, codeLanguages: languages }) );
+                extensions.push(
+                    markdown({
+                        base: markdownLanguage,
+                        codeLanguages: languages
+                    })
+                );
                 break;
         }
     }
 
     // set the indent characters to tab or spaces
-    extensions.push( indentUnit.of( options.tabChars ) );
+    extensions.push(indentUnit.of(options.tabChars));
 
     // indents the next line based on how much the previous one was indented
-    const autoIndentExtension = indentService.of( ( context, pos ) => {
-        const previousLine = context.lineAt( pos, -1 );
+    const autoIndentExtension = indentService.of((context, pos) => {
+        const previousLine = context.lineAt(pos, -1);
 
         // if the previous line has no text other than whitespace, don't indent the next line
-        if( previousLine.text.trim().length === 0 ) {
+        if (previousLine.text.trim().length === 0) {
             return 0;
         }
 
-        const previousIndentChars = previousLine.text.match( new RegExp( `^(${options.tabChars})*` ) );
-        const multiplier = ( options.tabChars[0] === "\t" ) ? TAB_SIZE : 1;   // when using tabs for indentation, must multiply the result by tab length for the editor to insert tab characters
+        const previousIndentChars = previousLine.text.match(
+            new RegExp(`^(${options.tabChars})*`)
+        );
+        const multiplier = options.tabChars[0] === "\t" ? TAB_SIZE : 1; // when using tabs for indentation, must multiply the result by tab length for the editor to insert tab characters
 
-        return previousIndentChars ? previousIndentChars[0]?.length * multiplier : 0;
+        return previousIndentChars
+            ? previousIndentChars[0]?.length * multiplier
+            : 0;
     });
-    extensions.push( autoIndentExtension );
+    extensions.push(autoIndentExtension);
 
-    if( options.lineNumbers ) {
+    if (options.lineNumbers) {
         // line numbers option enables or disables the entire gutter
         extensions = [
             ...extensions,
@@ -135,8 +173,8 @@ export const TextEditorElement: React.FC<TextEditorElementProps> = ({ onChange, 
         ];
     }
 
-    if( options.wordWrap ) {
-        extensions.push( EditorView.lineWrapping );
+    if (options.wordWrap) {
+        extensions.push(EditorView.lineWrapping);
     }
 
     const theme = EditorView.theme({
@@ -150,7 +188,7 @@ export const TextEditorElement: React.FC<TextEditorElementProps> = ({ onChange, 
         }
     });
 
-    const editorRef = useRef<HTMLDivElement>( null );
+    const editorRef = useRef<HTMLDivElement>(null);
     const { setContainer, view } = useCodeMirror({
         autoFocus: true,
         basicSetup: false,
@@ -162,39 +200,47 @@ export const TextEditorElement: React.FC<TextEditorElementProps> = ({ onChange, 
         value
     });
 
-    useEffect( () => {
-        if( editorRef.current ) {
-            setContainer( editorRef.current );
+    useEffect(() => {
+        if (editorRef.current) {
+            setContainer(editorRef.current);
         }
-    }, [ editorRef.current ] );
+    }, [editorRef.current]);
 
-    useEffect( () => {
-        editorStateStore.setEditorReference( view );
-    }, [ view ] );
+    useEffect(() => {
+        editorStateStore.setEditorReference(view);
+    }, [view]);
 
     return <div ref={editorRef} className="editor-container" />;
 };
 
-const TextEditor: React.FC = observer( () => {
+const TextEditor: React.FC = observer(() => {
     const { contents, language } = editorStateStore;
 
     // when text is entered, send it to the state store which handles passing
     // it to other components that need it, and saving it
-    const onChange = ( newValue: string ): void => {
-        editorStateStore.setContents( newValue, false );
+    const onChange = (newValue: string): void => {
+        editorStateStore.setContents(newValue, false);
     };
 
     // editing is disabled only in Snippets for all files that aren't the main file
-    const editable = !( isSnippetsVariant && projectStore.entryFile?.id !== editorStateStore.file?.id );
-    const fontFamily = ( settingsStore.getSetting( "editor", "fontFamily" ) === "sans-serif" )
-        ? "Lato, Arial, sans-serif"
-        : "Menlo, Monaco, \"Courier New\", monospace";
-    const fontSize = settingsStore.getSetting( "editor", "fontSize" );
-    const lineNumbers = settingsStore.getSetting( "editor", "lineNumbers" );
-    const syntaxHighlighting = settingsStore.getSetting( "language", "syntaxHighlighting", true );
+    const editable = !(
+        isSnippetsVariant &&
+        projectStore.entryFile?.id !== editorStateStore.file?.id
+    );
+    const fontFamily =
+        settingsStore.getSetting("editor", "fontFamily") === "sans-serif"
+            ? "Lato, Arial, sans-serif"
+            : 'Menlo, Monaco, "Courier New", monospace';
+    const fontSize = settingsStore.getSetting("editor", "fontSize");
+    const lineNumbers = settingsStore.getSetting("editor", "lineNumbers");
+    const syntaxHighlighting = settingsStore.getSetting(
+        "language",
+        "syntaxHighlighting",
+        true
+    );
     const tabChars = projectStore.manager.tabIndent ? "\t" : "    ";
-    const wordWrap = settingsStore.getSetting( "editor", "wordWrap" );
-    const wrappingIndent = settingsStore.getSetting( "editor", "wrappingIndent" );
+    const wordWrap = settingsStore.getSetting("editor", "wordWrap");
+    const wrappingIndent = settingsStore.getSetting("editor", "wrappingIndent");
 
     const options: EditorOptions = {
         ...defaultOptions,
@@ -208,10 +254,14 @@ const TextEditor: React.FC = observer( () => {
         wrappingIndent
     };
 
-    return <TextEditorElement language={language}
-                              value={contents}
-                              options={options}
-                              onChange={onChange} />;
+    return (
+        <TextEditorElement
+            language={language}
+            value={contents}
+            options={options}
+            onChange={onChange}
+        />
+    );
 });
 
 export default TextEditor;

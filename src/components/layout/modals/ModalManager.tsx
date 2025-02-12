@@ -15,10 +15,10 @@ import OverviewInfo from "components/documents/OverviewInfo";
 /**
  * Handles opening modals
  */
-const ModalManager: React.FC = observer( () => {
+const ModalManager: React.FC = observer(() => {
     const { currentlyOpenModal, modalProps } = ideStateStore;
 
-    switch( currentlyOpenModal ) {
+    switch (currentlyOpenModal) {
         /**
          * Filesystem
          */

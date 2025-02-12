@@ -29,7 +29,9 @@ class DialogStandardLibraryProjectTemplate extends ProjectTemplate {
     ];
 
     remoteAssets = [
-        process.env.REACT_APP_REMOTE_ASSETS_URL + "/templates/dialog/stdlib/" + process.env.REACT_APP_DIALOG_LIBRARY_VERSION
+        process.env.REACT_APP_REMOTE_ASSETS_URL +
+            "/templates/dialog/stdlib/" +
+            process.env.REACT_APP_DIALOG_LIBRARY_VERSION
     ];
 }
 

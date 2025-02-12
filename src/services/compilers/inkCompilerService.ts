@@ -1,7 +1,10 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { join } from "path";
 
-import compilationResultStore, { CompilationStage, RemoteCompilationResultResponse } from "stores/compilationResultStore";
+import compilationResultStore, {
+    CompilationStage,
+    RemoteCompilationResultResponse
+} from "stores/compilationResultStore";
 import projectStore from "stores/projectStore";
 import materialsStore from "stores/materialsStore";
 import ideStateStore from "stores/ideStateStore";
@@ -17,7 +20,7 @@ interface SourceFilePayload {
         directory: string;
         contents: string;
         isEntryFile?: boolean;
-    }
+    };
 }
 
 /**
@@ -26,16 +29,18 @@ interface SourceFilePayload {
 const getSourceFiles = (): SourceFilePayload[] => {
     const files = materialsStore.getAllFiles();
     return files
-        .filter( file => file.name.endsWith( ".ink" ) )
-        .map( file => ({
+        .filter(file => file.name.endsWith(".ink"))
+        .map(file => ({
             type: "file",
             attributes: {
                 name: file.name,
-                directory: materialsStore.getPath( file ).slice( 0, -file.name.length - 1 ),
-                contents: materialsStore.getContents( file ),
+                directory: materialsStore
+                    .getPath(file)
+                    .slice(0, -file.name.length - 1),
+                contents: materialsStore.getContents(file),
                 isEntryFile: projectStore.entryFile?.id === file.id
             }
-        }) );
+        }));
 };
 
 /**
@@ -43,33 +48,33 @@ const getSourceFiles = (): SourceFilePayload[] => {
  */
 export async function compileInk(): Promise<boolean> {
     compilationResultStore.reset();
-    compilationResultStore.setCompilationStatus( true );
-    compilationResultStore.setStage( CompilationStage.firstPass );
+    compilationResultStore.setCompilationStatus(true);
+    compilationResultStore.setStage(CompilationStage.firstPass);
 
-    saveFolder( OUTPUT_TMP_PATH );
+    saveFolder(OUTPUT_TMP_PATH);
 
     try {
-        const response: AxiosResponse<RemoteCompilationResultResponse> = await axios.post(
-            `${API_URL}/compile`,
-            {
+        const response: AxiosResponse<RemoteCompilationResultResponse> =
+            await axios.post(`${API_URL}/compile`, {
                 data: {
                     language: "Ink",
                     sessionId: ideStateStore.sessionId,
                     uuid: projectStore.uuid
                 },
                 included: getSourceFiles()
-            }
+            });
+
+        compilationResultStore.setCompilerOutput(
+            response.data.data?.attributes?.output || ""
         );
 
-        compilationResultStore.setCompilerOutput( response.data.data?.attributes?.output || "" );
+        const localFilename = join(OUTPUT_TMP_PATH, "story.json");
 
-        const localFilename = join( OUTPUT_TMP_PATH, "story.json" );
-
-        if( !response.data?.data?.attributes?.storyfile ) {
-            throw new Error( "Invalid Ink compiler response" );
+        if (!response.data?.data?.attributes?.storyfile) {
+            throw new Error("Invalid Ink compiler response");
         }
 
-        saveFile( localFilename, response.data.data.attributes.storyfile, false );
+        saveFile(localFilename, response.data.data.attributes.storyfile, false);
 
         compilationResultStore.setLocalResults({
             storyfilePath: localFilename,
@@ -77,20 +82,18 @@ export async function compileInk(): Promise<boolean> {
         });
 
         return true;
-    }
-    catch( e ) {
+    } catch (e) {
         const axiosError = e as AxiosError;
         const response: AxiosResponse | undefined = axiosError.response;
         let errorMessage = "";
 
-        if( !response?.data?.data?.attributes?.output ) {
+        if (!response?.data?.data?.attributes?.output) {
             errorMessage = "Unknown error: " + axiosError.message;
-        }
-        else {
+        } else {
             errorMessage = response.data.data.attributes.output;
         }
 
-        compilationResultStore.setCompilerOutput( errorMessage );
+        compilationResultStore.setCompilerOutput(errorMessage);
         compilationResultStore.setLocalResults({
             storyfilePath: null,
             success: false

@@ -41,10 +41,16 @@ class MinimalI6VorpleProject extends ProjectTemplate {
         }
     ];
     remoteAssets = [
-        process.env.REACT_APP_REMOTE_ASSETS_URL + "/templates/inform6/inform6lib/" + process.env.REACT_APP_INFORM6_LIBRARY_VERSION,
-        process.env.REACT_APP_REMOTE_ASSETS_URL + "/templates/inform6/vorple/" + process.env.REACT_APP_VORPLE_VERSION,
+        process.env.REACT_APP_REMOTE_ASSETS_URL +
+            "/templates/inform6/inform6lib/" +
+            process.env.REACT_APP_INFORM6_LIBRARY_VERSION,
+        process.env.REACT_APP_REMOTE_ASSETS_URL +
+            "/templates/inform6/vorple/" +
+            process.env.REACT_APP_VORPLE_VERSION,
         {
-            url: process.env.REACT_APP_REMOTE_ASSETS_URL + "/templates/vorple/minimal",
+            url:
+                process.env.REACT_APP_REMOTE_ASSETS_URL +
+                "/templates/vorple/minimal",
             manifest: "manifest.i6.json"
         }
     ];

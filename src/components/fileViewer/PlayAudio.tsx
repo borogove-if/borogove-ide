@@ -5,18 +5,20 @@ interface PlayAudioElementProps {
     src: string;
 }
 
-export const PlayAudioElement: React.FC<PlayAudioElementProps> = ({ src }) => <audio controls>
-    <source src={src} type="audio/mpeg" />
-</audio>;
+export const PlayAudioElement: React.FC<PlayAudioElementProps> = ({ src }) => (
+    <audio controls>
+        <source src={src} type="audio/mpeg" />
+    </audio>
+);
 
 interface PlayAudioProps {
-    contents: string;   // as a data uri
+    contents: string; // as a data uri
 }
 
 /**
  * Show an image
  */
-const PlayAudio: React.FC<PlayAudioProps> = observer( ({ contents }) => {
+const PlayAudio: React.FC<PlayAudioProps> = observer(({ contents }) => {
     return <PlayAudioElement src={contents} />;
 });
 

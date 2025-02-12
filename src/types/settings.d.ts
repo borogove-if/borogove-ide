@@ -8,7 +8,7 @@ export declare global {
         transient: TransientSettings;
 
         [key: string]: {
-            [key: string]: any; // eslint-disable-line
+            [key: string]: any;
         };
     }
 

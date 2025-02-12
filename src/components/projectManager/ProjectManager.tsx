@@ -16,20 +16,27 @@ interface ProjectManagerElementProps {
     projectServices: readonly ProjectService[];
 }
 
-export const ProjectManagerElement: React.FC<ProjectManagerElementProps> = observer( ({ projectServices }) => {
-    const title = isIdeVariant ? "Project Manager" : "Snippets";
+export const ProjectManagerElement: React.FC<ProjectManagerElementProps> =
+    observer(({ projectServices }) => {
+        const title = isIdeVariant ? "Project Manager" : "Snippets";
 
-    return <div>
-        <Container id="project-manager">
-            <NavHeader title={title} />
-            {isSnippetsVariant && <SnippetsIntro />}
-            <div id="language-cards-list">
-                {projectServices.map( project => <LanguageCard key={project.id} projectService={project} /> )}
+        return (
+            <div>
+                <Container id="project-manager">
+                    <NavHeader title={title} />
+                    {isSnippetsVariant && <SnippetsIntro />}
+                    <div id="language-cards-list">
+                        {projectServices.map(project => (
+                            <LanguageCard
+                                key={project.id}
+                                projectService={project}
+                            />
+                        ))}
+                    </div>
+                </Container>
             </div>
-        </Container>
-    </div>;
-});
-
+        );
+    });
 
 /**
  * New project page

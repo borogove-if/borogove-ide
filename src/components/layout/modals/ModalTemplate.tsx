@@ -27,7 +27,7 @@ export const okButton: ModalButton = {
     label: "OK"
 };
 
-const defaultButtons: ModalButton[] = [ cancelButton, okButton ];
+const defaultButtons: ModalButton[] = [cancelButton, okButton];
 
 interface ModalTemplateProps {
     buttons?: ModalButton[];
@@ -42,37 +42,44 @@ interface ModalTemplateProps {
 /**
  *
  */
-const ModalTemplate: React.FC<ModalTemplateProps> = observer( ({
-    buttons = defaultButtons,
-    callbacks = [],
-    cancelCallback,
-    children,
-    header,
-    okCallback,
-    wide = false
-}) => {
-    const onCancel = cancelCallback || ideStateStore.closeModal;
+const ModalTemplate: React.FC<ModalTemplateProps> = observer(
+    ({
+        buttons = defaultButtons,
+        callbacks = [],
+        cancelCallback,
+        children,
+        header,
+        okCallback,
+        wide = false
+    }) => {
+        const onCancel = cancelCallback || ideStateStore.closeModal;
 
-    return <Modal isActive>
-        <ModalBackground />
-        <ModalCard className={wide ? "is-wide" : ""}>
-            <ModalCardHeader>
-                {header}
-            </ModalCardHeader>
-            <ModalCardBody>
-                {children}
-            </ModalCardBody>
-            <ModalCardFooter>
-                {buttons.map( ( button: ModalButton, i: number ) => {
-                    const onClick = button.isCancel ? onCancel : ( button.callback || callbacks[ i ] || okCallback );
-                    return <Button key={button.label} isColor={button.color} onClick={onClick}>
-                        {button.label}
-                    </Button>;
-                })}
-            </ModalCardFooter>
-        </ModalCard>
-        <ModalClose onClick={onCancel} />
-    </Modal>;
-});
+        return (
+            <Modal isActive>
+                <ModalBackground />
+                <ModalCard className={wide ? "is-wide" : ""}>
+                    <ModalCardHeader>{header}</ModalCardHeader>
+                    <ModalCardBody>{children}</ModalCardBody>
+                    <ModalCardFooter>
+                        {buttons.map((button: ModalButton, i: number) => {
+                            const onClick = button.isCancel
+                                ? onCancel
+                                : button.callback || callbacks[i] || okCallback;
+                            return (
+                                <Button
+                                    key={button.label}
+                                    isColor={button.color}
+                                    onClick={onClick}>
+                                    {button.label}
+                                </Button>
+                            );
+                        })}
+                    </ModalCardFooter>
+                </ModalCard>
+                <ModalClose onClick={onCancel} />
+            </Modal>
+        );
+    }
+);
 
 export default ModalTemplate;

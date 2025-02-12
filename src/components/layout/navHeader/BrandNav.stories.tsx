@@ -10,10 +10,35 @@ const allTabs = {
     snippetsURL: "http://example.com/snippets"
 };
 
-const openInfoPage = action( "Open info page" );
+const openInfoPage = action("Open info page");
 
-storiesOf( "BrandNav", module )
-    .add( "On IDE", () => <BrandNavElement activeSite="ide" openInfoPage={openInfoPage} {...allTabs} /> )
-    .add( "On Snippets", () => <BrandNavElement activeSite="snippets" openInfoPage={openInfoPage} {...allTabs} /> )
-    .add( "Only one link", () => <BrandNavElement activeSite="snippets" ideURL="http://example.com/ide" openInfoPage={openInfoPage} /> )
-    .add( "Only two links", () => <BrandNavElement activeSite="snippets" ideURL="http://example.com/ide" publishingURL="http://example.com/publishing" openInfoPage={openInfoPage} /> );
+storiesOf("BrandNav", module)
+    .add("On IDE", () => (
+        <BrandNavElement
+            activeSite="ide"
+            openInfoPage={openInfoPage}
+            {...allTabs}
+        />
+    ))
+    .add("On Snippets", () => (
+        <BrandNavElement
+            activeSite="snippets"
+            openInfoPage={openInfoPage}
+            {...allTabs}
+        />
+    ))
+    .add("Only one link", () => (
+        <BrandNavElement
+            activeSite="snippets"
+            ideURL="http://example.com/ide"
+            openInfoPage={openInfoPage}
+        />
+    ))
+    .add("Only two links", () => (
+        <BrandNavElement
+            activeSite="snippets"
+            ideURL="http://example.com/ide"
+            publishingURL="http://example.com/publishing"
+            openInfoPage={openInfoPage}
+        />
+    ));

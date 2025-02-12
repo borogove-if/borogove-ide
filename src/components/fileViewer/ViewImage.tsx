@@ -7,16 +7,18 @@ interface ViewImageElementProps {
     src: string;
 }
 
-export const ViewImageElement: React.FC<ViewImageElementProps> = ({ src }) => <img src={src} alt="Image preview" />;
+export const ViewImageElement: React.FC<ViewImageElementProps> = ({ src }) => (
+    <img src={src} alt="Image preview" />
+);
 
 interface ViewImageProps {
-    contents: string;   // as a data uri
+    contents: string; // as a data uri
 }
 
 /**
  * Show an image
  */
-const ViewImage: React.FC<ViewImageProps> = observer( ({ contents }) => {
+const ViewImage: React.FC<ViewImageProps> = observer(({ contents }) => {
     return <ViewImageElement src={contents} />;
 });
 

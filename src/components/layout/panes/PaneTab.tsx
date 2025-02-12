@@ -13,17 +13,38 @@ interface PaneTabElementProps {
     onClose?: () => void;
 }
 
-export const PaneTabElement: React.FC<PaneTabElementProps> = ({ isActive = false, isClosable = false, label, onClick, onClose }) => <Tab className={"panetab" + ( isClosable ? " closable" : "" )} isActive={isActive}>
-    <TabLink onClick={onClick}>
-        {label}
-        {isClosable && <TiTimes className="close-tab" onClick={( e ): void => { e.stopPropagation(); if( onClose ) { onClose(); } }} title="Close tab" />}
-    </TabLink>
-</Tab>;
+export const PaneTabElement: React.FC<PaneTabElementProps> = ({
+    isActive = false,
+    isClosable = false,
+    label,
+    onClick,
+    onClose
+}) => (
+    <Tab
+        className={"panetab" + (isClosable ? " closable" : "")}
+        isActive={isActive}>
+        <TabLink onClick={onClick}>
+            {label}
+            {isClosable && (
+                <TiTimes
+                    className="close-tab"
+                    onClick={(e): void => {
+                        e.stopPropagation();
+                        if (onClose) {
+                            onClose();
+                        }
+                    }}
+                    title="Close tab"
+                />
+            )}
+        </TabLink>
+    </Tab>
+);
 
 /**
  * A single pane tab.
  */
-const PaneTab: React.FC<PaneTabElementProps> = observer( ( props ) => {
+const PaneTab: React.FC<PaneTabElementProps> = observer(props => {
     return <PaneTabElement {...props} />;
 });
 

@@ -1,5 +1,8 @@
 import { observable, action, makeObservable } from "mobx";
-import { readDir, readFileAsBase64 } from "services/filesystem/localFilesystemService";
+import {
+    readDir,
+    readFileAsBase64
+} from "services/filesystem/localFilesystemService";
 
 export enum CompilationStage {
     idle,
@@ -27,9 +30,8 @@ export interface RemoteCompilationResultResponse {
     links?: {
         index: string;
         storyfile: string;
-    }
+    };
 }
-
 
 /**
  * The results of a compilation – generated files, reports and compiler status
@@ -70,12 +72,11 @@ class CompilationResultStore {
     // Did the compilation finish successfully?
     success: boolean;
 
-
     /**
      * Set initial default values
      */
     constructor() {
-        makeObservable( this, {
+        makeObservable(this, {
             artifacts: observable,
             compilerOutput: observable,
             indexUrl: observable,
@@ -100,27 +101,24 @@ class CompilationResultStore {
         this.reset();
     }
 
-
     /*
      * The compiler calls this to add more text to the compiler output
      */
-    addToCompilerOutput = ( output: string ): void => {
+    addToCompilerOutput = (output: string): void => {
         this.compilerOutput += output;
     };
-
 
     /*
      * Get the resulting local story file's contents base64-encoded.
      * Most interpreters read base64-encoded story files.
      */
     public getBase64Storyfile = (): string | null => {
-        if( !this.storyfileLocalPath ) {
+        if (!this.storyfileLocalPath) {
             return null;
         }
 
-        return readFileAsBase64( this.storyfileLocalPath );
+        return readFileAsBase64(this.storyfileLocalPath);
     };
-
 
     /*
      * Reset values to defaults
@@ -138,47 +136,51 @@ class CompilationResultStore {
         this.success = true;
     };
 
-
     /**
      * Toggles the compilation status
      */
-    setCompilationStatus = ( status: boolean ): void => {
+    setCompilationStatus = (status: boolean): void => {
         this.isCompiling = status;
     };
-
 
     /*
      * Set the entire compiler output
      */
-    setCompilerOutput = ( output: string ): void => {
+    setCompilerOutput = (output: string): void => {
         this.compilerOutput = output;
     };
-
 
     /*
      * When the compilation with a client-side compiler ends, save the results
      */
-    setLocalResults = ({ storyfilePath = null, success }: { storyfilePath: string | null; success: boolean }): void => {
-        this.artifacts = readDir( "/output" );
+    setLocalResults = ({
+        storyfilePath = null,
+        success
+    }: {
+        storyfilePath: string | null;
+        success: boolean;
+    }): void => {
+        this.artifacts = readDir("/output");
         this.storyfileLocalPath = storyfilePath;
         this.success = success;
         this.isCompiling = false;
         this.stage = CompilationStage.finished;
     };
 
-
     /*
      * Set the stage completion percentage
      */
-    setPercentage = ( newPercentage: number ): void => {
+    setPercentage = (newPercentage: number): void => {
         this.percentage = newPercentage;
     };
-
 
     /*
      * Same as setLocalResults but for an external compiler service
      */
-    setRemoteResults = ({ data, links }: RemoteCompilationResultResponse ): void => {
+    setRemoteResults = ({
+        data,
+        links
+    }: RemoteCompilationResultResponse): void => {
         this.indexUrl = links ? links.index : null;
         this.storyfileRemoteUrl = links ? links.storyfile : null;
         this.resultsReport = data.report;
@@ -186,17 +188,16 @@ class CompilationResultStore {
         this.isCompiling = false;
         this.specialAction = data.action || null;
 
-        if( data.success ) {
+        if (data.success) {
             this.stage = CompilationStage.finished;
         }
     };
 
-
     /*
      * Change the compilation stage. Resets the completion percentage.
      */
-    setStage = ( newStage: CompilationStage ): void => {
-        if( this.stage === newStage ) {
+    setStage = (newStage: CompilationStage): void => {
+        if (this.stage === newStage) {
             return;
         }
 

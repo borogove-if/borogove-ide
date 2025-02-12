@@ -10,5 +10,6 @@ const allURLs = {
     snippetsURL: "http://example.com/snippets"
 };
 
-storiesOf( "Overview Info", module )
-    .add( "Full page", () => <OverviewInfoElement onClose={action( "Close modal" )} {...allURLs} /> );
+storiesOf("Overview Info", module).add("Full page", () => (
+    <OverviewInfoElement onClose={action("Close modal")} {...allURLs} />
+));

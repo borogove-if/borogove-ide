@@ -1,34 +1,26 @@
 {
-  "hosting": [
-    {
-      "target": "ide",
-      "public": "build-ide",
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ],
-      "rewrites": [
+    "hosting": [
         {
-          "source": "**",
-          "destination": "/index.html"
-        }
-      ]
-    },
-    {
-      "target": "snippets",
-      "public": "build-snippets",
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ],
-      "rewrites": [
+            "target": "ide",
+            "public": "build-ide",
+            "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+            "rewrites": [
+                {
+                    "source": "**",
+                    "destination": "/index.html"
+                }
+            ]
+        },
         {
-          "source": "**",
-          "destination": "/index.html"
+            "target": "snippets",
+            "public": "build-snippets",
+            "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+            "rewrites": [
+                {
+                    "source": "**",
+                    "destination": "/index.html"
+                }
+            ]
         }
-      ]
-    }
-  ]
+    ]
 }

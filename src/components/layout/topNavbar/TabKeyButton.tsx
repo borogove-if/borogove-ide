@@ -12,15 +12,19 @@ interface TabKeyButtonElementProps {
     onClick: () => void;
 }
 
-export const TabKeyButtonElement: React.FC<TabKeyButtonElementProps> = ({ disabled = false, onClick }) => <Button onClick={onClick} disabled={disabled} title="Insert tab character">
-    <MdKeyboardTab className="no-margin-fix" />
-</Button>;
-
+export const TabKeyButtonElement: React.FC<TabKeyButtonElementProps> = ({
+    disabled = false,
+    onClick
+}) => (
+    <Button onClick={onClick} disabled={disabled} title="Insert tab character">
+        <MdKeyboardTab className="no-margin-fix" />
+    </Button>
+);
 
 /**
  * Button for mobile nav that inserts a tab character to the source code.
  */
-const TabKeyButton: React.FC = observer( () => {
+const TabKeyButton: React.FC = observer(() => {
     const addTab = (): void => editorStateStore.insertTab();
 
     // Disable the button if the code editor isn't visible

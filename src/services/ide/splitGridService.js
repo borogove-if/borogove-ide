@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 /**
  * This is copied from https://github.com/nathancahill/split/blob/master/packages/react-split-grid/src/index.js
  * The original version's (1.0.4) Typescript definitions are broken.
@@ -10,8 +8,8 @@ import React from "react";
 import Split from "split-grid";
 
 class ReactSplitGrid extends React.Component {
-    constructor( props ) {
-        super( props );
+    constructor(props) {
+        super(props);
 
         this.columnGutters = {};
         this.rowGutters = {};
@@ -25,11 +23,11 @@ class ReactSplitGrid extends React.Component {
                 : null
         };
 
-        this.getGridProps = this.getGridProps.bind( this );
-        this.getGutterProps = this.getGutterProps.bind( this );
-        this.handleDragStart = this.handleDragStart.bind( this );
-        this.writeStyle = this.writeStyle.bind( this );
-        this.onDrag = this.onDrag.bind( this );
+        this.getGridProps = this.getGridProps.bind(this);
+        this.getGutterProps = this.getGutterProps.bind(this);
+        this.handleDragStart = this.handleDragStart.bind(this);
+        this.writeStyle = this.writeStyle.bind(this);
+        this.onDrag = this.onDrag.bind(this);
     }
 
     componentDidMount() {
@@ -38,10 +36,10 @@ class ReactSplitGrid extends React.Component {
         options.writeStyle = this.writeStyle;
         options.onDrag = this.onDrag;
 
-        this.split = Split( options );
+        this.split = Split(options);
     }
 
-    componentDidUpdate( prevProps ) {
+    componentDidUpdate(prevProps) {
         const {
             columnMinSizes,
             rowMinSizes,
@@ -81,31 +79,30 @@ class ReactSplitGrid extends React.Component {
         ];
 
         let needsRecreate = otherProps
-            // eslint-disable-next-line react/destructuring-assignment
-            .map( prop => this.props[prop] !== prevProps[prop] )
-            .reduce( ( accum, same ) => accum || same, false );
+            .map(prop => this.props[prop] !== prevProps[prop])
+            .reduce((accum, same) => accum || same, false);
 
         // TODO use deep equals
-        if( columnMinSizes !== prevColumnMinSizes ) {
+        if (columnMinSizes !== prevColumnMinSizes) {
             needsRecreate = true;
         }
 
-        if( rowMinSizes !== prevRowMinSizes ) {
+        if (rowMinSizes !== prevRowMinSizes) {
             needsRecreate = true;
         }
 
-        if( rowMaxSizes !== prevRowMaxSizes ) {
+        if (rowMaxSizes !== prevRowMaxSizes) {
             needsRecreate = true;
         }
 
         // Destroy and re-create split if options changed
-        if( needsRecreate ) {
+        if (needsRecreate) {
             options.columnMinSizes = columnMinSizes;
             options.rowMinSizes = rowMinSizes;
 
-            this.split.destroy( false );
+            this.split.destroy(false);
 
-            this.split = Split( options );
+            this.split = Split(options);
         }
     }
 
@@ -114,11 +111,11 @@ class ReactSplitGrid extends React.Component {
         delete this.split;
     }
 
-    static getDerivedStateFromProps( nextProps, prevState ) {
+    static getDerivedStateFromProps(nextProps, prevState) {
         const state = {};
         let needsSetState = false;
 
-        if(
+        if (
             nextProps.gridTemplateColumns &&
             nextProps.gridTemplateColumns !== prevState.gridTemplateColumns
         ) {
@@ -126,7 +123,7 @@ class ReactSplitGrid extends React.Component {
             needsSetState = true;
         }
 
-        if(
+        if (
             nextProps.gridTemplateRows &&
             nextProps.gridTemplateRows !== prevState.prevGridTemplateRows
         ) {
@@ -134,18 +131,18 @@ class ReactSplitGrid extends React.Component {
             needsSetState = true;
         }
 
-        if( needsSetState ) {
+        if (needsSetState) {
             return state;
         }
 
         return null;
     }
 
-    onDrag( direction, track, style ) {
+    onDrag(direction, track, style) {
         const { onDrag } = this.props;
 
-        if( onDrag ) {
-            onDrag( direction, track, style );
+        if (onDrag) {
+            onDrag(direction, track, style);
         }
     }
 
@@ -153,11 +150,11 @@ class ReactSplitGrid extends React.Component {
         const { gridTemplateColumns, gridTemplateRows } = this.state;
         const style = {};
 
-        if( gridTemplateColumns ) {
+        if (gridTemplateColumns) {
             style.gridTemplateColumns = gridTemplateColumns;
         }
 
-        if( gridTemplateRows ) {
+        if (gridTemplateRows) {
             style.gridTemplateRows = gridTemplateRows;
         }
 
@@ -166,29 +163,29 @@ class ReactSplitGrid extends React.Component {
         };
     }
 
-    getGutterProps( direction, track ) {
+    getGutterProps(direction, track) {
         return {
-            onMouseDown: this.handleDragStart( direction, track ),
-            onTouchStart: this.handleDragStart( direction, track )
+            onMouseDown: this.handleDragStart(direction, track),
+            onTouchStart: this.handleDragStart(direction, track)
         };
     }
 
-    handleDragStart( direction, track ) {
+    handleDragStart(direction, track) {
         return e => {
-            this.split.handleDragStart( e, direction, track );
+            this.split.handleDragStart(e, direction, track);
         };
     }
 
-    writeStyle( element, gridTemplateProp, style ) {
+    writeStyle(element, gridTemplateProp, style) {
         const state = {};
 
-        if( gridTemplateProp === "grid-template-columns" ) {
+        if (gridTemplateProp === "grid-template-columns") {
             state.gridTemplateColumns = style;
-        } else if( gridTemplateProp === "grid-template-rows" ) {
+        } else if (gridTemplateProp === "grid-template-rows") {
             state.gridTemplateRows = style;
         }
 
-        this.setState( state );
+        this.setState(state);
     }
 
     render() {
@@ -198,18 +195,17 @@ class ReactSplitGrid extends React.Component {
             getGutterProps: this.getGutterProps
         };
 
-        /* eslint-disable no-nested-ternary */
         return component
-            ? React.createElement( component, props )
+            ? React.createElement(component, props)
             : render
-                ? render( props )
-                : children
-                    ? typeof children === "function"
-                        ? children( props )
-                        : !( React.Children.count( children ) === 0 )
-                            ? React.Children.only( children )
-                            : null
-                    : null;
+              ? render(props)
+              : children
+                ? typeof children === "function"
+                    ? children(props)
+                    : !(React.Children.count(children) === 0)
+                      ? React.Children.only(children)
+                      : null
+                : null;
     }
 }
 

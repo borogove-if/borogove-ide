@@ -7,7 +7,7 @@ import ProjectService from "../ProjectService.class";
  */
 export default abstract class Inform6ProjectService extends ProjectService {
     public compile = compileI6;
-    public includePaths = [ "/input/library" ];
+    public includePaths = ["/input/library"];
     public language = "inform6";
     public name = "Inform 6";
     public storyFileFormat = "z";

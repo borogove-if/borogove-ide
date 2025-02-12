@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 /**
  * This file has been created by the Emscripten compiler and formatted from the
  * minified version to be more readable.
@@ -7,7 +5,7 @@
  * The line
  *   Module["FS"] = FS;
  * has been added to expose the filesystem object for later use.
- *  
+ *
  * Reminder for the future: Use the emscripten/emsdk Docker image, see inform6LoaderService.ts and inform6CompilerService.ts for the required changes.
  * When both Hugo and Dialog compilers use the new image, remove the FS.createFolder() calls from compilerHelpers.ts.
  */
@@ -240,7 +238,7 @@ var Module = (function () {
             "f64-rem": function (x, y) {
                 return x % y;
             },
-            debugger: function () {},
+            debugger: function () {}
         };
         var functionPointers = new Array(0);
         var wasmBinary;
@@ -282,7 +280,7 @@ var Module = (function () {
                                       (tempDouble - +(~~tempDouble >>> 0)) /
                                           4294967296
                                   ) >>> 0
-                            : 0),
+                            : 0)
                     ]),
                         (HEAP32[ptr >> 2] = tempI64[0]),
                         (HEAP32[(ptr + 4) >> 2] = tempI64[1]);
@@ -301,7 +299,7 @@ var Module = (function () {
         var wasmTable = new WebAssembly.Table({
             initial: 46,
             maximum: 46,
-            element: "anyfunc",
+            element: "anyfunc"
         });
         var ABORT = false;
         var EXITSTATUS = 0;
@@ -522,7 +520,7 @@ var Module = (function () {
         } else {
             wasmMemory = new WebAssembly.Memory({
                 initial: INITIAL_TOTAL_MEMORY / WASM_PAGE_SIZE,
-                maximum: INITIAL_TOTAL_MEMORY / WASM_PAGE_SIZE,
+                maximum: INITIAL_TOTAL_MEMORY / WASM_PAGE_SIZE
             });
         }
         if (wasmMemory) {
@@ -704,7 +702,7 @@ var Module = (function () {
                 wasi_unstable: asmLibraryArg,
                 global: { NaN: NaN, Infinity: Infinity },
                 "global.Math": Math,
-                asm2wasm: asm2wasmImports,
+                asm2wasm: asm2wasmImports
             };
             function receiveInstance(instance, module) {
                 var exports = instance.exports;
@@ -783,7 +781,7 @@ var Module = (function () {
         __ATINIT__.push({
             func: function () {
                 ___emscripten_environ_constructor();
-            },
+            }
         });
         function demangle(func) {
             return func;
@@ -823,7 +821,7 @@ var Module = (function () {
                     [
                         filename ? UTF8ToString(filename) : "unknown filename",
                         line,
-                        func ? UTF8ToString(func) : "unknown function",
+                        func ? UTF8ToString(func) : "unknown function"
                     ]
             );
         }
@@ -880,7 +878,8 @@ var Module = (function () {
         function ___lock() {}
         var PATH = {
             splitPath: function (filename) {
-                var splitPathRe = /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
+                var splitPathRe =
+                    /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
                 return splitPathRe.exec(filename).slice(1);
             },
             normalizeArray: function (parts, allowAboveRoot) {
@@ -948,7 +947,7 @@ var Module = (function () {
             },
             join2: function (l, r) {
                 return PATH.normalize(l + "/" + r);
-            },
+            }
         };
         function ___setErrNo(value) {
             if (Module["___errno_location"])
@@ -1016,7 +1015,7 @@ var Module = (function () {
                     toParts.slice(samePartsLength)
                 );
                 return outputParts.join("/");
-            },
+            }
         };
         var TTY = {
             ttys: [],
@@ -1083,7 +1082,7 @@ var Module = (function () {
                         stream.node.timestamp = Date.now();
                     }
                     return i;
-                },
+                }
             },
             default_tty_ops: {
                 get_char: function (tty) {
@@ -1149,7 +1148,7 @@ var Module = (function () {
                         out(UTF8ArrayToString(tty.output, 0));
                         tty.output = [];
                     }
-                },
+                }
             },
             default_tty1_ops: {
                 put_char: function (tty, val) {
@@ -1165,8 +1164,8 @@ var Module = (function () {
                         err(UTF8ArrayToString(tty.output, 0));
                         tty.output = [];
                     }
-                },
-            },
+                }
+            }
         };
         var MEMFS = {
             ops_table: null,
@@ -1189,14 +1188,14 @@ var Module = (function () {
                                 unlink: MEMFS.node_ops.unlink,
                                 rmdir: MEMFS.node_ops.rmdir,
                                 readdir: MEMFS.node_ops.readdir,
-                                symlink: MEMFS.node_ops.symlink,
+                                symlink: MEMFS.node_ops.symlink
                             },
-                            stream: { llseek: MEMFS.stream_ops.llseek },
+                            stream: { llseek: MEMFS.stream_ops.llseek }
                         },
                         file: {
                             node: {
                                 getattr: MEMFS.node_ops.getattr,
-                                setattr: MEMFS.node_ops.setattr,
+                                setattr: MEMFS.node_ops.setattr
                             },
                             stream: {
                                 llseek: MEMFS.stream_ops.llseek,
@@ -1204,24 +1203,24 @@ var Module = (function () {
                                 write: MEMFS.stream_ops.write,
                                 allocate: MEMFS.stream_ops.allocate,
                                 mmap: MEMFS.stream_ops.mmap,
-                                msync: MEMFS.stream_ops.msync,
-                            },
+                                msync: MEMFS.stream_ops.msync
+                            }
                         },
                         link: {
                             node: {
                                 getattr: MEMFS.node_ops.getattr,
                                 setattr: MEMFS.node_ops.setattr,
-                                readlink: MEMFS.node_ops.readlink,
+                                readlink: MEMFS.node_ops.readlink
                             },
-                            stream: {},
+                            stream: {}
                         },
                         chrdev: {
                             node: {
                                 getattr: MEMFS.node_ops.getattr,
-                                setattr: MEMFS.node_ops.setattr,
+                                setattr: MEMFS.node_ops.setattr
                             },
-                            stream: FS.chrdev_stream_ops,
-                        },
+                            stream: FS.chrdev_stream_ops
+                        }
                     };
                 }
                 var node = FS.createNode(parent, name, mode, dev);
@@ -1406,7 +1405,7 @@ var Module = (function () {
                         throw new FS.ErrnoError(28);
                     }
                     return node.link;
-                },
+                }
             },
             stream_ops: {
                 read: function (stream, buffer, offset, length, position) {
@@ -1563,8 +1562,8 @@ var Module = (function () {
                         false
                     );
                     return 0;
-                },
-            },
+                }
+            }
         };
         var FS = {
             root: null,
@@ -1629,7 +1628,7 @@ var Module = (function () {
                                 link
                             );
                             var lookup = FS.lookupPath(current_path, {
-                                recurse_count: opts.recurse_count,
+                                recurse_count: opts.recurse_count
                             });
                             current = lookup.node;
                             if (count++ > 40) {
@@ -1727,7 +1726,7 @@ var Module = (function () {
                                 val
                                     ? (this.mode |= readMode)
                                     : (this.mode &= ~readMode);
-                            },
+                            }
                         },
                         write: {
                             get: function () {
@@ -1737,18 +1736,18 @@ var Module = (function () {
                                 val
                                     ? (this.mode |= writeMode)
                                     : (this.mode &= ~writeMode);
-                            },
+                            }
                         },
                         isFolder: {
                             get: function () {
                                 return FS.isDir(this.mode);
-                            },
+                            }
                         },
                         isDevice: {
                             get: function () {
                                 return FS.isChrdev(this.mode);
-                            },
-                        },
+                            }
+                        }
                     });
                 }
                 var node = new FS.FSNode(parent, name, mode, rdev);
@@ -1800,7 +1799,7 @@ var Module = (function () {
                 xa: 1217,
                 "a+": 1090,
                 "ax+": 1218,
-                "xa+": 1218,
+                "xa+": 1218
             },
             modeStringToFlags: function (str) {
                 var flags = FS.flagModes[str];
@@ -1911,23 +1910,23 @@ var Module = (function () {
                             },
                             set: function (val) {
                                 this.node = val;
-                            },
+                            }
                         },
                         isRead: {
                             get: function () {
                                 return (this.flags & 2097155) !== 1;
-                            },
+                            }
                         },
                         isWrite: {
                             get: function () {
                                 return (this.flags & 2097155) !== 0;
-                            },
+                            }
                         },
                         isAppend: {
                             get: function () {
                                 return this.flags & 1024;
-                            },
-                        },
+                            }
+                        }
                     });
                 }
                 var newStream = new FS.FSStream();
@@ -1953,7 +1952,7 @@ var Module = (function () {
                 },
                 llseek: function () {
                     throw new FS.ErrnoError(70);
-                },
+                }
             },
             major: function (dev) {
                 return dev >> 8;
@@ -2026,7 +2025,7 @@ var Module = (function () {
                     throw new FS.ErrnoError(10);
                 } else if (!root && !pseudo) {
                     var lookup = FS.lookupPath(mountpoint, {
-                        follow_mount: false,
+                        follow_mount: false
                     });
                     mountpoint = lookup.path;
                     node = lookup.node;
@@ -2041,7 +2040,7 @@ var Module = (function () {
                     type: type,
                     opts: opts,
                     mountpoint: mountpoint,
-                    mounts: [],
+                    mounts: []
                 };
                 var mountRoot = type.mount(mount);
                 mountRoot.mount = mount;
@@ -2376,7 +2375,7 @@ var Module = (function () {
                 }
                 node.node_ops.setattr(node, {
                     mode: (mode & 4095) | (node.mode & ~4095),
-                    timestamp: Date.now(),
+                    timestamp: Date.now()
                 });
             },
             lchmod: function (path, mode) {
@@ -2438,7 +2437,7 @@ var Module = (function () {
                 }
                 node.node_ops.setattr(node, {
                     size: len,
-                    timestamp: Date.now(),
+                    timestamp: Date.now()
                 });
             },
             ftruncate: function (fd, len) {
@@ -2455,7 +2454,7 @@ var Module = (function () {
                 var lookup = FS.lookupPath(path, { follow: true });
                 var node = lookup.node;
                 node.node_ops.setattr(node, {
-                    timestamp: Math.max(atime, mtime),
+                    timestamp: Math.max(atime, mtime)
                 });
             },
             open: function (path, flags, mode, fd_start, fd_end) {
@@ -2479,7 +2478,7 @@ var Module = (function () {
                     path = PATH.normalize(path);
                     try {
                         var lookup = FS.lookupPath(path, {
-                            follow: !(flags & 131072),
+                            follow: !(flags & 131072)
                         });
                         node = lookup.node;
                     } catch (e) {}
@@ -2523,7 +2522,7 @@ var Module = (function () {
                         position: 0,
                         stream_ops: node.stream_ops,
                         ungotten: [],
-                        error: false,
+                        error: false
                     },
                     fd_start,
                     fd_end
@@ -2838,7 +2837,7 @@ var Module = (function () {
                     },
                     write: function (stream, buffer, offset, length, pos) {
                         return length;
-                    },
+                    }
                 });
                 FS.mkdev("/dev/null", FS.makedev(1, 3));
                 TTY.register(FS.makedev(5, 0), TTY.default_tty_ops);
@@ -2898,15 +2897,15 @@ var Module = (function () {
                                         node_ops: {
                                             readlink: function () {
                                                 return stream.path;
-                                            },
-                                        },
+                                            }
+                                        }
                                     };
                                     ret.parent = ret;
                                     return ret;
-                                },
+                                }
                             };
                             return node;
-                        },
+                        }
                     },
                     {},
                     "/proc/self/fd"
@@ -3007,7 +3006,7 @@ var Module = (function () {
             analyzePath: function (path, dontResolveLastLink) {
                 try {
                     var lookup = FS.lookupPath(path, {
-                        follow: !dontResolveLastLink,
+                        follow: !dontResolveLastLink
                     });
                     path = lookup.path;
                 } catch (e) {}
@@ -3020,7 +3019,7 @@ var Module = (function () {
                     object: null,
                     parentExists: false,
                     parentPath: null,
-                    parentObject: null,
+                    parentObject: null
                 };
                 try {
                     var lookup = FS.lookupPath(path, { parent: true });
@@ -3029,7 +3028,7 @@ var Module = (function () {
                     ret.parentObject = lookup.node;
                     ret.name = PATH.basename(path);
                     lookup = FS.lookupPath(path, {
-                        follow: !dontResolveLastLink,
+                        follow: !dontResolveLastLink
                     });
                     ret.exists = true;
                     ret.path = lookup.path;
@@ -3155,7 +3154,7 @@ var Module = (function () {
                             stream.node.timestamp = Date.now();
                         }
                         return i;
-                    },
+                    }
                 });
                 return FS.mkdev(path, mode, dev);
             },
@@ -3204,65 +3203,14 @@ var Module = (function () {
                     var chunkNum = (idx / this.chunkSize) | 0;
                     return this.getter(chunkNum)[chunkOffset];
                 };
-                LazyUint8Array.prototype.setDataGetter = function LazyUint8Array_setDataGetter(
-                    getter
-                ) {
-                    this.getter = getter;
-                };
-                LazyUint8Array.prototype.cacheLength = function LazyUint8Array_cacheLength() {
-                    var xhr = new XMLHttpRequest();
-                    xhr.open("HEAD", url, false);
-                    xhr.send(null);
-                    if (
-                        !(
-                            (xhr.status >= 200 && xhr.status < 300) ||
-                            xhr.status === 304
-                        )
-                    )
-                        throw new Error(
-                            "Couldn't load " + url + ". Status: " + xhr.status
-                        );
-                    var datalength = Number(
-                        xhr.getResponseHeader("Content-length")
-                    );
-                    var header;
-                    var hasByteServing =
-                        (header = xhr.getResponseHeader("Accept-Ranges")) &&
-                        header === "bytes";
-                    var usesGzip =
-                        (header = xhr.getResponseHeader("Content-Encoding")) &&
-                        header === "gzip";
-                    var chunkSize = 1024 * 1024;
-                    if (!hasByteServing) chunkSize = datalength;
-                    var doXHR = function (from, to) {
-                        if (from > to)
-                            throw new Error(
-                                "invalid range (" +
-                                    from +
-                                    ", " +
-                                    to +
-                                    ") or no bytes requested!"
-                            );
-                        if (to > datalength - 1)
-                            throw new Error(
-                                "only " +
-                                    datalength +
-                                    " bytes available! programmer error!"
-                            );
+                LazyUint8Array.prototype.setDataGetter =
+                    function LazyUint8Array_setDataGetter(getter) {
+                        this.getter = getter;
+                    };
+                LazyUint8Array.prototype.cacheLength =
+                    function LazyUint8Array_cacheLength() {
                         var xhr = new XMLHttpRequest();
-                        xhr.open("GET", url, false);
-                        if (datalength !== chunkSize)
-                            xhr.setRequestHeader(
-                                "Range",
-                                "bytes=" + from + "-" + to
-                            );
-                        if (typeof Uint8Array != "undefined")
-                            xhr.responseType = "arraybuffer";
-                        if (xhr.overrideMimeType) {
-                            xhr.overrideMimeType(
-                                "text/plain; charset=x-user-defined"
-                            );
-                        }
+                        xhr.open("HEAD", url, false);
                         xhr.send(null);
                         if (
                             !(
@@ -3276,39 +3224,100 @@ var Module = (function () {
                                     ". Status: " +
                                     xhr.status
                             );
-                        if (xhr.response !== undefined) {
-                            return new Uint8Array(xhr.response || []);
-                        } else {
-                            return intArrayFromString(
-                                xhr.responseText || "",
-                                true
+                        var datalength = Number(
+                            xhr.getResponseHeader("Content-length")
+                        );
+                        var header;
+                        var hasByteServing =
+                            (header = xhr.getResponseHeader("Accept-Ranges")) &&
+                            header === "bytes";
+                        var usesGzip =
+                            (header =
+                                xhr.getResponseHeader("Content-Encoding")) &&
+                            header === "gzip";
+                        var chunkSize = 1024 * 1024;
+                        if (!hasByteServing) chunkSize = datalength;
+                        var doXHR = function (from, to) {
+                            if (from > to)
+                                throw new Error(
+                                    "invalid range (" +
+                                        from +
+                                        ", " +
+                                        to +
+                                        ") or no bytes requested!"
+                                );
+                            if (to > datalength - 1)
+                                throw new Error(
+                                    "only " +
+                                        datalength +
+                                        " bytes available! programmer error!"
+                                );
+                            var xhr = new XMLHttpRequest();
+                            xhr.open("GET", url, false);
+                            if (datalength !== chunkSize)
+                                xhr.setRequestHeader(
+                                    "Range",
+                                    "bytes=" + from + "-" + to
+                                );
+                            if (typeof Uint8Array != "undefined")
+                                xhr.responseType = "arraybuffer";
+                            if (xhr.overrideMimeType) {
+                                xhr.overrideMimeType(
+                                    "text/plain; charset=x-user-defined"
+                                );
+                            }
+                            xhr.send(null);
+                            if (
+                                !(
+                                    (xhr.status >= 200 && xhr.status < 300) ||
+                                    xhr.status === 304
+                                )
+                            )
+                                throw new Error(
+                                    "Couldn't load " +
+                                        url +
+                                        ". Status: " +
+                                        xhr.status
+                                );
+                            if (xhr.response !== undefined) {
+                                return new Uint8Array(xhr.response || []);
+                            } else {
+                                return intArrayFromString(
+                                    xhr.responseText || "",
+                                    true
+                                );
+                            }
+                        };
+                        var lazyArray = this;
+                        lazyArray.setDataGetter(function (chunkNum) {
+                            var start = chunkNum * chunkSize;
+                            var end = (chunkNum + 1) * chunkSize - 1;
+                            end = Math.min(end, datalength - 1);
+                            if (
+                                typeof lazyArray.chunks[chunkNum] ===
+                                "undefined"
+                            ) {
+                                lazyArray.chunks[chunkNum] = doXHR(start, end);
+                            }
+                            if (
+                                typeof lazyArray.chunks[chunkNum] ===
+                                "undefined"
+                            )
+                                throw new Error("doXHR failed!");
+                            return lazyArray.chunks[chunkNum];
+                        });
+                        if (usesGzip || !datalength) {
+                            chunkSize = datalength = 1;
+                            datalength = this.getter(0).length;
+                            chunkSize = datalength;
+                            console.log(
+                                "LazyFiles on gzip forces download of the whole file when length is accessed"
                             );
                         }
+                        this._length = datalength;
+                        this._chunkSize = chunkSize;
+                        this.lengthKnown = true;
                     };
-                    var lazyArray = this;
-                    lazyArray.setDataGetter(function (chunkNum) {
-                        var start = chunkNum * chunkSize;
-                        var end = (chunkNum + 1) * chunkSize - 1;
-                        end = Math.min(end, datalength - 1);
-                        if (typeof lazyArray.chunks[chunkNum] === "undefined") {
-                            lazyArray.chunks[chunkNum] = doXHR(start, end);
-                        }
-                        if (typeof lazyArray.chunks[chunkNum] === "undefined")
-                            throw new Error("doXHR failed!");
-                        return lazyArray.chunks[chunkNum];
-                    });
-                    if (usesGzip || !datalength) {
-                        chunkSize = datalength = 1;
-                        datalength = this.getter(0).length;
-                        chunkSize = datalength;
-                        console.log(
-                            "LazyFiles on gzip forces download of the whole file when length is accessed"
-                        );
-                    }
-                    this._length = datalength;
-                    this._chunkSize = chunkSize;
-                    this.lengthKnown = true;
-                };
                 if (typeof XMLHttpRequest !== "undefined") {
                     if (!ENVIRONMENT_IS_WORKER)
                         throw "Cannot do synchronous binary XHRs outside webworkers in modern browsers. Use --embed-file or --preload-file in emcc";
@@ -3320,7 +3329,7 @@ var Module = (function () {
                                     this.cacheLength();
                                 }
                                 return this._length;
-                            },
+                            }
                         },
                         chunkSize: {
                             get: function () {
@@ -3328,8 +3337,8 @@ var Module = (function () {
                                     this.cacheLength();
                                 }
                                 return this._chunkSize;
-                            },
-                        },
+                            }
+                        }
                     });
                     var properties = { isDevice: false, contents: lazyArray };
                 } else {
@@ -3352,8 +3361,8 @@ var Module = (function () {
                     usedBytes: {
                         get: function () {
                             return this.contents.length;
-                        },
-                    },
+                        }
+                    }
                 });
                 var stream_ops = {};
                 var keys = Object.keys(node.stream_ops);
@@ -3482,11 +3491,12 @@ var Module = (function () {
                 } catch (e) {
                     return onerror(e);
                 }
-                openRequest.onupgradeneeded = function openRequest_onupgradeneeded() {
-                    console.log("creating db");
-                    var db = openRequest.result;
-                    db.createObjectStore(FS.DB_STORE_NAME);
-                };
+                openRequest.onupgradeneeded =
+                    function openRequest_onupgradeneeded() {
+                        console.log("creating db");
+                        var db = openRequest.result;
+                        db.createObjectStore(FS.DB_STORE_NAME);
+                    };
                 openRequest.onsuccess = function openRequest_onsuccess() {
                     var db = openRequest.result;
                     var transaction = db.transaction(
@@ -3576,7 +3586,7 @@ var Module = (function () {
                     transaction.onerror = onerror;
                 };
                 openRequest.onerror = onerror;
-            },
+            }
         };
         var SYSCALLS = {
             DEFAULT_POLLMASK: 5,
@@ -3634,7 +3644,7 @@ var Module = (function () {
                                   (tempDouble - +(~~tempDouble >>> 0)) /
                                       4294967296
                               ) >>> 0
-                        : 0),
+                        : 0)
                 ]),
                     (HEAP32[(buf + 40) >> 2] = tempI64[0]),
                     (HEAP32[(buf + 44) >> 2] = tempI64[1]);
@@ -3661,7 +3671,7 @@ var Module = (function () {
                                   (tempDouble - +(~~tempDouble >>> 0)) /
                                       4294967296
                               ) >>> 0
-                        : 0),
+                        : 0)
                 ]),
                     (HEAP32[(buf + 80) >> 2] = tempI64[0]),
                     (HEAP32[(buf + 84) >> 2] = tempI64[1]);
@@ -3771,7 +3781,7 @@ var Module = (function () {
             },
             getZero: function () {
                 SYSCALLS.get();
-            },
+            }
         };
         function ___syscall195(which, varargs) {
             SYSCALLS.varargs = varargs;
@@ -3934,10 +3944,10 @@ var Module = (function () {
                 var type = stream.tty
                     ? 2
                     : FS.isDir(stream.mode)
-                    ? 3
-                    : FS.isLink(stream.mode)
-                    ? 7
-                    : 4;
+                      ? 3
+                      : FS.isLink(stream.mode)
+                        ? 7
+                        : 4;
                 HEAP8[pbuf >> 0] = type;
                 return 0;
             } catch (e) {
@@ -3989,7 +3999,7 @@ var Module = (function () {
                                   (tempDouble - +(~~tempDouble >>> 0)) /
                                       4294967296
                               ) >>> 0
-                        : 0),
+                        : 0)
                 ]),
                     (HEAP32[newOffset >> 2] = tempI64[0]),
                     (HEAP32[(newOffset + 4) >> 2] = tempI64[1]);
@@ -4176,7 +4186,7 @@ var Module = (function () {
             o: _time,
             e: abort,
             memory: wasmMemory,
-            table: wasmTable,
+            table: wasmTable
         };
         var asm = Module["asm"](asmGlobalArg, asmLibraryArg, buffer);
         Module["asm"] = asm;

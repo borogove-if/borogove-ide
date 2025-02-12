@@ -5,17 +5,17 @@ interface ProjectLoadingErrorElementProps {
     onRetry: () => void;
 }
 
-export const ProjectLoadingErrorElement: React.FC<ProjectLoadingErrorElementProps> = ({ onRetry }) => <Container>
-    <Title>Oops! Something went wrong.</Title>
-    <p>
-        Project resources didn't load correctly.
-    </p>
-    <p>
-        <Button onClick={onRetry}>
-            Try again
-        </Button>
-    </p>
-</Container>;
+export const ProjectLoadingErrorElement: React.FC<
+    ProjectLoadingErrorElementProps
+> = ({ onRetry }) => (
+    <Container>
+        <Title>Oops! Something went wrong.</Title>
+        <p>Project resources didn't load correctly.</p>
+        <p>
+            <Button onClick={onRetry}>Try again</Button>
+        </p>
+    </Container>
+);
 
 /**
  * Error message when loading project files has failed.

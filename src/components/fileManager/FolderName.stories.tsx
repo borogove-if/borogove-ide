@@ -5,7 +5,6 @@ import { MaterialsFileType } from "stores/materialsStore";
 
 import FolderName from "./FolderName";
 
-
 const file: MaterialsFile = {
     name: "story.inf",
     id: "source1",
@@ -13,7 +12,13 @@ const file: MaterialsFile = {
     parent: null
 };
 
-const fiveFiles = [ { ...file }, { ...file }, { ...file }, { ...file }, { ...file } ];
+const fiveFiles = [
+    { ...file },
+    { ...file },
+    { ...file },
+    { ...file },
+    { ...file }
+];
 
 const openFolder: MaterialsFile = {
     children: fiveFiles,
@@ -25,10 +30,12 @@ const openFolder: MaterialsFile = {
 
 const closedFolder: MaterialsFile = {
     ...openFolder,
-    children: fiveFiles.concat( fiveFiles ).concat( fiveFiles ),
+    children: fiveFiles.concat(fiveFiles).concat(fiveFiles),
     isOpen: false
 };
 
-storiesOf( "FolderName", module )
-    .add( "Open folder with 5 items", () => <FolderName file={openFolder} /> )
-    .add( "Closed folder with 15 items", () => <FolderName file={closedFolder} /> );
+storiesOf("FolderName", module)
+    .add("Open folder with 5 items", () => <FolderName file={openFolder} />)
+    .add("Closed folder with 15 items", () => (
+        <FolderName file={closedFolder} />
+    ));

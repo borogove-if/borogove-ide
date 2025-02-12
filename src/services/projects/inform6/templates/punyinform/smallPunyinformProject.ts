@@ -18,7 +18,9 @@ class PunyInformProject extends ProjectTemplate {
         }
     ];
     remoteAssets = [
-        process.env.REACT_APP_REMOTE_ASSETS_URL + "/templates/inform6/punyinform/" + process.env.REACT_APP_PUNYINFORM_VERSION
+        process.env.REACT_APP_REMOTE_ASSETS_URL +
+            "/templates/inform6/punyinform/" +
+            process.env.REACT_APP_PUNYINFORM_VERSION
     ];
 }
 

@@ -75,7 +75,9 @@ class HugoStandardLibraryProjectTemplate extends ProjectTemplate {
     ];
 
     remoteAssets = [
-        process.env.REACT_APP_REMOTE_ASSETS_URL + "/templates/hugo/hugolib/" + process.env.REACT_APP_HUGO_LIBRARY_VERSION
+        process.env.REACT_APP_REMOTE_ASSETS_URL +
+            "/templates/hugo/hugolib/" +
+            process.env.REACT_APP_HUGO_LIBRARY_VERSION
     ];
 }
 

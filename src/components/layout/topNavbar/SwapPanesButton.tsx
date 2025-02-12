@@ -14,49 +14,68 @@ export enum SwapPaneOption {
 interface SwapPanesButtonElementProps {
     disabled?: boolean;
     onClick: () => void;
-    otherPane: SwapPaneOption
+    otherPane: SwapPaneOption;
 }
 
-export const SwapPanesButtonElement: React.FC<SwapPanesButtonElementProps> = ({ disabled = false, onClick, otherPane }) => {
-    const title = otherPane === SwapPaneOption.code ? "Show the editor" : "Show the interpreter";
+export const SwapPanesButtonElement: React.FC<SwapPanesButtonElementProps> = ({
+    disabled = false,
+    onClick,
+    otherPane
+}) => {
+    const title =
+        otherPane === SwapPaneOption.code
+            ? "Show the editor"
+            : "Show the interpreter";
 
-    return <Button onClick={onClick} disabled={disabled} title={title}>
-        {otherPane === SwapPaneOption.code ?
-            <TiDocumentText className="no-margin-fix" /> :
-            <TiChevronRight className="no-margin-fix" />}
-    </Button>;
+    return (
+        <Button onClick={onClick} disabled={disabled} title={title}>
+            {otherPane === SwapPaneOption.code ? (
+                <TiDocumentText className="no-margin-fix" />
+            ) : (
+                <TiChevronRight className="no-margin-fix" />
+            )}
+        </Button>
+    );
 };
-
 
 /**
  * Mobile navbar button that swaps between the code and the interpreter.
  */
-const SwapPanesButton: React.FC = observer( () => {
+const SwapPanesButton: React.FC = observer(() => {
     const activePane = ideStateStore.getActivePane();
-    const otherPane = ( !activePane || activePane.type !== TabContentType.editor ) ? SwapPaneOption.code : SwapPaneOption.play;
-    const codePaneId = leftTabStore.findByType( TabContentType.editor )?.id;
-    const playPaneId = rightTabStore.findByType( TabContentType.interpreter )?.id;
+    const otherPane =
+        !activePane || activePane.type !== TabContentType.editor
+            ? SwapPaneOption.code
+            : SwapPaneOption.play;
+    const codePaneId = leftTabStore.findByType(TabContentType.editor)?.id;
+    const playPaneId = rightTabStore.findByType(TabContentType.interpreter)?.id;
 
     // If the current pane is the editor, switch to the interpreter.
     // In all other cases switch to the editor.
     const swap = (): void => {
-        if( otherPane === SwapPaneOption.code ) {
-            if( codePaneId ) {
-                leftTabStore.setActiveTab( codePaneId );
+        if (otherPane === SwapPaneOption.code) {
+            if (codePaneId) {
+                leftTabStore.setActiveTab(codePaneId);
             }
-        }
-        else {
-            if( playPaneId ) {
-                rightTabStore.setActiveTab( playPaneId );
+        } else {
+            if (playPaneId) {
+                rightTabStore.setActiveTab(playPaneId);
             }
         }
     };
 
     // The button is disabled if the target pane doesn't exist
-    const disabled = ( otherPane === SwapPaneOption.code && !codePaneId ) ||
-        ( otherPane === SwapPaneOption.play && !playPaneId );
+    const disabled =
+        (otherPane === SwapPaneOption.code && !codePaneId) ||
+        (otherPane === SwapPaneOption.play && !playPaneId);
 
-    return <SwapPanesButtonElement disabled={disabled} onClick={swap} otherPane={otherPane} />;
+    return (
+        <SwapPanesButtonElement
+            disabled={disabled}
+            onClick={swap}
+            otherPane={otherPane}
+        />
+    );
 });
 
 export default SwapPanesButton;

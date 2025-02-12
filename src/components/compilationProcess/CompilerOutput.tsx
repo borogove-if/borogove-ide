@@ -10,17 +10,21 @@ interface CompilerOutputElementProps {
     toggleOpen: () => void;
 }
 
-export const CompilerOutputElement: React.FC<CompilerOutputElementProps> = ({ isOpen = false, text, toggleOpen }) => <div id="compiler-output">
-    <div id="compiler-output-toggle">
-        <Button isColor="white" onClick={toggleOpen}>
-            {isOpen ? "Hide " : "Show "} compiler output
-        </Button>
-    </div>
+export const CompilerOutputElement: React.FC<CompilerOutputElementProps> = ({
+    isOpen = false,
+    text,
+    toggleOpen
+}) => (
+    <div id="compiler-output">
+        <div id="compiler-output-toggle">
+            <Button isColor="white" onClick={toggleOpen}>
+                {isOpen ? "Hide " : "Show "} compiler output
+            </Button>
+        </div>
 
-    {isOpen && <pre>
-        {text}
-    </pre>}
-</div>;
+        {isOpen && <pre>{text}</pre>}
+    </div>
+);
 
 interface CompilerOutputProps {
     defaultOpen?: boolean;
@@ -29,10 +33,18 @@ interface CompilerOutputProps {
 /**
  * The button in the top navbar that starts the code compilation process.
  */
-const CompilerOutput: React.FC<CompilerOutputProps> = observer( ({ defaultOpen = false }) => {
-    const [ isOpen, setIsOpen ] = useState( defaultOpen );
+const CompilerOutput: React.FC<CompilerOutputProps> = observer(
+    ({ defaultOpen = false }) => {
+        const [isOpen, setIsOpen] = useState(defaultOpen);
 
-    return <CompilerOutputElement isOpen={isOpen} text={compilationResultStore.compilerOutput} toggleOpen={(): void => setIsOpen( !isOpen )} />;
-});
+        return (
+            <CompilerOutputElement
+                isOpen={isOpen}
+                text={compilationResultStore.compilerOutput}
+                toggleOpen={(): void => setIsOpen(!isOpen)}
+            />
+        );
+    }
+);
 
 export default CompilerOutput;

@@ -7,7 +7,6 @@ import { openTab } from "services/ide/tabService";
 import { TabContentType } from "./tabStore";
 import projectStore from "./projectStore";
 
-
 export enum PublishingStage {
     idle,
     uploading,
@@ -33,8 +32,8 @@ class PublishingStore {
         return `${process.env.REACT_APP_PUBLISHING_BASE_URL}/ide-upload/${this.uploadedFileId}/${format}/${system}`;
     }
 
-    onUploadProgress = ( snapshot: UploadTaskSnapshot ): void => {
-        this.uploadProgress = ( snapshot.bytesTransferred / snapshot.totalBytes );
+    onUploadProgress = (snapshot: UploadTaskSnapshot): void => {
+        this.uploadProgress = snapshot.bytesTransferred / snapshot.totalBytes;
     };
 
     onUploadError = (): void => {
@@ -46,10 +45,10 @@ class PublishingStore {
         this.stage = PublishingStage.finished;
     };
 
-    public startFileUpload = ( content: Blob ): void => {
+    public startFileUpload = (content: Blob): void => {
         this.stage = PublishingStage.uploading;
 
-        openTab( TabContentType.publish, { closable: true });
+        openTab(TabContentType.publish, { closable: true });
 
         this.uploadedFileId = uploadFile(
             content,
@@ -60,7 +59,7 @@ class PublishingStore {
     };
 
     constructor() {
-        makeObservable( this, {
+        makeObservable(this, {
             stage: observable,
             uploadProgress: observable,
             startFileUpload: action,

@@ -12,22 +12,24 @@ import ideStateStore from "stores/ideStateStore";
 /**
  * Main container for settings pane
  */
-const Settings: React.FC = observer( () => {
+const Settings: React.FC = observer(() => {
     const openPrivacyPolicy = (): void => {
-        ideStateStore.openModal( "privacyPolicy" );
+        ideStateStore.openModal("privacyPolicy");
     };
 
-    return <div>
-        <Container>
-            <LanguageSpecificOptions />
-            <EditorOptions />
-            <FileManagerOptions />
-            <DataCollectionOptions />
-            <Button isColor="text" onClick={openPrivacyPolicy}>
-                Privacy Policy
-            </Button>
-        </Container>
-    </div>;
+    return (
+        <div>
+            <Container>
+                <LanguageSpecificOptions />
+                <EditorOptions />
+                <FileManagerOptions />
+                <DataCollectionOptions />
+                <Button isColor="text" onClick={openPrivacyPolicy}>
+                    Privacy Policy
+                </Button>
+            </Container>
+        </div>
+    );
 });
 
 export default Settings;

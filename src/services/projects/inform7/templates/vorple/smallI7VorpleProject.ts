@@ -63,7 +63,9 @@ Carry out closing the serinette:
     stop the music.
 
 Test me with "x serinette / wind serinette / open serinette".
-`.split( "    " ).join( "\t" );
+`
+    .split("    ")
+    .join("\t");
 
 class SmallI7VorpleProjectTemplate extends ProjectTemplate {
     id = "vorpleSerinetteI7";
@@ -81,10 +83,14 @@ class SmallI7VorpleProjectTemplate extends ProjectTemplate {
         }
     ];
 
-    remoteAssets = [ {
-        url: process.env.REACT_APP_REMOTE_ASSETS_URL + "/templates/vorple/serinette",
-        manifest: "manifest.i7.json"
-    } ];
+    remoteAssets = [
+        {
+            url:
+                process.env.REACT_APP_REMOTE_ASSETS_URL +
+                "/templates/vorple/serinette",
+            manifest: "manifest.i7.json"
+        }
+    ];
 
     manifestFile = "manifest.i7.json";
 }

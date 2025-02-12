@@ -12,13 +12,12 @@ import projectStore, { ProjectStoreState } from "stores/projectStore";
 
 import ProjectTemplate from "./ProjectTemplate.class";
 
-
 /**
  * The project service which defines and sets up a project
  */
 export default abstract class ProjectService {
     // The function that compiles the project
-    public abstract compile: ( variant: CompilationVariant ) => Promise<boolean>;
+    public abstract compile: (variant: CompilationVariant) => Promise<boolean>;
 
     // The internal id of the project type. Shown in the URL.
     public abstract id: string;
@@ -66,7 +65,10 @@ export default abstract class ProjectService {
     public orderedFiles = false;
 
     // Optional function that processes the story file for web site release
-    public processReleaseFile: ( name: string, content: Blob ) => Promise<{ name: string; content: Blob }>;
+    public processReleaseFile: (
+        name: string,
+        content: Blob
+    ) => Promise<{ name: string; content: Blob }>;
 
     // Project-specific settings page
     public projectSettingsPage?: JSX.Element;
@@ -99,21 +101,25 @@ export default abstract class ProjectService {
     /**
      * Adds the template's initial files to the project
      */
-    protected addFiles( files: ( MaterialsFile & { contents?: string })[] ): void {
-        files.forEach( ( file: MaterialsFile & { contents?: string }, index: number ) => {
-            if( file.type === MaterialsFileType.folder ) {
-                materialsStore.addFolder( file.name );
-            }
-            else {
-                const thisFile = materialsStore.addMaterialsFile( file.contents || "", file );
+    protected addFiles(files: (MaterialsFile & { contents?: string })[]): void {
+        files.forEach(
+            (file: MaterialsFile & { contents?: string }, index: number) => {
+                if (file.type === MaterialsFileType.folder) {
+                    materialsStore.addFolder(file.name);
+                } else {
+                    const thisFile = materialsStore.addMaterialsFile(
+                        file.contents || "",
+                        file
+                    );
 
-                // Open the first file in the editor and make it the entry file
-                if( index === 0 ) {
-                    materialsStore.openFile( thisFile );
-                    projectStore.setEntryFile( thisFile );
+                    // Open the first file in the editor and make it the entry file
+                    if (index === 0) {
+                        materialsStore.openFile(thisFile);
+                        projectStore.setEntryFile(thisFile);
+                    }
                 }
             }
-        });
+        );
     }
 
     /**
@@ -123,62 +129,71 @@ export default abstract class ProjectService {
      * function and it returns the list of files that should be included.
      * By default no files are included.
      */
-    public filterReleaseFiles = ( _files: MaterialsFile[] ): MaterialsFile[] => [];
+    public filterReleaseFiles = (
+        _files: MaterialsFile[]
+    ): MaterialsFile[] => [];
 
-    protected async init( template?: ProjectTemplate, preferRestore = false ): Promise<boolean> {
-        projectStore.setState( ProjectStoreState.loading );
-        projectStore.setManager( this );
+    protected async init(
+        template?: ProjectTemplate,
+        preferRestore = false
+    ): Promise<boolean> {
+        projectStore.setState(ProjectStoreState.loading);
+        projectStore.setManager(this);
 
         // save project metadata to error logging
-        setProjectTags( this );
+        setProjectTags(this);
 
         // mark this as a page view
-        pageView( "/ide/" + this.id );
+        pageView("/ide/" + this.id);
 
         // hide the file manager if it shouldn't be open at the start
         // either because the project setting says so or we're in snippets mode
-        if( !this.fileManagerStartsOpen || isSnippetsVariant ) {
-            ideStateStore.toggleFileManager( false );
+        if (!this.fileManagerStartsOpen || isSnippetsVariant) {
+            ideStateStore.toggleFileManager(false);
         }
 
-        if( preferRestore ) {
+        if (preferRestore) {
             const restoreSuccess = await this.restoreProject();
 
-            if( restoreSuccess ) {
+            if (restoreSuccess) {
                 return true;
             }
         }
 
-        if( template ) {
+        if (template) {
             this.template = template.id;
-            return await this.initTemplate( template );
-        }
-        else {
+            return await this.initTemplate(template);
+        } else {
             return await this.restoreProject();
         }
     }
-
 
     /**
      * Project initialization common for all projects.
      * Return true if files were loaded successfully, otherwise false.
      */
-    protected async initTemplate( template: ProjectTemplate ): Promise<boolean> {
-        if( template.initialCursorPosition ) {
-            editorStateStore.initialCursorPosition = template.initialCursorPosition;
+    protected async initTemplate(template: ProjectTemplate): Promise<boolean> {
+        if (template.initialCursorPosition) {
+            editorStateStore.initialCursorPosition =
+                template.initialCursorPosition;
         }
 
-        this.addFiles( template.files );
+        this.addFiles(template.files);
 
-        if( template.remoteAssets && template.remoteAssets.length > 0 ) {
+        if (template.remoteAssets && template.remoteAssets.length > 0) {
             try {
-                await Promise.all( template.remoteAssets.map( resource => ( typeof resource === "string" )
-                    ? loadRemoteLibraryFiles( resource, "manifest.json" )
-                    : loadRemoteLibraryFiles( resource.url, resource.manifest )
-                ) );
-            }
-            catch( e ) {
-                console.log( e );
+                await Promise.all(
+                    template.remoteAssets.map(resource =>
+                        typeof resource === "string"
+                            ? loadRemoteLibraryFiles(resource, "manifest.json")
+                            : loadRemoteLibraryFiles(
+                                  resource.url,
+                                  resource.manifest
+                              )
+                    )
+                );
+            } catch (e) {
+                console.log(e);
                 return false;
             }
         }
@@ -186,39 +201,38 @@ export default abstract class ProjectService {
         return true;
     }
 
-
     /**
      * The function that initializes the project when the user has chosen it.
      * If a project template is given, starts with that template instead of loading an existing project.
      * If preferRestore is set, tries to restore a project if it exists even if template was given and loads the template only if that failed.
      */
-    public initProject = async( template?: ProjectTemplate, preferRestore = false ): Promise<void> => {
-        const status = await this.init( template, preferRestore );
+    public initProject = async (
+        template?: ProjectTemplate,
+        preferRestore = false
+    ): Promise<void> => {
+        const status = await this.init(template, preferRestore);
 
-        if( status ) {
+        if (status) {
             // on mobile sizes always start with the file manager closed
-            if( isMobileWidth() && ideStateStore.fileManagerOpen ) {
+            if (isMobileWidth() && ideStateStore.fileManagerOpen) {
                 ideStateStore.toggleFileManager();
             }
 
             projectStore.setReady();
-        }
-        else {
-            projectStore.setState( ProjectStoreState.error );
+        } else {
+            projectStore.setState(ProjectStoreState.error);
         }
     };
-
 
     /**
      * Restores a saved project
      */
-    protected restoreProject = async(): Promise<boolean> => {
+    protected restoreProject = async (): Promise<boolean> => {
         try {
-            await restoreFS( this.id );
+            await restoreFS(this.id);
             return true;
-        }
-        catch( e ) {
-            console.log( e );
+        } catch (e) {
+            console.log(e);
             return false;
         }
     };

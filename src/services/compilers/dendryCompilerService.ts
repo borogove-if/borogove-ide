@@ -2,7 +2,9 @@ import "./dendryFix";
 
 import { join } from "path";
 
-import compilationResultStore, { CompilationStage } from "stores/compilationResultStore";
+import compilationResultStore, {
+    CompilationStage
+} from "stores/compilationResultStore";
 import materialsStore from "stores/materialsStore";
 import { saveFolder, saveFile } from "../filesystem/localFilesystemService";
 import { OUTPUT_TMP_PATH } from "../filesystem/filesystemConstants";
@@ -22,12 +24,11 @@ type DendryGame = unknown;
 const getSourceFiles = (): SourceFilePayload[] => {
     const files = materialsStore.getAllFiles();
     return files
-        .filter( file => file.name.endsWith( ".dry" ) )
-        .map( file => ({
+        .filter(file => file.name.endsWith(".dry"))
+        .map(file => ({
             name: file.name,
-            contents: materialsStore.getContents( file )
-        })
-        );
+            contents: materialsStore.getContents(file)
+        }));
 };
 
 /**
@@ -35,46 +36,50 @@ const getSourceFiles = (): SourceFilePayload[] => {
  */
 export async function compileDendry(): Promise<boolean> {
     compilationResultStore.reset();
-    compilationResultStore.setCompilationStatus( true );
-    compilationResultStore.setStage( CompilationStage.firstPass );
+    compilationResultStore.setCompilationStatus(true);
+    compilationResultStore.setStage(CompilationStage.firstPass);
 
-    saveFolder( OUTPUT_TMP_PATH );
+    saveFolder(OUTPUT_TMP_PATH);
 
     try {
-
         const files = getSourceFiles();
 
-        const _compileGame: ( () => Promise<DendryGame> ) = () => ( new Promise( ( resolve, reject ) => {
-            compileGame( files, function( err: string, game: DendryGame ) {
-                if( err ){
-                    reject( err );
-                    return;
-                }
-                resolve( game );
+        const _compileGame: () => Promise<DendryGame> = () =>
+            new Promise((resolve, reject) => {
+                compileGame(files, function (err: string, game: DendryGame) {
+                    if (err) {
+                        reject(err);
+                        return;
+                    }
+                    resolve(game);
+                });
             });
-        }) );
 
-        const convertGameToJSON: ( ( game: DendryGame ) => string ) = ( game ) => {
-            const replacer: ( ( key: string, value: unknown ) => unknown ) = ( key: string, value: unknown ) => {
-                if( key === "$metadata" ) {
+        const convertGameToJSON: (game: DendryGame) => string = game => {
+            const replacer: (key: string, value: unknown) => unknown = (
+                key: string,
+                value: unknown
+            ) => {
+                if (key === "$metadata") {
                     return undefined;
-                } else if( value instanceof Function ) {
-                    const source = ( value as unknown as {source:string}).source;
+                } else if (value instanceof Function) {
+                    const source = (value as unknown as { source: string })
+                        .source;
                     return { $code: source };
                 } else {
                     return value;
                 }
             };
 
-            return JSON.stringify( game, replacer, 0 );
+            return JSON.stringify(game, replacer, 0);
         };
 
         const game = await _compileGame();
-        const gameJSON = convertGameToJSON( game );
+        const gameJSON = convertGameToJSON(game);
 
-        const localFilename = join( OUTPUT_TMP_PATH, "game.json" );
+        const localFilename = join(OUTPUT_TMP_PATH, "game.json");
 
-        saveFile( localFilename, gameJSON, false );
+        saveFile(localFilename, gameJSON, false);
 
         compilationResultStore.setLocalResults({
             storyfilePath: localFilename,
@@ -82,15 +87,13 @@ export async function compileDendry(): Promise<boolean> {
         });
 
         return true;
-    }
-    catch( e ) {
+    } catch (e) {
         const errorMessage = `${e}` as string;
-        compilationResultStore.setCompilerOutput( errorMessage );
+        compilationResultStore.setCompilerOutput(errorMessage);
         compilationResultStore.setLocalResults({
             storyfilePath: null,
             success: false
         });
         return false;
     }
-
 }

@@ -49,7 +49,6 @@ class SmallDendryProjectTemplate extends ProjectTemplate {
             name: "info.dry",
             type: MaterialsFileType.code
         }
-
     ];
 }
 

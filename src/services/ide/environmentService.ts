@@ -16,4 +16,5 @@ export const getWindowDimensions = (): WindowDimensions => {
     };
 };
 
-export const isMobileWidth = (): boolean => getWindowDimensions().width <= breakpoints.mobile;
+export const isMobileWidth = (): boolean =>
+    getWindowDimensions().width <= breakpoints.mobile;

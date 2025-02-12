@@ -11,7 +11,9 @@ Lab is a room.
 When play begins:
     place an image "vorple-logo.png" with the description "Vorple", centered;
 	display a notification reading "Welcome to Vorple!".
-`.split( "    " ).join( "\t" );
+`
+    .split("    ")
+    .join("\t");
 
 class MinimalI7VorpleProjectTemplate extends ProjectTemplate {
     id = "vorpleI7";
@@ -28,10 +30,14 @@ class MinimalI7VorpleProjectTemplate extends ProjectTemplate {
         }
     ];
 
-    remoteAssets = [ {
-        url: process.env.REACT_APP_REMOTE_ASSETS_URL + "/templates/vorple/minimal",
-        manifest: "manifest.i7.json"
-    } ];
+    remoteAssets = [
+        {
+            url:
+                process.env.REACT_APP_REMOTE_ASSETS_URL +
+                "/templates/vorple/minimal",
+            manifest: "manifest.i7.json"
+        }
+    ];
 }
 
 export default new MinimalI7VorpleProjectTemplate();

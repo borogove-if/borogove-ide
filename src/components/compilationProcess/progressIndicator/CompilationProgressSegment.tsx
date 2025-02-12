@@ -21,36 +21,58 @@ interface CompilationProgressSegmentProps {
 /**
  * One segment in the progress indicator
  */
-const CompilationProgressSegment: React.FC<CompilationProgressSegmentProps> = observer( ({ completed = false, description, failed = false, header, percentage, isCurrentStage }) => <li className={classnames(
-    "steps-segment",
-    {
-        "is-active": isCurrentStage
-    }
-)}>
-    <span className={classnames( [
-        "steps-marker",
-        {
-            "is-danger": failed && isCurrentStage
-        }
-        ] )}>
-        {isCurrentStage && typeof percentage === "number" && percentage < 100 && !failed &&
-            <CircularProgressbar value={percentage}
-                                 strokeWidth={40}
-                                 styles={buildStyles({
-                                     pathColor: "#23d160",
-                                     rotation: 0.5,
-                                     strokeLinecap: "butt",
-                                     trailColor: "#dbdbdb"
-                                 })} />}
-        {failed && isCurrentStage && <TiTimes />}
-        {completed && <TiTick />}
-        {!completed && !failed && isCurrentStage && typeof percentage !== "number" && <BounceLoader size={20} />}
-    </span>
+const CompilationProgressSegment: React.FC<CompilationProgressSegmentProps> =
+    observer(
+        ({
+            completed = false,
+            description,
+            failed = false,
+            header,
+            percentage,
+            isCurrentStage
+        }) => (
+            <li
+                className={classnames("steps-segment", {
+                    "is-active": isCurrentStage
+                })}>
+                <span
+                    className={classnames([
+                        "steps-marker",
+                        {
+                            "is-danger": failed && isCurrentStage
+                        }
+                    ])}>
+                    {isCurrentStage &&
+                        typeof percentage === "number" &&
+                        percentage < 100 &&
+                        !failed && (
+                            <CircularProgressbar
+                                value={percentage}
+                                strokeWidth={40}
+                                styles={buildStyles({
+                                    pathColor: "#23d160",
+                                    rotation: 0.5,
+                                    strokeLinecap: "butt",
+                                    trailColor: "#dbdbdb"
+                                })}
+                            />
+                        )}
+                    {failed && isCurrentStage && <TiTimes />}
+                    {completed && <TiTick />}
+                    {!completed &&
+                        !failed &&
+                        isCurrentStage &&
+                        typeof percentage !== "number" && (
+                            <BounceLoader size={20} />
+                        )}
+                </span>
 
-    <div className="steps-content">
-        <p className="is-size-4">{header}</p>
-        {description}
-    </div>
-</li> );
+                <div className="steps-content">
+                    <p className="is-size-4">{header}</p>
+                    {description}
+                </div>
+            </li>
+        )
+    );
 
 export default CompilationProgressSegment;

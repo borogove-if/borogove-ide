@@ -12,11 +12,15 @@ interface FullScreenLoaderProps {
 /**
  * A load spinner that fills its container.
  */
-const FullScreenLoader: React.FC<FullScreenLoaderProps> = observer( ({ title }) => {
-    return <div className="full-screen">
-        {title && <Title>{title}</Title>}
-        <BounceLoader />
-    </div>;
-});
+const FullScreenLoader: React.FC<FullScreenLoaderProps> = observer(
+    ({ title }) => {
+        return (
+            <div className="full-screen">
+                {title && <Title>{title}</Title>}
+                <BounceLoader />
+            </div>
+        );
+    }
+);
 
 export default FullScreenLoader;

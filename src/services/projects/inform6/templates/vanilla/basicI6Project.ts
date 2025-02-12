@@ -15,7 +15,9 @@ class BasicI6ProjectTemplate extends ProjectTemplate {
         }
     ];
     remoteAssets = [
-        process.env.REACT_APP_REMOTE_ASSETS_URL + "/templates/inform6/inform6lib/" + process.env.REACT_APP_INFORM6_LIBRARY_VERSION
+        process.env.REACT_APP_REMOTE_ASSETS_URL +
+            "/templates/inform6/inform6lib/" +
+            process.env.REACT_APP_INFORM6_LIBRARY_VERSION
     ];
 }
 

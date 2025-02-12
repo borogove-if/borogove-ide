@@ -11,18 +11,31 @@ interface GoButtonElementProps {
     onClick: () => void;
 }
 
-export const GoButtonElement: React.FC<GoButtonElementProps> = ({ loading = false, onClick }) => <Button onClick={onClick} disabled={loading} isColor="info" isLoading={loading}>
-    <TiMediaPlay />{" "} Go
-</Button>;
-
+export const GoButtonElement: React.FC<GoButtonElementProps> = ({
+    loading = false,
+    onClick
+}) => (
+    <Button
+        onClick={onClick}
+        disabled={loading}
+        isColor="info"
+        isLoading={loading}>
+        <TiMediaPlay /> Go
+    </Button>
+);
 
 /**
  * The button in the top navbar that starts the code compilation process.
  */
-const GoButton: React.FC = observer( () => {
-    const compile = (): Promise<boolean> => projectStore.compile( "debug" );
+const GoButton: React.FC = observer(() => {
+    const compile = (): Promise<boolean> => projectStore.compile("debug");
 
-    return <GoButtonElement loading={compilationResultStore.isCompiling} onClick={compile} />;
+    return (
+        <GoButtonElement
+            loading={compilationResultStore.isCompiling}
+            onClick={compile}
+        />
+    );
 });
 
 export default GoButton;

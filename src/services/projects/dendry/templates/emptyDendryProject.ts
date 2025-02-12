@@ -16,7 +16,6 @@ class EmptyDendryProjectTemplate extends ProjectTemplate {
             name: "info.dry",
             type: MaterialsFileType.code
         }
-
     ];
 }
 
