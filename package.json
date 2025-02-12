@@ -66,11 +66,13 @@
         "firebase": "9.9.1",
         "fs-extra": "10.1.0",
         "html-webpack-plugin": "5.5.0",
+        "husky": "9.1.7",
         "identity-obj-proxy": "3.0.0",
         "inkjs": "^2.2.2",
         "is-wsl": "2.2.0",
         "istextorbinary": "6.0.0",
         "jszip": "3.10.0",
+        "lint-staged": "15.4.3",
         "mini-css-extract-plugin": "2.6.1",
         "mobx": "6.6.1",
         "mobx-react": "7.5.2",
@@ -125,7 +127,8 @@
         "lint": "prettier --write \"**/*.{ts,tsx,js,jsx,css,json}\"",
         "storybook": "start-storybook -p 6006 -c .storybook",
         "build-storybook": "build-storybook",
-        "browserslist": "npx update-browserslist-db@latest"
+        "browserslist": "npx update-browserslist-db@latest",
+        "prepare": "husky"
     },
     "engines": {
         "node": ">=14.0"
@@ -146,6 +149,16 @@
     "babel": {
         "presets": [
             "react-app"
+        ]
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+            "prettier --write"
         ]
     }
 }
