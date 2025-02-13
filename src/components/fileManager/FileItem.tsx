@@ -5,6 +5,7 @@ import { MenuLink } from "bloomer";
 import ideStateStore from "stores/ideStateStore";
 import materialsStore, { MaterialsFileType } from "stores/materialsStore";
 import projectStore from "stores/projectStore";
+import routeStore from "stores/routeStore";
 import { TabContentType } from "stores/tabStore";
 
 import { isMobileWidth } from "services/ide/environmentService";
@@ -98,7 +99,7 @@ const FileItem: React.FC<FileItemProps> = observer(props => {
 
             case MaterialsFileType.code:
             case MaterialsFileType.text:
-                materialsStore.openFile(file);
+                routeStore.setFile(file.name);
 
                 if (isMobileWidth()) {
                     // close the file manager on mobile

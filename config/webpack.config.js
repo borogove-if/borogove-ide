@@ -317,14 +317,16 @@ module.exports = function (webpackEnv) {
                     paths.appNodeModules + "/browserify-fs",
                     paths.appNodeModules + "/crypto-browserify",
                     paths.appNodeModules + "/path-browserify",
-                    paths.appNodeModules + "/stream-browserify"
+                    paths.appNodeModules + "/stream-browserify",
+                    paths.appNodeModules + "/vm-browserify"
                 ])
             ],
             fallback: {
                 crypto: require.resolve("crypto-browserify"),
                 fs: require.resolve("browserify-fs"),
                 path: require.resolve("path-browserify"),
-                stream: require.resolve("stream-browserify")
+                stream: require.resolve("stream-browserify"),
+                vm: require.resolve("vm-browserify")
             }
         },
         module: {

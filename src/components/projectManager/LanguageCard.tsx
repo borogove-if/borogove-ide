@@ -24,6 +24,7 @@ import {
 } from "services/filesystem/filesystemConstants";
 
 import materialsStore, { FSLoadState } from "stores/materialsStore";
+import routeStore from "stores/routeStore";
 
 import "./LanguageCard.scss";
 
@@ -189,7 +190,7 @@ const LanguageCard: React.FC<LanguageCardProps> = observer(
 
         const continueProject = (e: React.MouseEvent): void => {
             e.preventDefault();
-            projectService.initProject();
+            routeStore.setProject(projectService.id);
         };
 
         const startProject = (
@@ -197,7 +198,7 @@ const LanguageCard: React.FC<LanguageCardProps> = observer(
             template?: ProjectTemplate
         ): void => {
             e.preventDefault();
-            projectService.initProject(template || templates[0]);
+            routeStore.setProject(projectService.id, template);
         };
 
         return (

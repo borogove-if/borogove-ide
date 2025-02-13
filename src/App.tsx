@@ -20,6 +20,7 @@ import {
 
 import materialsStore, { FSLoadState } from "stores/materialsStore";
 import projectStore, { ProjectStoreState } from "stores/projectStore";
+import routeStore from "stores/routeStore";
 import settingsStore from "stores/settingsStore";
 
 /**
@@ -28,6 +29,34 @@ import settingsStore from "stores/settingsStore";
  */
 const App: React.FC = observer(() => {
     const [isLoadingSnippet, setIsLoadingSnippet] = useState(isSnippetsVariant);
+    const { project, template } = routeStore;
+
+    // Check from the router if a project has been set in the URL,
+    // in which case load that project
+    useEffect(() => {
+        if (materialsStore.fsState !== FSLoadState.ready) {
+            return;
+        }
+
+        if (project) {
+            const projectService = projectServiceList.find(
+                service => service.id.toLowerCase() === project.toLowerCase()
+            );
+
+            if (projectService) {
+                if (template !== null) {
+                    projectService.initProject(template, false);
+                } else {
+                    projectService.initProject(undefined, true);
+                }
+
+                projectStore.setState(ProjectStoreState.loading);
+                return;
+            }
+        }
+
+        projectStore.setState(ProjectStoreState.waiting);
+    }, [materialsStore.fsState, project, template]);
 
     if (isSnippetsVariant) {
         useEffect(() => {

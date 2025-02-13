@@ -6,8 +6,10 @@ import { Field, Label, Control, Select, Input } from "bloomer";
 import ModalTemplate, {
     cancelButton
 } from "components/layout/modals/ModalTemplate";
-import materialsStore from "stores/materialsStore";
+
 import ideStateStore from "stores/ideStateStore";
+import materialsStore from "stores/materialsStore";
+import routeStore from "stores/routeStore";
 
 interface AddFileModalElementProps extends AddFileModalProps {
     folders: string[];
@@ -87,11 +89,12 @@ const AddFileModal: React.FC<AddFileModalProps> = observer(({ type }) => {
         if (type === "source file") {
             const parent = materialsStore.addFolder(folderPath);
             file = materialsStore.addMaterialsFile("", { name, parent });
+            routeStore.setFile(file.name);
         } else {
             file = materialsStore.addFolder(join(folderPath || "/", name));
+            materialsStore.openFile(file);
         }
 
-        materialsStore.openFile(file);
         ideStateStore.closeModal();
     };
     const folders = materialsStore.getAllFolderPaths();
