@@ -19,7 +19,13 @@ class RouteStore {
             return `/${encodeURIComponent(this.project) || ""}`;
         }
 
-        return `/${encodeURIComponent(this.project)}/${encodeURIComponent(this.file)}`;
+        // make sure we don't encode the slashes that separate folders
+        const encodedFile = this.file
+            .split("/")
+            .map(encodeURIComponent)
+            .join("/");
+
+        return `/${encodeURIComponent(this.project)}/${encodedFile}`;
     }
 
     /**
@@ -75,7 +81,7 @@ class RouteStore {
             return;
         }
 
-        this.file = filename || null;
+        this.file = filename?.replace(/^\//, "") || null;
         window.history.pushState({}, "", this.fullPath);
     }
 

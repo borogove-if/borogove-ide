@@ -89,7 +89,7 @@ const AddFileModal: React.FC<AddFileModalProps> = observer(({ type }) => {
         if (type === "source file") {
             const parent = materialsStore.addFolder(folderPath);
             file = materialsStore.addMaterialsFile("", { name, parent });
-            routeStore.setFile(file.name);
+            routeStore.setFile(materialsStore.getPath(file));
         } else {
             file = materialsStore.addFolder(join(folderPath || "/", name));
             materialsStore.openFile(file);

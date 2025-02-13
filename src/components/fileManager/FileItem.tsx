@@ -99,7 +99,7 @@ const FileItem: React.FC<FileItemProps> = observer(props => {
 
             case MaterialsFileType.code:
             case MaterialsFileType.text:
-                routeStore.setFile(file.name);
+                routeStore.setFile(materialsStore.getPath(file));
 
                 if (isMobileWidth()) {
                     // close the file manager on mobile

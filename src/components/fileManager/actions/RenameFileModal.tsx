@@ -6,8 +6,10 @@ import ModalTemplate, {
     cancelButton
 } from "components/layout/modals/ModalTemplate";
 
+import editorStateStore from "stores/editorStateStore";
 import ideStateStore from "stores/ideStateStore";
 import materialsStore, { MaterialsFileType } from "stores/materialsStore";
+import routeStore from "stores/routeStore";
 
 interface RenameFileModalElementProps {
     isFolder: boolean;
@@ -62,7 +64,13 @@ const RenameFileModal: React.FC<RenameFileModalProps> = observer(({ file }) => {
     const isFolder = file.type === MaterialsFileType.folder;
     const oldName = file.displayName || file.name;
     const onConfirm = (newName: string): void => {
-        materialsStore.rename(file, newName);
+        const renamedFile = materialsStore.rename(file, newName);
+
+        // If the file is open in the editor, change the URL to match.
+        // Renaming a file changes its reference so we need to use the reference returned by the rename function.
+        if (editorStateStore.file?.id === file.id) {
+            routeStore.setFile(materialsStore.getPath(renamedFile));
+        }
         ideStateStore.closeModal();
     };
 

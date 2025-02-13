@@ -687,9 +687,12 @@ class MaterialsStore {
     };
 
     /**
-     * Rename a file
+     * Rename a file. Returns a reference to the renamed file.
      */
-    public rename = (fileToRename: MaterialsFile, newName: string): void => {
+    public rename = (
+        fileToRename: MaterialsFile,
+        newName: string
+    ): MaterialsFile => {
         const file: MaterialsFile | null = this.findById(fileToRename.id); // make sure we're moving a copy that's in the store
         const fromPath = this.getFilesystemPath(file);
 
@@ -712,6 +715,8 @@ class MaterialsStore {
                 label: file.displayName || file.name
             });
         }
+
+        return file;
     };
 
     public restoreFS = (files: MaterialsFile[]): void => {
