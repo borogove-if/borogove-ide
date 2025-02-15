@@ -44,7 +44,12 @@ const App: React.FC = observer(() => {
             );
 
             if (projectService) {
-                if (template !== null) {
+                if (isSnippetsVariant) {
+                    projectService.initProject(
+                        template ?? projectService.templates[0],
+                        false
+                    );
+                } else if (template !== null) {
                     projectService.initProject(template, false);
                 } else {
                     projectService.initProject(undefined, true);
