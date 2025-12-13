@@ -30,7 +30,7 @@ class DendryProjectService extends ProjectService {
                 const javascript_story = reader.result as string;
 
                 resolve({
-                    name: "core.js",
+                    name: "gamedata.js",
                     content: new Blob([`window.game = ${javascript_story};`], {
                         type: "text/javascript"
                     })

@@ -97,6 +97,13 @@ export function getStandaloneInterpreterMeta(
             };
         }
 
+        case "dendry": {
+            return {
+                storyfileName: "gamedata.js",
+                templateZipUrl: `${interpreterServiceUrl}/dendry/release.zip`
+            };
+        }
+
         case "hugojs": {
             return {
                 storyfileName: "story.hex",
