@@ -180,15 +180,15 @@ class CompilationResultStore {
     setRemoteResults = ({
         data,
         links
-    }: RemoteCompilationResultResponse): void => {
+    }: Partial<RemoteCompilationResultResponse>): void => {
         this.indexUrl = links ? links.index : null;
         this.storyfileRemoteUrl = links ? links.storyfile : null;
-        this.resultsReport = data.report;
-        this.success = data.success;
+        this.resultsReport = data?.report ?? null;
+        this.success = data?.success ?? false;
         this.isCompiling = false;
-        this.specialAction = data.action || null;
+        this.specialAction = data?.action || null;
 
-        if (data.success) {
+        if (data?.success) {
             this.stage = CompilationStage.finished;
         }
     };

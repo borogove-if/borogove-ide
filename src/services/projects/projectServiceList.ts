@@ -8,6 +8,7 @@ import inform7VanillaProjectService from "./inform7/inform7VanillaProjectService
 import inform7VorpleProjectService from "./inform7/inform7VorpleProjectService";
 import inkProjectService from "./ink/inkProjectService";
 import dendryProjectService from "./dendry/dendryProjectService";
+import zilProjectService from "./zil/zilProjectService";
 
 /**
  * This is the list of all project options available in the New Project page.
@@ -23,7 +24,8 @@ const projectServiceList: ReadonlyArray<ProjectService> = [
     hugoProjectService,
     dialogProjectService,
     inkProjectService,
-    dendryProjectService
+    dendryProjectService,
+    zilProjectService
 ];
 
 export default projectServiceList;
