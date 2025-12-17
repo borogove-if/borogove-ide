@@ -158,6 +158,10 @@ export default abstract class ProjectService {
             if (restoreSuccess) {
                 return true;
             }
+
+            if (!template) {
+                return await this.initTemplate(this.templates[0]);
+            }
         }
 
         if (template) {

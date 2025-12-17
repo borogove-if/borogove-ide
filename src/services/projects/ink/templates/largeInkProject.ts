@@ -4,8 +4,8 @@ import { MaterialsFileType } from "stores/materialsStore";
 const code = `-> murder_scene 
 
 //
-// 	System: items can have various states 
-//	Some are general, some specific to particular items
+// System: items can have various states 
+// Some are general, some specific to particular items
 //
 
 LIST OffOn = off, on
@@ -47,26 +47,26 @@ LIST WindowKnowledge = (none), steam_on_glass, fingerprints_on_glass, fingerprin
 VAR knowledgeState = ()
 
 === function learn(x) ===
-	// learn this fact
+    // learn this fact
     ~ knowledgeState += x 
 
 === function learnt(x) ===
-	// have you learnt this fact, or indeed a stronger one
+    // have you learnt this fact, or indeed a stronger one
     ~ return highest_state_for_set_of_state(x) >= x
 
 === function between(x, y) ===
-	// are you between two ideas? Not necessarily in the same knowledge tree.
+    // are you between two ideas? Not necessarily in the same knowledge tree.
     ~ return learnt(x) && not learnt(y)
 
 === function think(x) ===
-	// is this your current "strongest" idea in this knowledge set?
+    // is this your current "strongest" idea in this knowledge set?
     ~ return highest_state_for_set_of_state(x) == x
 
 === function highest_state_for_set_of_state(x) ===
     ~ return LIST_MAX(knowledgeState ^ LIST_ALL(x))
 
 === function did_learn(x) ===
-	//	did you learn this particular fact?
+    // did you learn this particular fact?
     ~ return knowledgeState ? x
 
 //
