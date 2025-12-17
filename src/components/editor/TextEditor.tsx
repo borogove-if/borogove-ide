@@ -36,6 +36,7 @@ import {
 
 import { languages } from "@codemirror/language-data";
 import { inform7 } from "codemirror-lang-inform7";
+import { InkLanguage } from "@mavnn/codemirror-lang-ink";
 import { javascript } from "@codemirror/lang-javascript";
 import { css } from "@codemirror/lang-css";
 import { json } from "@codemirror/lang-json";
@@ -119,6 +120,10 @@ export const TextEditorElement: React.FC<TextEditorElementProps> = ({
 
             case "inform7":
                 extensions.push(inform7());
+                break;
+
+            case "ink":
+                extensions.push(InkLanguage);
                 break;
 
             case "javascript":
