@@ -1,7 +1,11 @@
 import ProjectTemplate from "services/projects/ProjectTemplate.class";
 import { MaterialsFileType } from "stores/materialsStore";
 
-const code = `"What's that?" my master asked.
+const code = `#title: On the Train
+#subtitle: A small example
+// #theme: dark
+
+"What's that?" my master asked.
 * "I am somewhat tired[."]," I repeated.
   "Really," he responded. "How deleterious."
 * "Nothing, Monsieur!"[] I replied.

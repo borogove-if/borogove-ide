@@ -1,7 +1,10 @@
 import ProjectTemplate from "services/projects/ProjectTemplate.class";
 import { MaterialsFileType } from "stores/materialsStore";
 
-const code = `-> murder_scene 
+const code = `#title: Murder Mystery
+#subtitle: An example story
+
+-> murder_scene
 
 //
 // System: items can have various states 
@@ -38,7 +41,6 @@ LIST Supporters = on_desk, on_floor, on_bed, under_bed, held, with_joe
 // System: Incremental knowledge. 
 // Each list is a chains of facts. Each fact supercedes the fact before it. 
 //
-
 
 LIST BedKnowledge = (none), neatly_made, crumpled_duvet, hastily_remade, body_on_bed, murdered_in_bed, murdered_while_asleep
 LIST KnifeKnowledge = (none), prints_on_knife, joe_seen_prints_on_knife,joe_wants_better_prints, joe_got_better_prints
@@ -207,8 +209,6 @@ VAR knifeState = (under_bed)
                ~ GlassState = steamed
         - -     -> window_opts
     
-    
-        
     *   {top >= 5} [Leave the room] 
         I'd seen enough. I {bedroomLightState ? on:switched off the lamp, then} turned and left the room.
         -> joe_in_hall
