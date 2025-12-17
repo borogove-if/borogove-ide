@@ -31,7 +31,9 @@ export function getInterpreterUrl(
 
     switch (interpreter) {
         case "aamachine": {
-            const storyParameter = storyfileUrl ? `?story=${storyfileUrl}` : "";
+            const storyParameter = storyfileUrl
+                ? `?story=${encodeURIComponent(storyfileUrl)}`
+                : "";
             return `${interpreterServiceUrl}/aamachine/${process.env.REACT_APP_AAMACHINE_VERSION}/index.html${storyParameter}`;
         }
 
@@ -40,7 +42,9 @@ export function getInterpreterUrl(
         }
 
         case "hugojs": {
-            const storyParameter = storyfileUrl ? `?story=${storyfileUrl}` : "";
+            const storyParameter = storyfileUrl
+                ? `?story=${encodeURIComponent(storyfileUrl)}`
+                : "";
             return `${interpreterServiceUrl}/hugojs/${process.env.REACT_APP_HUGOJS_VERSION}/index.html${storyParameter}`;
         }
 
@@ -49,20 +53,22 @@ export function getInterpreterUrl(
         }
 
         case "parchment": {
-            const storyParameter = storyfileUrl ? `&story=${storyfileUrl}` : "";
+            const storyParameter = storyfileUrl
+                ? `&story=${encodeURIComponent(storyfileUrl)}`
+                : "";
             return `${interpreterServiceUrl}/parchment/z-machine/index.html?vm=zvm${storyParameter}`;
         }
 
         case "quixe": {
             const storyParameter = storyfileUrl
-                ? `story=${storyfileUrl}%3F${Date.now()}`
-                : ""; // timestamp added to disable caching
+                ? `story=${encodeURIComponent(storyfileUrl)}%3F${Date.now()}` // timestamp added to disable caching
+                : "";
             return `${interpreterServiceUrl}/parchment/${process.env.REACT_APP_PARCHMENT_VERSION}/index.html?${storyParameter}`;
         }
 
         case "vorple": {
             const storyParameter = storyfileUrl
-                ? `?storyfile=${storyfileUrl}`
+                ? `?storyfile=${encodeURIComponent(storyfileUrl)}`
                 : "";
             const vorpleVersion = settingsStore.getSetting(
                 "language",
