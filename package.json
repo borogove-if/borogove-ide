@@ -132,10 +132,9 @@
         "browserslist": "npx update-browserslist-db@latest",
         "prepare": "husky"
     },
-    "engines": {
-        "node": ">=14.0"
+    "resolutions": {
+        "@codemirror/language": "6.11.3"
     },
-    "resolutions": {},
     "browserslist": {
         "production": [
             ">0.2%",
